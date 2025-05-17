@@ -8,8 +8,8 @@ const introdata = {
   title: "I’m Summer Halsey",
   animated: {
     first: "I love coding",
-    second: "I like to solve problems",
-    third: "I develop user friendly websites",
+    second: "I love it when code problems click",
+    third: "I strive to make complex web simple",
   },
   description:
     "With a genuine enthusiasm for crafting elegant solutions through code, I'm eager to contribute my developing web development skills.",
@@ -17,35 +17,36 @@ const introdata = {
 };
 
 const dataabout = {
-  title: "abit about my self",
+  title: "My Purpose",
   aboutme:
     "Eager to contribute my skills and passion, I'm a full stack developer with a strong affinity for creating dynamic user experiences through React and building robust database systems. My recent immersive training has equipped me with a solid foundation in modern web development practices, and I'm excited to apply and expand my knowledge in a collaborative environment.",
 };
-const education = [{
-        jobtitle: "Designer of week",
-        where: "YAdfi",
-        date: "2020",
-    },
-    {
-        jobtitle: "Designer of week",
-        where: "Jamalya",
-        date: "2019",
-    },
-    {
-        jobtitle: "Designer of week",
-        where: "ALquds",
-        date: "2019",
-    },
+const education = [
+  {
+    certification: "Full Stack Developer Certification",
+    where: "Persevere",
+    date: "5/2025",
+  },
+  // {
+  //   certification: "Designer of week",
+  //   where: "Jamalya",
+  //   date: "2019",
+  // },
+  // {
+  //   certification: "Designer of week",
+  //   where: "ALquds",
+  //   date: "2019",
+  // },
 ];
 
 const skills = [
   {
     name: "JavaScript",
-    value: 90,
+    value: 75,
   },
   {
     name: "React",
-    value: 85,
+    value: 90,
   },
   {
     name: "TailwindCSS",
@@ -61,7 +62,7 @@ const skills = [
   },
 ];
 
-const services = [
+const strengths = [
   {
     title: "UI & UX Design",
     description:
@@ -78,7 +79,6 @@ const services = [
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at nisl euismod urna bibendum sollicitudin.",
   },
 ];
-
 
 // TODO: take pictures of projects and add simple 1 sentence description
 const projects = [
@@ -181,7 +181,7 @@ export {
   projects,
   education,
   skills,
-  services,
+  strengths,
   introdata,
   contactConfig,
   socialprofiles,
