@@ -60,6 +60,10 @@ const skills = [
     name: "Node.js",
     value: 85,
   },
+  {
+    name: "MongoDB",
+    value: 95,
+  }
 ];
 
 const strengths = [
@@ -171,9 +175,9 @@ const contactConfig = {
 
 const socialprofiles = {
   github: "https://github.com",
-  facebook: "https://facebook.com",
+  // facebook: "https://facebook.com",
   linkedin: "https://linkedin.com",
-  twitter: "https://twitter.com",
+  // twitter: "https://twitter.com",
 };
 export {
   meta,
