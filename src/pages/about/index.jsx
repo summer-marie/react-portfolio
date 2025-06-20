@@ -8,7 +8,7 @@ import {
   education,
   skills,
   strengths,
-} from "../../content_option";
+} from "../../content_option.js";
 
 export const About = () => {
   return (

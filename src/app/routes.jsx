@@ -1,11 +1,11 @@
 import React from "react";
 import { Route, Routes} from "react-router-dom";
-import withRouter from "../hooks/withRouter"
-import { Home } from "../pages/home";
-import { Portfolio } from "../pages/portfolio";
-import { ContactUs } from "../pages/contact";
-import { About } from "../pages/about";
-import { Socialicons } from "../components/socialicons";
+import withRouter from "../hooks/withRouter.jsx"
+import { Home } from "../pages/home/index.jsx";
+import { Portfolio } from "../pages/portfolio/index.jsx";
+import { ContactUs } from "../pages/contact/index.jsx";
+import { About } from "../pages/about/index.jsx";
+import { Socialicons } from "../components/socialicons/index.jsx";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 const AnimatedRoutes = withRouter(({ location }) => (
