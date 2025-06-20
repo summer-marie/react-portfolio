@@ -18,7 +18,7 @@ const introdata = {
 
 const dataabout = {
   title: "My Purpose",
-  aboutme:
+  aboutMe:
     "Eager to contribute my skills and passion, I'm a full stack developer with a strong affinity for creating dynamic user experiences through React and building robust database systems. My recent immersive training has equipped me with a solid foundation in modern web development practices, and I'm excited to apply and expand my knowledge in a collaborative environment.",
 };
 const education = [
