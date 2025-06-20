@@ -1,10 +1,10 @@
-const logotext = "Summer";
+const logoText = "Summer";
 const meta = {
   title: "Summer Halsey",
   description: "I’m Summer Halsey data scientist _ Full stack developer",
 };
 
-const introdata = {
+const introData = {
   title: "I’m Summer Halsey",
   animated: {
     first: "I love coding",
@@ -16,7 +16,7 @@ const introdata = {
   your_img_url: "https://images.unsplash.com/photo-1514790193030-c89d266d5a9d",
 };
 
-const dataabout = {
+const dataAbout = {
   title: "My Purpose",
   aboutMe:
     "Eager to contribute my skills and passion, I'm a full stack developer with a strong affinity for creating dynamic user experiences through React and building robust database systems. My recent immersive training has equipped me with a solid foundation in modern web development practices, and I'm excited to apply and expand my knowledge in a collaborative environment.",
@@ -63,7 +63,7 @@ const skills = [
   {
     name: "MongoDB",
     value: 95,
-  }
+  },
 ];
 
 const strengths = [
@@ -173,21 +173,21 @@ const contactConfig = {
   YOUR_USER_ID: "user_id",
 };
 
-const socialprofiles = {
-  github: "https://github.com",
+const socialProfiles = {
+  github: "https://github.com/summer-marie",
   // facebook: "https://facebook.com",
   linkedin: "https://linkedin.com",
   // twitter: "https://twitter.com",
 };
 export {
   meta,
-  dataabout,
+  dataAbout,
   projects,
   education,
   skills,
   strengths,
-  introdata,
+  introData,
   contactConfig,
-  socialprofiles,
-  logotext,
+  socialProfiles,
+  logoText,
 };

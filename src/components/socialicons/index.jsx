@@ -12,7 +12,7 @@ import {
   FaTiktok,
   FaCircle
 } from "react-icons/fa";
-import { socialprofiles } from "../../content_option.js";
+import { socialProfiles } from "../../content_option.js";
 
 const ICON_MAPPING = {
   default: FaCircle,
@@ -31,7 +31,7 @@ export const Socialicons = (params) => {
   return (
     <div className="stick_follow_icon">
       <ul>
-        {Object.entries(socialprofiles).map(([platform, url]) => {
+        {Object.entries(socialProfiles).map(([platform, url]) => {
           const IconComponent = ICON_MAPPING[platform] || ICON_MAPPING.default;
           return (
             <li key={platform}>
