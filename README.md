@@ -2,6 +2,8 @@
 
 A simple portfolio template for developer/designers built with React. 
 
+**Note:** This version has been migrated from Create React App to Vite for improved performance and development experience.
+
 ### [live preview](https://ubaimutl.github.io/react-portfolio/)
 
 [![react portfoiio](src/assets/images/react%20portfolio%20gif.gif)](https://ubaimutl.github.io/react-portfolio/)
@@ -22,12 +24,20 @@ Get the code
  
 Install required dependencies
 
-<pre>yarn install</pre>
+<pre>npm install --legacy-peer-deps</pre>
 
 
-Start the server
+Start the development server (Vite)
 
-<pre>yarn start</pre>
+<pre>npm run dev</pre>
+
+Build for production
+
+<pre>npm run build</pre>
+
+Preview production build
+
+<pre>npm run preview</pre>
 
 ### More
 
