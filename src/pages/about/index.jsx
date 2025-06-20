@@ -34,20 +34,19 @@ export const About = () => {
               <p>{dataAbout.aboutMe}</p>
             </div>
           </Col>
-        </Row>
-        <Row className=" sec_sp">
+        </Row>        <Row className="sec_sp">
           <Col lg="5">
             <h3 className="color_sec py-4">Education</h3>
           </Col>
           <Col lg="7">
-            <table className="table caption-top">
+            <table className="table table-borderless">
               <tbody>
                 {education.map((data, i) => {
                   return (
                     <tr key={i}>
-                      <th scope="row">{data.certification}</th>
-                      <td>{data.where}</td>
-                      <td>{data.date}</td>
+                      <th scope="row" className="text-nowrap">{data.certification}</th>
+                      <td className="text-nowrap">{data.where}</td>
+                      <td className="text-end text-nowrap">{data.date}</td>
                     </tr>
                   );
                 })}
@@ -58,9 +57,16 @@ export const About = () => {
         <Row className="sec_sp">
           <Col lg="5">
             <h3 className="color_sec py-4">Skills</h3>
-          </Col>
-          <Col lg="7">
+          </Col>          <Col lg="7">
             {skills.map((data, i) => {
+              const getProgressColor = (value) => {
+                if (value <= 60) return '#4caf50'; // green for 60% and below
+                else if (value <= 70) return '#2196f3'; // lighter blue
+                else if (value <= 80) return '#1976d2'; // medium blue
+                else if (value <= 90) return '#0d47a1'; // darker blue
+                return '#002171'; // darkest blue for above 90%
+              };
+
               return (
                 <div key={i}>
                   <h3 className="progress-title">{data.name}</h3>
@@ -69,6 +75,7 @@ export const About = () => {
                       className="progress-bar"
                       style={{
                         width: `${data.value}%`,
+                        backgroundColor: getProgressColor(data.value)
                       }}
                     >
                       <div className="progress-value">{data.value}%</div>
