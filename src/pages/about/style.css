@@ -74,6 +74,7 @@
 .service__title {
     padding: 8px 0;
     border-bottom: solid 2px var(--secondary-color);
+    color: #1976d2 !important;
 }
 
 .service-section .service-category-title {

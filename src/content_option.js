@@ -36,7 +36,7 @@ const education = [
   {
     certification: "Full Stack Developer Certification",
     where: "Persevere",
-    date: "5/2025",
+    date: "6/2025",
   },
 ];
 
@@ -73,19 +73,19 @@ const skills = [
 
 const strengths = [
   {
-    title: "UI & UX Design",
+    title: "Style & UI/UX Design",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at nisl euismod urna bibendum sollicitudin.",
+      "Proficient in creating responsive, professional interfaces using Tailwind CSS with systematic design patterns including consistent spacing, color schemes, and component layouts that maintain visual hierarchy across different screen sizes. Demonstrated expertise in building intuitive user experiences through strategic use of alternating backgrounds, proper typography scaling, and accessible design elements that guide users naturally through complex data presentations.",
   },
   {
-    title: "Mobile Apps",
+    title: "Authentication & Authorization Management",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at nisl euismod urna bibendum sollicitudin.",
+      "Experienced in implementing secure authentication and authorization mechanisms using industry-standard protocols and libraries. Proficient in managing user sessions, roles, and permissions to protect sensitive data and ensure a seamless user experience. Demonstrated ability to create comprehensive authentication flows including login/logout functionality, token validation, and secure route protection with proper error handling and loading states",
   },
   {
     title: "Database Management",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at nisl euismod urna bibendum sollicitudin.",
+      "Experienced in designing MongoDB database solutions using Mongoose ODM for schema validation and structured data modeling across multiple collections for web applications. Proficient in implementing full CRUD operations through RESTful API endpoints with proper error handling and data validation for secure database interactions. Demonstrated ability to structure modular database architecture with organized models and controllers, ensuring scalable and maintainable applications with secure authentication and environment-based configuration.",
   },
 ];
 
