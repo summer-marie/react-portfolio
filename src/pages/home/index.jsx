@@ -1,9 +1,8 @@
-import React from "react";
 import "./style.css";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import Typewriter from "typewriter-effect";
 import { introData, meta } from "../../content_option.js";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export const Home = () => {
   return (

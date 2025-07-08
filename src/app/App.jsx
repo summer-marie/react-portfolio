@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import {
   BrowserRouter as Router,
   useLocation,
-} from "react-router-dom";
+} from "react-router";
 import withRouter from "../hooks/withRouter.jsx";
 import AppRoutes from "./routes.jsx";
 import Headermain from "../header/index.jsx";

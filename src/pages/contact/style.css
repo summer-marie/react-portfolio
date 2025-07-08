@@ -5,10 +5,15 @@
     background-color: var(--bg-color);
     border-radius: 0 !important;
     border: 1px solid var(--secondary-color);
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 100% !important;
+    min-height: 50px;
 }
 
 .contact__form input.form-control {
-    margin-bottom: 2em;
+    margin-bottom: 0;
     height: calc(2.5em + .75rem + 2px);
 }
 
@@ -42,4 +47,53 @@ button.btn.ac_btn:hover {
     100% {
         transform: translateX(100%);
     }
+}
+
+/* Ensure form inputs are always visible */
+.contact__form .form-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.contact__form .row {
+    margin-bottom: 1rem;
+}
+
+/* Fix any potential Bootstrap conflicts */
+.form-group .form-control {
+    position: relative;
+    flex: 1 1 auto;
+}
+
+/* Placeholder text styling for both light and dark modes */
+.contact__form .form-control::placeholder {
+    color: var(--text-color-2) !important;
+    opacity: 0.6 !important;
+}
+
+.contact__form .form-control::-webkit-input-placeholder {
+    color: var(--text-color-2) !important;
+    opacity: 0.6 !important;
+}
+
+.contact__form .form-control::-moz-placeholder {
+    color: var(--text-color-2) !important;
+    opacity: 0.6 !important;
+}
+
+.contact__form .form-control:-ms-input-placeholder {
+    color: var(--text-color-2) !important;
+    opacity: 0.6 !important;
+}
+
+.contact__form .form-control:-moz-placeholder {
+    color: var(--text-color-2) !important;
+    opacity: 0.6 !important;
+}
+
+/* Ensure placeholders are visible in focus state */
+.contact__form .form-control:focus::placeholder {
+    color: var(--text-color-2) !important;
+    opacity: 0.5 !important;
 }

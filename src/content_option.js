@@ -4,6 +4,15 @@ const meta = {
   description: "I’m Summer Halsey data scientist _ Full stack developer",
 };
 
+const contactConfig = {
+  YOUR_EMAIL: "summer.halsey0318@gmail.com",
+  description:
+    "I'd love to hear from you! Whether you have a project in mind, want to discuss collaboration opportunities, or just want to connect about web development, feel free to reach out. I'm always excited to work on new challenges and meet fellow developers.",
+  YOUR_SERVICE_ID: "service_4tz1k7s",
+  YOUR_TEMPLATE_ID: "template_yeyoecj",
+  YOUR_USER_ID: "RWa_z8LLUwpm4FOHJ",
+};
+
 const introData = {
   title: "I’m Summer Halsey",
   animated: {
@@ -27,16 +36,6 @@ const education = [
     where: "Persevere",
     date: "5/2025",
   },
-  // {
-  //   certification: "Designer of week",
-  //   where: "Jamalya",
-  //   date: "2019",
-  // },
-  // {
-  //   certification: "Designer of week",
-  //   where: "ALquds",
-  //   date: "2019",
-  // },
 ];
 
 const skills = [
@@ -161,22 +160,10 @@ const projects = [
   },
 ];
 
-const contactConfig = {
-  Email: "summer.halseu0318@gmail.com",
-  // YOUR_FONE: "(555)123-4567",
-  description:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vehicula eu nunc et sollicitudin. Cras pulvinar, nisi at imperdiet pharetra. ",
-  // create an emailjs.com account
-  // check out this tutorial https://www.emailjs.com/docs/examples/reactjs/
-  YOUR_SERVICE_ID: "service_id",
-  YOUR_TEMPLATE_ID: "template_id",
-  YOUR_USER_ID: "user_id",
-};
-
 const socialProfiles = {
   github: "https://github.com/summer-marie",
   // facebook: "https://facebook.com",
-  linkedin: "https://linkedin.com",
+  linkedin: "https://www.linkedin.com/in/summer-halsey-673124372/",
   // twitter: "https://twitter.com",
 };
 export {

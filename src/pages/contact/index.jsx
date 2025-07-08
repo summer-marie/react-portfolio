@@ -8,25 +8,32 @@ import { contactConfig } from "../../content_option.js";
 
 export const ContactUs = () => {
   const [formData, setFormdata] = useState({
-    email: "",
-    name: "",
+    user_email: "",
+    user_name: "",
+    subject: "",
     message: "",
     loading: false,
     show: false,
-    alertmessage: "",
+    alertMessage: "",
     variant: "",
   });
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    setFormdata({ loading: true });
+    setFormdata({ ...formData, loading: true });
 
     const templateParams = {
-      from_name: formData.email,
-      user_name: formData.name,
-      to_name: contactConfig.YOUR_EMAIL,
+      user_name: formData.user_name,
+      user_email: formData.user_email,
+      subject: formData.subject,
       message: formData.message,
     };
+
+    // Debug: Log the template params to console
+    // console.log("Template Params being sent:", templateParams);
+    // console.log("Message content specifically:", formData.message);
+    // console.log("Message length:", formData.message.length);
 
     emailjs
       .send(
@@ -39,8 +46,12 @@ export const ContactUs = () => {
         (result) => {
           console.log(result.text);
           setFormdata({
+            user_email: "",
+            user_name: "",
+            subject: "",
+            message: "",
             loading: false,
-            alertmessage: "SUCCESS! ,Thankyou for your messege",
+            alertMessage: "SUCCESS! Thank you for your message",
             variant: "success",
             show: true,
           });
@@ -48,7 +59,9 @@ export const ContactUs = () => {
         (error) => {
           console.log(error.text);
           setFormdata({
-            alertmessage: `Faild to send!,${error.text}`,
+            ...formData,
+            loading: false,
+            alertMessage: `Failed to send! ${error.text}`,
             variant: "danger",
             show: true,
           });
@@ -57,11 +70,26 @@ export const ContactUs = () => {
       );
   };
 
-  const handleChange = (e) => {
+  const handleMessageChange = (e) => {
+    console.log("Message field specifically changed:", e.target.value);
     setFormdata({
       ...formData,
-      [e.target.name]: e.target.value,
+      message: e.target.value,
     });
+  };
+
+  const handleChange = (e) => {
+    console.log(`Field changed: ${e.target.name} = "${e.target.value}"`);
+    console.log(`Target type: ${e.target.type}, Target tag: ${e.target.tagName}`);
+    console.log(`Current formData before update:`, formData);
+    
+    const newFormData = {
+      ...formData,
+      [e.target.name]: e.target.value,
+    };
+    
+    console.log(`New formData after update:`, newFormData);
+    setFormdata(newFormData);
   };
 
   return (
@@ -86,10 +114,10 @@ export const ContactUs = () => {
               className={`rounded-0 co_alert ${
                 formData.show ? "d-block" : "d-none"
               }`}
-              onClose={() => setFormdata({ show: false })}
+              onClose={() => setFormdata({ ...formData, show: false })}
               dismissible
             >
-              <p className="my-0">{formData.alertmessage}</p>
+              <p className="my-0">{formData.alertMessage}</p>
             </Alert>
           </Col>
           <Col lg="5" className="mb-5">
@@ -99,57 +127,73 @@ export const ContactUs = () => {
               <a href={`mailto:${contactConfig.YOUR_EMAIL}`}>
                 {contactConfig.YOUR_EMAIL}
               </a>
-              <br />
-              <br />
-              {contactConfig.hasOwnProperty("YOUR_FONE") ? (
-                <p>
-                  <strong>Phone:</strong> {contactConfig.YOUR_FONE}
-                </p>
-              ) : (
-                ""
-              )}
             </address>
             <p>{contactConfig.description}</p>
           </Col>
           <Col lg="7" className="d-flex align-items-center">
             <form onSubmit={handleSubmit} className="contact__form w-100">
-              <Row>
-                <Col lg="6" className="form-group">
+              <Row className="mb-3">
+                <Col lg="12" className="form-group mb-3">
                   <input
                     className="form-control"
                     id="name"
-                    name="name"
+                    name="user_name"
                     placeholder="Name"
-                    value={formData.name || ""}
+                    value={formData.user_name || ""}
                     type="text"
                     required
                     onChange={handleChange}
                   />
                 </Col>
-                <Col lg="6" className="form-group">
+              </Row>
+              <Row className="mb-3">
+                <Col lg="12" className="form-group mb-3">
                   <input
                     className="form-control rounded-0"
                     id="email"
-                    name="email"
+                    name="user_email"
                     placeholder="Email"
                     type="email"
-                    value={formData.email || ""}
+                    value={formData.user_email || ""}
                     required
                     onChange={handleChange}
                   />
                 </Col>
               </Row>
-              <textarea
-                className="form-control rounded-0"
-                id="message"
-                name="message"
-                placeholder="Message"
-                rows="5"
-                value={formData.message}
-                onChange={handleChange}
-                required
-              ></textarea>
-              <br />
+              <Row className="mb-3">
+                <Col lg="12" className="form-group mb-3">
+                  <input
+                    className="form-control rounded-0"
+                    id="subject"
+                    name="subject"
+                    placeholder="Subject"
+                    type="text"
+                    value={formData.subject || ""}
+                    required
+                    onChange={handleChange}
+                  />
+                </Col>
+              </Row>
+              <Row className="mb-3">
+                <Col lg="12" className="form-group">
+                  <textarea
+                    className="form-control rounded-0"
+                    id="message"
+                    name="message"
+                    placeholder="Message"
+                    rows="5"
+                    value={formData.message || ""}
+                    onInput={(e) => {
+                      setFormdata({
+                        ...formData,
+                        message: e.target.value,
+                      });
+                    }}
+                    onChange={handleMessageChange}
+                    required
+                  ></textarea>
+                </Col>
+              </Row>
               <Row>
                 <Col lg="12" className="form-group">
                   <button className="btn ac_btn" type="submit">
