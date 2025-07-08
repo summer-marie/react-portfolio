@@ -31,19 +31,19 @@ export const About = () => {
           </Col>
           <Col lg="7" className="d-flex align-items-center">
             <div>
-              <p>{dataAbout.aboutMe}</p>
+              <p className="py-4">{dataAbout.aboutMe}</p>
             </div>
           </Col>
         </Row>        <Row className="sec_sp">
           <Col lg="5">
             <h3 className="color_sec py-4">Education</h3>
           </Col>
-          <Col lg="7">
+          <Col lg="7" className="d-flex align-items-center">
             <table className="table table-borderless">
               <tbody>
                 {education.map((data, i) => {
                   return (
-                    <tr key={i}>
+                    <tr key={i} >
                       <th scope="row" className="text-nowrap">{data.certification}</th>
                       <td className="text-nowrap">{data.where}</td>
                       <td className="text-end text-nowrap">{data.date}</td>

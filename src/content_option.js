@@ -65,6 +65,10 @@ const skills = [
     name: "MongoDB",
     value: 95,
   },
+  {
+    name: "Redux Toolkit",
+    value: 90,
+  },
 ];
 
 const strengths = [
