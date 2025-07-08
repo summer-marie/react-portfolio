@@ -84,6 +84,7 @@ section {
     font-size: 30px;
     margin-bottom: 50px;
     font-weight: 700;
+    color: #8B0000; /* Dark red color for animated text */
 }
 
 .intro_sec .text h3 {
@@ -231,4 +232,11 @@ section {
 
 .intro_sec .h_bg-image {
     filter: saturate(0.5);
+}
+
+/* Additional targeting for Typewriter component specifically */
+.intro_sec .text h1 .Typewriter,
+.intro_sec .text h1 .Typewriter__wrapper,
+.intro_sec .text h1 .Typewriter__cursor {
+    color: #8B0000 !important; /* Dark red color for Typewriter effect */
 }

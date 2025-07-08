@@ -1,4 +1,5 @@
-const logoText = "Summer";
+const logoText = "SummerHalsey";
+
 const meta = {
   title: "Summer Halsey",
   description: "I’m Summer Halsey data scientist _ Full stack developer",
@@ -16,9 +17,10 @@ const contactConfig = {
 const introData = {
   title: "I’m Summer Halsey",
   animated: {
-    first: "I love coding",
-    second: "I love it when code problems click",
+    first: "I craft React apps with passion",
+    second: "I find beauty in well-structured data",
     third: "I strive to make complex web simple",
+    fourth: "I thrive building fullstack solutions",
   },
   description:
     "With a genuine enthusiasm for crafting elegant solutions through code, I'm eager to contribute my developing web development skills.",
