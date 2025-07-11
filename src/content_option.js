@@ -1,3 +1,10 @@
+// Import project images
+import capstoneAbout from './assets/images/capstone/about.jpg';
+import capstoneDashboard from './assets/images/capstone/dashboard.jpg';
+import capstoneIngredients from './assets/images/capstone/ingredients.jpg';
+import capstoneMenu from './assets/images/capstone/menu.jpg';
+import capstoneMessages from './assets/images/capstone/messages.jpg';
+
 const logoText = "SummerHalsey";
 
 const meta = {
@@ -92,10 +99,38 @@ const strengths = [
 // TODO: turn photos into carousel. make card container larger to fit more content
 const projects = [
   {
-    img: "/src/assets/images/capstone/about.jpg",
+    images: [
+      capstoneAbout,
+      capstoneDashboard,
+      capstoneIngredients,
+      capstoneMenu,
+      capstoneMessages,
+    ],
+    title: "Pizza Ordering System",
     description:
-      "Full-stack pizza ordering app with admin management system.",
-    link: "#", // Replace with your GitHub repo or live demo link
+      "Full-stack pizza ordering app with admin management system built with React, Node.js, and MongoDB.",
+    technologies: ["React", "Node.js", "MongoDB", "Express"],
+    link: "https://github.com/summer-marie/capstone-pizza", // Replace with your GitHub repo or live demo link
+  },
+  {
+    images: [
+      "https://picsum.photos/500/600?random=1",
+      "https://picsum.photos/500/600?random=2",
+      "https://picsum.photos/500/600?random=3",
+    ],
+    title: "E-Commerce Platform",
+    description:
+      "Modern e-commerce solution with shopping cart, payment processing, and admin dashboard.",
+    technologies: ["React", "Redux", "Stripe", "Node.js"],
+    link: "#",
+  },
+  {
+    img: "https://picsum.photos/500/600?random=4",
+    title: "Weather App",
+    description:
+      "Real-time weather application with location-based forecasts and interactive maps.",
+    technologies: ["JavaScript", "OpenWeather API", "Chart.js"],
+    link: "#",
   },
   // {
   //   img: "https://picsum.photos/400/800/?grayscale",
@@ -140,7 +175,6 @@ const projects = [
   //     "The wisdom of life consists in the elimination of non-essentials.",
   //   link: "#",
   // },
-
 ];
 
 const socialProfiles = {
