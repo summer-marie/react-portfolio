@@ -18,10 +18,10 @@
     "scripts": {
         "dev": "vite",
         "start": "vite",
-        "build": "vite build --output public",
+        "build": "vite build",
         "preview": "vite preview",
-        "predeploy": "npm run build && cp build/index.html build/404.html",
-        "deploy": "gh-pages -d build"
+        "predeploy": "npm run build && cp dist/index.html dist/404.html",
+        "deploy": "gh-pages -d dist"
     },
     "browserslist": {
         "production": [
