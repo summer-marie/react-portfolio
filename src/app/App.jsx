@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import {
   BrowserRouter as Router,
   useLocation,
-} from "react-router";
+} from "react-router-dom";
 import withRouter from "../hooks/withRouter.jsx";
 import AppRoutes from "./routes.jsx";
 import Headermain from "../header/index.jsx";
@@ -22,7 +22,6 @@ const ScrollToTop = withRouter(_ScrollToTop);
 export default function App() {
   return (
     <Router 
-      basename={import.meta.env.BASE_URL}
       future={{
         v7_startTransition: true,
         v7_relativeSplatPath: true
