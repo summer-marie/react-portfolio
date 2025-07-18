@@ -45,7 +45,7 @@ const Headermain = () => {
                       className="my-3"
                     >
                       {" "}
-                      Portfolio
+                      Projects
                     </Link>
                   </li>
                   <li className="menu_item">

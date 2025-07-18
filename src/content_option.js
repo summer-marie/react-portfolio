@@ -30,7 +30,7 @@ const introData = {
     fourth: "I thrive building fullstack solutions",
   },
   description:
-    "With a genuine enthusiasm for crafting elegant solutions through code, I'm eager to contribute my developing web development skills.",
+    "From MongoDB schemas to React components, I love every layer of fullstack development. Give me a messy dataset and I'll show you the patterns hidden inside—then build you an app that makes accessing that data feel like magic. I'm passionate about creating complete solutions that work beautifully from database to user interface. I'm eager to contribute my developing web development skills.",
   your_img_url: "https://images.unsplash.com/photo-1514790193030-c89d266d5a9d",
 };
 

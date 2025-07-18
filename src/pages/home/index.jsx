@@ -38,11 +38,16 @@ export const Home = () => {
                     }}
                   />
                 </h1>
-                <p className="mb-1x">{introData.description}</p>
+                <p className="mb-1x">
+                  {introData.description.split('. I\'m eager to contribute my developing web development skills.')[0]}.
+                </p>
+                <p className="mb-1x" style={{ marginTop: '1.5rem' }}>
+                  I'm eager to contribute my developing web development skills.
+                </p>
                 <div className="intro_btn-action pb-5">
                   <Link to="/portfolio" className="text_2">
                     <div id="button_p" className="ac_btn btn ">
-                      My Portfolio
+                      My Projects
                       <div className="ring one"></div>
                       <div className="ring two"></div>
                       <div className="ring three"></div>
