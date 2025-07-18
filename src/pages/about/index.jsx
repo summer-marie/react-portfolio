@@ -113,7 +113,7 @@ export const About = () => {
             </table>
           </Col>
         </Row>
-        
+
       </Container>
     </HelmetProvider>
   );

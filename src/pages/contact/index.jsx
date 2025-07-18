@@ -18,7 +18,6 @@ export const ContactUs = () => {
     variant: "",
   });
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
     setFormdata({ ...formData, loading: true });
@@ -80,14 +79,16 @@ export const ContactUs = () => {
 
   const handleChange = (e) => {
     console.log(`Field changed: ${e.target.name} = "${e.target.value}"`);
-    console.log(`Target type: ${e.target.type}, Target tag: ${e.target.tagName}`);
+    console.log(
+      `Target type: ${e.target.type}, Target tag: ${e.target.tagName}`
+    );
     console.log(`Current formData before update:`, formData);
-    
+
     const newFormData = {
       ...formData,
       [e.target.name]: e.target.value,
     };
-    
+
     console.log(`New formData after update:`, newFormData);
     setFormdata(newFormData);
   };
