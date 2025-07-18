@@ -36,22 +36,22 @@ const SectionNav = () => {
 
   return (
     <div className="stick_nav_icon">
+          <p>Sections</p>
       <ul>
         {navItems.map((item) => {
-          const IconComponent = item.icon;
-          return (
-            <li key={item.path}>
+            const IconComponent = item.icon;
+            return (
+                <li key={item.path}>
               <Link 
                 to={item.path}
                 className={location.pathname === item.path ? "active" : ""}
-              >
+                >
                 <IconComponent />
               </Link>
             </li>
           );
         })}
       </ul>
-      <p>Sections</p>
     </div>
   );
 };
