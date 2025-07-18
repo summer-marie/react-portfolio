@@ -1,0 +1,126 @@
+/* Section Navigation - Right Side Stick Style */
+.stick_nav_icon {
+    top: 50%;
+    right: 30px;
+    width: 20px;
+    height: 200px;
+    position: fixed;
+    margin-top: -100px;
+    z-index: 9999;
+}
+
+.stick_nav_icon ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.stick_nav_icon svg {
+    width: 1.3em;
+    height: 1.3em;
+    fill: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.stick_nav_icon p {
+    top: 70px;
+    right: -24px;
+    width: 68px;
+    height: 20px;
+    color: var(--text-color);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+    position: relative;
+    transform: rotate(90deg);
+}
+
+.stick_nav_icon ul li {
+    display: block;
+    font-size: 12px;
+    text-align: center;
+    margin-bottom: 10px;
+    transition: all .3s;
+}
+
+.stick_nav_icon ul li a {
+    color: var(--text-color);
+    text-decoration: none;
+    display: block;
+    padding: 5px;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+.stick_nav_icon ul li a:hover {
+    background-color: rgba(var(--text-color-rgb), 0.1);
+}
+
+.stick_nav_icon ul li a.active {
+    background-color: var(--primary-color);
+}
+
+.stick_nav_icon ul li a.active svg {
+    fill: white;
+}
+
+.stick_nav_icon p:after {
+    top: 9px;
+    left: -48px;
+    width: 40px;
+    height: 1px;
+    content: "";
+    display: block;
+    position: absolute;
+    background-color: var(--text-color);
+}
+
+@media only screen and (max-width: 991px) {
+    .stick_nav_icon {
+        width: unset;
+        height: unset;
+        position: static;
+        margin-top: unset;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        padding: 40px 0;
+        align-items: center;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    
+    .stick_nav_icon p {
+        top: unset;
+        right: unset;
+        width: unset;
+        height: unset;
+        white-space: nowrap;
+        position: relative;
+        transform: unset;
+        font-size: 17px;
+        margin-left: 65px;
+    }
+    
+    .stick_nav_icon ul {
+        margin-bottom: 20px;
+        display: flex;
+        gap: 20px;
+    }
+    
+    .stick_nav_icon ul li {
+        display: inline;
+        margin-bottom: 29px;
+        margin-right: 0;
+    }
+    
+    .stick_nav_icon p:after {
+        left: -48px;
+    }
+}
