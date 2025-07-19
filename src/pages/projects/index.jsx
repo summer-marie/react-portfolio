@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./style.css";
+import "animate.css";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { Container, Row, Col } from "react-bootstrap";
 import { projects, meta } from "../../content_option.js";
@@ -65,69 +66,78 @@ export const Portfolio = () => {
             <hr className="t_border my-4 ml-0 text-left" />
           </Col>
         </Row>
-        <div className="mb-5 po_items_ho">
-          {projects.map((data, i) => {
-            const currentImg = currentImageIndex[i] || 0;
-            const hasMultipleImages = data.images && data.images.length > 1;
-            
-            return (
-              <div 
-                key={i} 
-                className="po_item"
-                onMouseEnter={() => handleMouseEnter(i)}
-                onMouseLeave={() => handleMouseLeave(i)}
-              >
-                <div className="image-container">
-                  <img 
-                    src={data.images ? data.images[currentImg] : data.img} 
-                    alt={`${data.title || `Project ${i + 1}`} - Image ${currentImg + 1}`} 
-                  />
-                  
-                  {hasMultipleImages && (
-                    <>
-                      <button 
-                        className="carousel-btn prev-btn" 
-                        onClick={() => prevImage(i)}
-                        aria-label="Previous image"
-                      >
-                        ‹
-                      </button>
-                      <button 
-                        className="carousel-btn next-btn" 
-                        onClick={() => nextImage(i)}
-                        aria-label="Next image"
-                      >
-                        ›
-                      </button>
-                      <div className="carousel-indicators">
-                        {data.images.map((_, imgIndex) => (
-                          <span 
-                            key={imgIndex}
-                            className={`indicator ${imgIndex === currentImg ? 'active' : ''}`}
-                            onClick={() => setCurrentImageIndex(prev => ({ ...prev, [i]: imgIndex }))}
-                          />
-                        ))}
-                      </div>
-                    </>
-                  )}
-                </div>
+        <Row className="mb-5">
+          <Col lg="8">
+            <div className="po_items_ho">
+              {projects.map((data, i) => {
+                const currentImg = currentImageIndex[i] || 0;
+                const hasMultipleImages = data.images && data.images.length > 1;
                 
-                <div className="content">
-                  <h4>{data.title}</h4>
-                  <p>{data.description}</p>
-                  {data.technologies && (
-                    <div className="technologies">
-                      {data.technologies.map((tech, techIndex) => (
-                        <span key={techIndex} className="tech-tag">{tech}</span>
-                      ))}
+                return (
+                  <div 
+                    key={i} 
+                    className="po_item"
+                    onMouseEnter={() => handleMouseEnter(i)}
+                    onMouseLeave={() => handleMouseLeave(i)}
+                  >
+                    <div className="image-container">
+                      <img 
+                        src={data.images ? data.images[currentImg] : data.img} 
+                        alt={`${data.title || `Project ${i + 1}`} - Image ${currentImg + 1}`} 
+                      />
+                      
+                      {hasMultipleImages && (
+                        <>
+                          <button 
+                            className="carousel-btn prev-btn" 
+                            onClick={() => prevImage(i)}
+                            aria-label="Previous image"
+                          >
+                            ‹
+                          </button>
+                          <button 
+                            className="carousel-btn next-btn" 
+                            onClick={() => nextImage(i)}
+                            aria-label="Next image"
+                          >
+                            ›
+                          </button>
+                          <div className="carousel-indicators">
+                            {data.images.map((_, imgIndex) => (
+                              <span 
+                                key={imgIndex}
+                                className={`indicator ${imgIndex === currentImg ? 'active' : ''}`}
+                                onClick={() => setCurrentImageIndex(prev => ({ ...prev, [i]: imgIndex }))}
+                              />
+                            ))}
+                          </div>
+                        </>
+                      )}
                     </div>
-                  )}
-                  <a href={data.link}>view project</a>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+                    
+                    <div className="content">
+                      <h4>{data.title}</h4>
+                      <p>{data.description}</p>
+                      {data.technologies && (
+                        <div className="technologies">
+                          {data.technologies.map((tech, techIndex) => (
+                            <span key={techIndex} className="tech-tag">{tech}</span>
+                          ))}
+                        </div>
+                      )}
+                      <a href={data.link}>view project</a>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </Col>
+          <Col lg="4" className="d-flex align-items-center justify-content-center">
+            <h1 className="animate__animated animate__fadeInUp animate__delay-2s display-4" style={{color: 'var(--text-color-3)'}}>
+              More to come...
+            </h1>
+          </Col>
+        </Row>
       </Container>
     </HelmetProvider>
   );
