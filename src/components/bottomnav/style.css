@@ -1,28 +1,19 @@
-/* Section Navigation - Bottom Center Test */
+/* Section Navigation - Right Side Vertical Style */
 .stick_nav_icon {
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: auto;
-  height: auto;
-  position: fixed;
-  z-index: 9999;
-  background: rgba(0, 0, 0, 0.8);
-  padding: 15px;
-  border-radius: 10px;
-  backdrop-filter: blur(10px);
-  display: flex;
-  align-items: center;
-  gap: 56px;
+    top: 50%;
+    right: 30px;
+    width: 20px;
+    height: 200px;
+    position: fixed;
+    margin-top: -100px;
+    z-index: 9999;
 }
 
 .stick_nav_icon ul {
   list-style: none;
   padding: 0;
   margin: 0;
-  display: flex;
-  gap: 15px;
-  align-items: center;
+  margin-top: 40px;
 }
 
 .stick_nav_icon svg {
@@ -33,37 +24,32 @@
 }
 
 .stick_nav_icon p {
-  margin: 0;
-  color: var(--text-color);
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 1.2;
-  white-space: nowrap;
-  position: relative;
+    top: -30px;
+    left: -24px;
+    width: 68px;
+    height: 20px;
+    color: var(--text-color);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+    position: relative;
+    transform: rotate(90deg);
 }
 
 .stick_nav_icon ul li {
   display: block;
   font-size: 12px;
   text-align: center;
-  transition: all 0.3s;
+  margin-bottom: 10px;
+  transition: all .3s;
 }
 
 .stick_nav_icon ul li a {
-  color: white;
+  color: var(--text-color);
   text-decoration: none;
   display: block;
-  padding: 5px;
-  border-radius: 3px;
   transition: all 0.3s ease;
-}
-
-.stick_nav_icon ul li a:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-.stick_nav_icon ul li a.active {
-  background-color: transparent;
 }
 
 .stick_nav_icon ul li a.active svg {
@@ -71,15 +57,14 @@
 }
 
 .stick_nav_icon p:after {
-  top: 50%;
-  right: -48px;
-  width: 40px;
-  height: 1px;
-  content: "";
-  display: block;
-  position: absolute;
-  background-color: var(--text-color);
-  transform: translateY(-50%);
+    top: 7px;
+    left: 60px;
+    width: 40px;
+    height: 2px;
+    content: "";
+    display: block;
+    position: absolute;
+    background-color: var(--text-color);
 }
 
 @media only screen and (max-width: 991px) {
