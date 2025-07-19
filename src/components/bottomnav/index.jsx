@@ -1,51 +1,46 @@
 import React from "react";
 import { Link, useLocation } from "react-router";
 import "./style.css";
-import {
-  FaHome,
-  FaUser,
-  FaBriefcase,
-  FaEnvelope
-} from "react-icons/fa";
+import { FaHome, FaUser, FaBriefcase, FaEnvelope } from "react-icons/fa";
 
 const SectionNav = () => {
   const location = useLocation();
-  
+
   const navItems = [
     {
       path: "/",
       label: "Home",
-      icon: FaHome
+      icon: FaHome,
     },
     {
-      path: "/about", 
+      path: "/about",
       label: "About",
-      icon: FaUser
+      icon: FaUser,
     },
     {
       path: "/portfolio",
-      label: "Projects", 
-      icon: FaBriefcase
+      label: "Projects",
+      icon: FaBriefcase,
     },
     {
       path: "/contact",
       label: "Contact",
-      icon: FaEnvelope
-    }
+      icon: FaEnvelope,
+    },
   ];
 
   return (
     <div className="stick_nav_icon">
-          <p>Sections</p>
+      <p>Sections</p>
       <ul>
         {navItems.map((item) => {
-            const IconComponent = item.icon;
-            return (
-                <li key={item.path}>
-              <Link 
+          const IconComponent = item.icon;
+          return (
+            <li key={item.path}>
+              <Link
                 to={item.path}
                 className={location.pathname === item.path ? "active" : ""}
-                >
+              >
                 <IconComponent />
               </Link>
             </li>
