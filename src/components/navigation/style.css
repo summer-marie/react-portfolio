@@ -142,3 +142,24 @@
     left: -48px;
   }
 }
+
+/* Homepage Light Mode Styles - White Navigation */
+.stick_nav_icon.home-light-mode svg {
+  fill: white !important;
+}
+
+.stick_nav_icon.home-light-mode p {
+  color: white !important;
+}
+
+.stick_nav_icon.home-light-mode p:after {
+  background-color: white !important;
+}
+
+.stick_nav_icon.home-light-mode ul li a {
+  color: white !important;
+}
+
+.stick_nav_icon.home-light-mode ul li a.active svg {
+  fill: var(--text-color-3) !important;
+}

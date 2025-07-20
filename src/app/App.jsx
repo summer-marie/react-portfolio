@@ -7,7 +7,7 @@ import {
 import withRouter from "../hooks/withRouter.jsx";
 import AppRoutes from "./routes.jsx";
 import Headermain from "../header/index.jsx";
-import SectionNav from "../components/bottomnav/index.jsx";
+import SectionNav from "../components/navigation/index.jsx";
 import AnimatedCursor  from "../hooks/AnimatedCursor.jsx";
 import "./App.css";
 

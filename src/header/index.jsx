@@ -1,11 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./style.css";
+import { useLocation, Link } from "react-router";
 // import { VscGrabber, VscClose } from "react-icons/vsc";
-// import { Link } from "react-router";
 import { logoText, socialProfiles } from "../content_option.js";
 import Themetoggle from "../components/themetoggle";
 
 const Headermain = () => {
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
+  const [isLightMode, setIsLightMode] = useState(false);
+
+  // Check for light mode by observing the data-theme attribute
+  useEffect(() => {
+    const checkTheme = () => {
+      const theme = document.documentElement.getAttribute('data-theme');
+      setIsLightMode(theme === 'light');
+    };
+
+    // Initial check
+    checkTheme();
+
+    // Create observer for theme changes
+    const observer = new MutationObserver(checkTheme);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme']
+    });
+
+    return () => observer.disconnect();
+  }, []);
+  
   // const [isActive, setActive] = useState("false");
 
   // const handleToggle = () => {
@@ -15,14 +39,17 @@ const Headermain = () => {
 
   return (
     <>
-      <header className="fixed-top site__header">
+      <header 
+        className="fixed-top site__header"
+        style={{
+          backgroundColor: (isHomePage && isLightMode) ? 'rgba(255, 255, 255, 0.5)' : 'transparent',
+          backdropFilter: (isHomePage && isLightMode) ? 'blur(10px)' : 'none'
+        }}
+      >
         <div className="d-flex align-items-center justify-content-between">
-          {/* <Link className="navbar-brand nav_ac" to="/">
+          <Link className="navbar-brand nav_ac" to="/">
             {logoText}
-          </Link> */}
-          <div className="navbar-brand nav_ac">
-            {logoText}
-          </div>
+          </Link>
           <div className="d-flex align-items-center">
             <Themetoggle />
             {/* OLD NAVIGATION MENU - COMMENTED OUT FOR FUTURE USE */}
