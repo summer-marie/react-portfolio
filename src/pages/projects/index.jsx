@@ -61,13 +61,13 @@ export const Portfolio = () => {
           <meta name="description" content={meta.description} />
         </Helmet>
         <Row className="mb-5 mt-3 pt-md-3">
-          <Col lg="8">
+          <Col lg="12">
             <h1 className="display-4 mb-4"> Projects </h1>{" "}
             <hr className="t_border my-4 ml-0 text-left" />
           </Col>
         </Row>
         <Row className="mb-5">
-          <Col lg="8">
+          <Col lg="12">
             <div className="po_items_ho">
               {projects.map((data, i) => {
                 const currentImg = currentImageIndex[i] || 0;
@@ -132,7 +132,10 @@ export const Portfolio = () => {
               })}
             </div>
           </Col>
-          <Col lg="4" className="d-flex align-items-center justify-content-center">
+        </Row>
+        
+        <Row>
+          <Col lg="12" className="text-center">
             <h1 className="animate__animated animate__fadeInUp animate__delay-2s display-4" style={{color: 'var(--text-color-3)'}}>
               More to come...
             </h1>

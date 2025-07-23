@@ -1,40 +1,52 @@
 .po_items_ho {
-    column-width: 28em;        /* Slightly increased for better content fit */
-    -moz-column-width: 28em;
-    -webkit-column-width: 28em;
-    column-gap: 2rem;          /* Balanced gap for better visual flow */
-    -moz-column-gap: 2rem;
-    -webkit-column-gap: 2rem;
+    display: flex;
+    flex-direction: row;
+    gap: 2.7rem; /* Increased by 50% from 1.8rem */
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+/* Legacy column layout - kept for fallback */
+.po_items_ho.column-layout {
+    column-width: 26.4em;      /* Increased by 20% from 22em */
+    -moz-column-width: 26.4em;
+    -webkit-column-width: 26.4em;
+    column-gap: 1.8rem;        /* Increased by 20% from 1.5rem */
+    -moz-column-gap: 1.8rem;
+    -webkit-column-gap: 1.8rem;
     column-fill: balance;      /* Better distribution of content */
     -moz-column-fill: balance;
     -webkit-column-fill: balance;
+    display: block;
+    flex-direction: unset;
 }
 
 .po_item {
-    display: inline-block;
-    width: 100%;
+    display: block;
+    width: 450px; /* Increased by 50% from 300px */
     text-align: center;
-    margin: 0.5rem auto;
+    margin: 0.5rem 0;
     position: relative;
     background: var(--secondary-color);
-    padding: 6px;
+    padding: 9px; /* Increased by 50% from 6px */
     border: 1px solid var(--secondary-color);
     transition: 0.3s ease;
     font-size: 0;
     overflow: hidden;
+    flex-shrink: 0; /* Prevent shrinking in flex layout */
     /* Removed fixed min-height to allow dynamic sizing */
 }
 
 
 
-/* Image container for carousel - Dynamic height based on content */
+/* Image container for carousel - Increased by 50% */
 .image-container {
     position: relative;
     width: 100%;
-    min-height: 250px; /* Minimum height to ensure consistency */
+    min-height: 360px; /* Increased by 50% from 240px */
     overflow: hidden;
     background: #f0f0f0; /* Light background in case of gaps */
-    aspect-ratio: 16/10; /* Maintain a consistent aspect ratio */
+    aspect-ratio: 16/9; /* Changed to more compact ratio */
 }
 
 .image-container img {

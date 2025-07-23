@@ -5,6 +5,11 @@ import capstoneIngredients from "./assets/images/capstone/ingredients.jpg";
 import capstoneMenu from "./assets/images/capstone/menu.jpg";
 import capstoneMessages from "./assets/images/capstone/messages.jpg";
 
+// Import interval timer images
+import intervalScreenOne from "./assets/images/interval-timer/screen-one.jpg";
+import intervalTimerScreen from "./assets/images/interval-timer/timer-screen.jpg";
+import intervalSetBreak from "./assets/images/interval-timer/set-break.jpg";
+
 const logoText = "SummerHalsey";
 
 const meta = {
@@ -110,29 +115,21 @@ const projects = [
     description:
       "Full-stack pizza ordering app with admin management system built with React, Node.js, and MongoDB.",
     technologies: ["React", "Node.js", "MongoDB", "Express", "Redux Toolkit"],
-    link: "https://github.com/summer-marie/capstone-pizza", // Replace with your GitHub repo or live demo link
+    link: "https://github.com/summer-marie/capstone-pizza", // Link to GitHub repo
   },
-  ///Example projects for testing layout
-  // {
-  //   images: [
-  //     "https://picsum.photos/500/600?random=1",
-  //     "https://picsum.photos/500/600?random=2",
-  //     "https://picsum.photos/500/600?random=3",
-  //   ],
-  //   title: "E-Commerce Platform",
-  //   description:
-  //     "Modern e-commerce solution with shopping cart, payment processing, and admin dashboard.",
-  //   technologies: ["React", "Redux", "Stripe", "Node.js"],
-  //   link: "#",
-  // },
-  // {
-  //   img: "https://picsum.photos/500/600?random=4",
-  //   title: "Weather App",
-  //   description:
-  //     "Real-time weather application with location-based forecasts and interactive maps.",
-  //   technologies: ["JavaScript", "OpenWeather API", "Chart.js"],
-  //   link: "#",
-  // },
+
+  {
+    images: [
+      intervalScreenOne,
+      intervalTimerScreen,
+      intervalSetBreak,
+    ],
+    title: "Intervals Timer (Workout)",
+    description: "A workout intervals timer built with React and Tailwind CSS. Fixes the problem of having to look at watch while you workout.",
+    technologies: ["React", "Tailwind CSS", "Mobile Compatible"],
+    link: "https://github.com/summer-marie/intervals-timer",
+  },
+
 ];
 
 const socialProfiles = {
