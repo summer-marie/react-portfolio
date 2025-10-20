@@ -14,7 +14,8 @@ const logoText = "SummerHalsey";
 
 const meta = {
   title: "Summer Halsey",
-  description: "I’m Summer Halsey data scientist _ Full stack developer",
+  description:
+    "I’m Summer Halsey — Full Stack Developer with a data-driven mindset",
 };
 
 const contactConfig = {
@@ -29,13 +30,13 @@ const contactConfig = {
 const introData = {
   title: "I’m Summer Halsey",
   animated: {
-    first: "I craft React apps with passion",
-    second: "I find beauty in well-structured data",
-    third: "I strive to make complex web simple",
-    fourth: "I thrive building fullstack solutions",
+    first: "Turning complex business logic into intuitive user experiences",
+    second: "I enjoy turning ideas into interactive React experiences.",
+    third: "Always curious, sometimes failing, always moving forward",
+    fourth: "I use AI as a tool, not a crutch",
   },
   description:
-    "From MongoDB schemas to React components, I love every layer of fullstack development. Give me a messy dataset and I'll show you the patterns hidden inside—then build you an app that makes accessing that data feel like magic. I'm passionate about creating complete solutions that work beautifully from database to user interface. I'm eager to contribute my developing web development skills.",
+    "From MongoDB schemas to React components, I now build with a production mindset—prioritizing security, fast-loading UIs, and a smooth user experience. I love using tools like Jest and React Testing Library to keep my code solid, and I rely on things like Argon2 hashing and express-validator to keep things secure. Whether I’m working with Vite, Tailwind, or setting up structured logging with Pino, I’m all about creating apps that are reliable, maintainable, and a joy to use from database to interface.",
   your_img_url: "https://images.unsplash.com/photo-1514790193030-c89d266d5a9d",
 };
 
@@ -47,7 +48,7 @@ const dataAbout = {
 const education = [
   {
     certification: "Full Stack Developer Certification",
-    where: "Persevere",
+    where: "Persevere Code Camp",
     date: "6/2025",
   },
 ];
@@ -70,11 +71,11 @@ const skills = [
     value: 60,
   },
   {
-    name: "Node.js",
+    name: "Node.js & Express.js",
     value: 85,
   },
   {
-    name: "MongoDB",
+    name: "MongoDB Atlas",
     value: 95,
   },
   {
@@ -85,19 +86,19 @@ const skills = [
 
 const strengths = [
   {
+    title: "Production-Ready Backend Engineering",
+    description:
+      "I have strong expertise in building robust, scalable backends using modern frameworks like Express and MongoDB. My approach includes event-driven structured logging with Pino, automated background tasks with cron jobs, and comprehensive rate limiting and endpoint-level validation to ensure security and reliability. I design backend systems that are maintainable, efficient, and ready for production—supporting seamless integration and smooth operation at scale.",
+  },
+  {
     title: "Style & UI/UX Design",
     description:
-      "Proficient in creating responsive, professional interfaces using Tailwind CSS with systematic design patterns including consistent spacing, color schemes, and component layouts that maintain visual hierarchy across different screen sizes. Demonstrated expertise in building intuitive user experiences through strategic use of alternating backgrounds, proper typography scaling, and accessible design elements that guide users naturally through complex data presentations.",
+      "I have strong expertise in designing responsive, user-focused interfaces using modern tools like Tailwind CSS and systematic design patterns. I prioritize clear visual hierarchy, consistent layouts, and accessible components to create intuitive experiences across all devices. My approach combines thoughtful color schemes, scalable typography, and strategic use of space to guide users naturally—even through complex data. I’m constantly improving my ability to have the website match my internal vision, always striving to learn new practices and techniques.",
   },
   {
-    title: "Authentication & Authorization Management",
+    title: "Security-Driven Full-Stack Development",
     description:
-      "Experienced in implementing secure authentication and authorization mechanisms using industry-standard protocols and libraries. Proficient in managing user sessions, roles, and permissions to protect sensitive data and ensure a seamless user experience. Demonstrated ability to create comprehensive authentication flows including login/logout functionality, token validation, and secure route protection with proper error handling and loading states",
-  },
-  {
-    title: "Database Management",
-    description:
-      "Experienced in designing MongoDB database solutions using Mongoose ODM for schema validation and structured data modeling across multiple collections for web applications. Proficient in implementing full CRUD operations through RESTful API endpoints with proper error handling and data validation for secure database interactions. Demonstrated ability to structure modular database architecture with organized models and controllers, ensuring scalable and maintainable applications with secure authentication and environment-based configuration.",
+      "I have strong expertise in building security-first full-stack applications, implementing layered authentication with JWT and session strategies to support diverse user needs. I consistently use Argon2 for password hashing, enforce rate limiting, and apply XSS protection and input validation across the stack. My approach includes role-based access controls, secure session management, and data redaction in logs to safeguard sensitive information. I prioritize proactive threat mitigation and strive for seamless, secure user experiences in every project I build",
   },
 ];
 
@@ -111,7 +112,7 @@ const projects = [
       capstoneMenu,
       capstoneMessages,
     ],
-    title: "Pizza Ordering System",
+    title: "Capstone - Pizza Ordering System",
     description:
       "Full-stack pizza ordering app with admin management system built with React, Node.js, and MongoDB.",
     technologies: ["React", "Node.js", "MongoDB", "Express", "Redux Toolkit"],
@@ -119,17 +120,13 @@ const projects = [
   },
 
   {
-    images: [
-      intervalScreenOne,
-      intervalTimerScreen,
-      intervalSetBreak,
-    ],
+    images: [intervalScreenOne, intervalTimerScreen, intervalSetBreak],
     title: "Intervals Timer (Workout)",
-    description: "A workout intervals timer built with React and Tailwind CSS. Fixes the problem of having to look at watch while you workout.",
+    description:
+      "A workout intervals timer built with React and Tailwind CSS. Fixes the problem of having to look at watch while you workout.",
     technologies: ["React", "Tailwind CSS", "Mobile Compatible"],
     link: "https://github.com/summer-marie/intervals-timer",
   },
-
 ];
 
 const socialProfiles = {
