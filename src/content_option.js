@@ -10,7 +10,25 @@ import intervalScreenOne from "./assets/images/interval-timer/screen-one.jpg";
 import intervalTimerScreen from "./assets/images/interval-timer/timer-screen.jpg";
 import intervalSetBreak from "./assets/images/interval-timer/set-break.jpg";
 
+// Import profile images
+import profileImage1 from "./assets/images/Image3.jpg";
+import profileImage2 from "./assets/images/helloWorld.png";
+import profileImage3 from "./assets/images/Image4.jpg";
+import profileImage4 from "./assets/images/Image5.png";
+
 const logoText = "SummerHalsey";
+
+// Profile Images Array - Add your imported images here
+const profileImages = [
+  // "https://images.unsplash.com/photo-1514790193030-c89d266d5a9d", // Default fallback
+  profileImage1, // Image3.jpg
+  profileImage2,
+  profileImage3, // Image4.jpg
+  profileImage4, // Image5.png
+];
+
+// Select which profile image to use (0 = first image, 1 = second, etc.)
+const selectedProfileImageIndex = 3;
 
 const meta = {
   title: "Summer Halsey",
@@ -30,14 +48,14 @@ const contactConfig = {
 const introData = {
   title: "I’m Summer Halsey",
   animated: {
-    first: "Turning complex business logic into intuitive user experiences",
+    first: "Always curious, sometimes failing, always moving forward.",
     second: "I enjoy turning ideas into interactive React experiences.",
-    third: "Always curious, sometimes failing, always moving forward",
-    fourth: "I use AI as a tool, not a crutch",
+    third: "Turning complex business logic into intuitive user experiences.",
+    fourth: "I use AI as a tool, not a crutch.",
   },
   description:
-    "From MongoDB schemas to React components, I now build with a production mindset—prioritizing security, fast-loading UIs, and a smooth user experience. I love using tools like Jest and React Testing Library to keep my code solid, and I rely on things like Argon2 hashing and express-validator to keep things secure. Whether I’m working with Vite, Tailwind, or setting up structured logging with Pino, I’m all about creating apps that are reliable, maintainable, and a joy to use from database to interface.",
-  your_img_url: "https://images.unsplash.com/photo-1514790193030-c89d266d5a9d",
+    "From MongoDB schemas to React components, I now build with a production mindset—prioritizing security, fast-loading UIs, and a smooth user experience. I love using tools like Jest and React Testing Library to keep my code solid, and I rely on things like Argon2 hashing and express-validator to keep things secure. Whether I'm working with Vite, Tailwind, or setting up structured logging with Pino, I'm all about creating apps that are reliable, maintainable, and a joy to use from database to interface.",
+  your_img_url: profileImages[selectedProfileImageIndex],
 };
 
 const dataAbout = {
