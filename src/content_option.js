@@ -105,6 +105,14 @@ const strengths = [
 // TODO: turn photos into carousel. make card container larger to fit more content
 const projects = [
   {
+    images: [intervalScreenOne, intervalTimerScreen, intervalSetBreak],
+    title: "Intervals Timer (Workout)",
+    description:
+      "A workout intervals timer built with React and Tailwind CSS. Fixes the problem of having to look at watch while you workout.",
+    technologies: ["React", "Tailwind CSS", "Mobile Compatible"],
+    link: "https://github.com/summer-marie/intervals-timer",
+  },
+  {
     images: [
       capstoneAbout,
       capstoneDashboard,
@@ -117,15 +125,6 @@ const projects = [
       "Full-stack pizza ordering app with admin management system built with React, Node.js, and MongoDB.",
     technologies: ["React", "Node.js", "MongoDB", "Express", "Redux Toolkit"],
     link: "https://github.com/summer-marie/capstone-pizza", // Link to GitHub repo
-  },
-
-  {
-    images: [intervalScreenOne, intervalTimerScreen, intervalSetBreak],
-    title: "Intervals Timer (Workout)",
-    description:
-      "A workout intervals timer built with React and Tailwind CSS. Fixes the problem of having to look at watch while you workout.",
-    technologies: ["React", "Tailwind CSS", "Mobile Compatible"],
-    link: "https://github.com/summer-marie/intervals-timer",
   },
 ];
 
