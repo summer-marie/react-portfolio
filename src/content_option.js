@@ -14,7 +14,7 @@ import intervalSetBreak from "./assets/images/interval-timer/set-break.jpg";
 import profileImage1 from "./assets/images/Image3.jpg";
 import profileImage2 from "./assets/images/helloWorld.png";
 import profileImage3 from "./assets/images/Image4.jpg";
-import profileImage4 from "./assets/images/Image5.png";
+import profileImage4 from "./assets/images/image5.png";
 
 const logoText = "SummerHalsey";
 
