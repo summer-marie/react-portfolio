@@ -691,3 +691,23 @@ They do not define:
 Those are defined by the project documentation.
 
 Implement the structure shown in the wireframes while following the design system and engineering standards.
+
+## Implementation Checklist
+
+When working on portfolio implementation:
+
+1. Review `docs/implementation-checklist.md` before beginning work.
+2. Complete only the tasks requested.
+3. Verify the implementation builds successfully and meets project standards.
+4. Mark completed checklist items (`- [x]`) only after the implementation has been verified.
+5. Do not mark partial work as complete.
+6. If new tasks are discovered, append them under a "Discovered Tasks" section rather than modifying existing completed items.
+
+## Commits
+
+After completing a logical unit of work:
+
+- Update `docs/implementation-checklist.md`.
+- Stage only the relevant files.
+- Create a descriptive commit.
+- Report what was completed and which checklist items were marked finished.
