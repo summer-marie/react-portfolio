@@ -7,7 +7,7 @@ They describe layout, spacing, hierarchy, and content organization only.
 Visual styling—including colors, typography, motion, gradients, shadows, and component details—is defined by:
 
 - docs/01-visual-language.md
-- docs/03-design-system.md
+- docs/03-motion-and-components.md
 
 If a conflict exists between a wireframe and the design documentation, the documentation takes precedence unless the user approves a change.
 

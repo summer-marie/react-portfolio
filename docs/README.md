@@ -26,21 +26,21 @@ Defines the site's navigation, page hierarchy, content organization, and informa
 
 ---
 
-### 03 — Design System
+### 03 — Motion and Components
 
 Documents reusable UI components, interaction patterns, animations, accessibility considerations, and component behavior.
 
 ---
 
-### 04 — Engineering Standards
+### 04 — Build Plan
 
-Defines implementation standards including responsiveness, accessibility, performance, coding conventions, component philosophy, and maintainability.
+Provides the implementation roadmap, project phases, testing requirements, Git workflow, and Definition of Done.
 
 ---
 
-### 05 — Build Plan
+### 05 — Engineering Standards
 
-Provides the implementation roadmap, project phases, testing requirements, Git workflow, and Definition of Done.
+Defines implementation standards including responsiveness, accessibility, performance, coding conventions, component philosophy, and maintainability.
 
 ---
 

@@ -68,6 +68,28 @@
 
 **Commit hashes:** (recorded on push below)
 
-**Push status:** to be pushed to `origin/docs/record-architecture-decisions`.
+**Push status:** pushed to `origin/docs/record-architecture-decisions`. Merged into `main` as PR #5.
 
 **Remaining concerns:** none. No application source, styles, configuration, or dependencies were touched. Dependency installation and implementation begin in later, separately scoped phase tasks; the documentation-correction task (decision #7) should run before application implementation.
+
+## 2026-07-23 — Claude Code — branch `docs/fix-readme-references`
+
+**Work performed:**
+- Documentation correction (decision #7): corrected stale filename references in `docs/README.md` and `docs/wireframes/README.md`.
+- `docs/README.md`: retitled Reading Order headings 03/04/05 and swapped the 04/05 descriptions so each number matches its actual file (`03-motion-and-components.md`, `04-build-plan.md`, `05-engineering-standards.md`).
+- `docs/wireframes/README.md`: `docs/03-design-system.md` → `docs/03-motion-and-components.md`.
+
+**Files changed:** `docs/README.md`, `docs/wireframes/README.md`.
+
+**Tests run and results:**
+- `npm run build` — PASSED (`vite build` succeeded, output in `dist/`).
+- `Select-String "03-motion-and-components" docs\wireframes\README.md` — 1 match.
+- `Select-String "design-system" docs\README.md, docs\wireframes\README.md` — no match, as expected.
+- `Select-String "04 — Build Plan","05 — Engineering Standards" docs\README.md` — matches found.
+
+**Commit hashes:**
+- `caab69d` — docs: correct stale filename references in docs README files
+
+**Push status:** pushed to `origin/docs/fix-readme-references`.
+
+**Remaining concerns:** none. Documentation-only change; no application code, styles, or configuration touched. This clears decision #7 — application implementation (Phase 1 foundation) may now begin once this branch is reviewed/merged.
