@@ -17,7 +17,11 @@
 - `npm run test:e2e` — PASSED (1 test: home page loads via Playwright/Chromium).
 - `npm run build` — PASSED (`vite build` succeeded, output in `dist/`).
 
-**Commit hash:** recorded after commit below.
+**Commit hashes:**
+- `320e7d6` — docs: add AGENTS.md agent policy and project documentation
+- `dd2535a` — chore: trim .gitignore to entries relevant to this project
+- `fc0fdb3` — chore: rename .agents-memory to .agent-memory
+- `932fc2d` — test: add Vitest and Playwright with minimal smoke tests
 
 **Push status:** pushed to `origin/portfolio-redesign`.
 
