@@ -2,45 +2,48 @@
 
 ## Task Objective
 
-Record the approved Phase 1 architecture-review decisions durably, following the
-project's Decision Records policy. Documentation and agent memory only — no application
-source changes.
+Documentation correction (decision #7): fix stale filename references in
+`docs/README.md` and `docs/wireframes/README.md`, per `docs/decisions.md`. Docs only —
+no application source changes. Must complete before application implementation begins.
 
 ## Approved Scope
 
-- Write the nine approved migration decisions to `docs/decisions.md` (durable source of truth).
-- Mirror a summary into `.agent-memory/DECISIONS.md` (working memory).
-- Update agent memory (`CURRENT_SESSION.md`, `WORK_LOG.md`).
-- Prepare (as text, not execute) the next scoped prompt for the documentation-correction task.
-
-Out of scope: any application source, styles, configuration, or dependency changes.
+- Correct `docs/README.md` Reading Order headings/descriptions for items 03–05 to match
+  the actual committed files.
+- Correct `docs/wireframes/README.md`'s `docs/03-design-system.md` reference to
+  `docs/03-motion-and-components.md`.
+- No other doc content, application source, styles, or configuration changes.
 
 ## Current Branch
 
-`docs/record-architecture-decisions`
+`docs/fix-readme-references`
 
 ## Files Being Changed
 
-- `docs/decisions.md` (was empty; now the durable decision record)
-- `.agent-memory/DECISIONS.md`
-- `.agent-memory/CURRENT_SESSION.md`
-- `.agent-memory/WORK_LOG.md`
+- `docs/README.md`
+- `docs/wireframes/README.md`
 
 ## Tests Required
 
-None (documentation/memory only). No build impact expected.
+None (documentation-only change). Verification via `Select-String` reference checks and
+`npm run build`.
 
 ## Work Completed
 
-- Read all required files per AGENTS.md Section 2 for the Phase 1 architecture review.
-- Delivered the read-only architecture review; user approved with nine decisions.
-- Recorded all nine decisions in `docs/decisions.md`.
-- Mirrored a decision summary into `.agent-memory/DECISIONS.md`.
+- Confirmed `main` up to date (PR #5 — architecture decisions record — merged).
+- Corrected `docs/README.md`: retitled headings 03 → "Motion and Components", 04 →
+  "Build Plan", 05 → "Engineering Standards", and swapped the 04/05 descriptions so each
+  number matches its actual file.
+- Corrected `docs/wireframes/README.md`: `docs/03-design-system.md` →
+  `docs/03-motion-and-components.md`.
+- Verified via `Select-String`: corrected reference present, no `design-system` matches,
+  new headings present.
+- Ran `npm run build` — passed.
+- Committed (`caab69d`) and pushed to `origin/docs/fix-readme-references`.
 
 ## Work Remaining
 
-- Commit and push this branch.
-- Hand off the prepared documentation-correction prompt for the user to run as the next task.
+None. Task complete; stopped per Section 10 Stop Condition to await user review/approval.
 
 ## Current Blockers
 
@@ -48,11 +51,4 @@ None.
 
 ## Last Verified Command and Result
 
-`git fetch --prune` / `git log` — confirmed Phase 0 (`docs/fix-doc-references`) merged as
-PR #4 into `main`; branched `docs/record-architecture-decisions` from latest `main`.
-
-## Next Task (prepared, not started)
-
-Documentation-correction task (decision #7): fix stale filename references in
-`docs/README.md` and `docs/wireframes/README.md`. Scoped prompt handed to the user.
-Must run before application implementation begins.
+`npm run build` — succeeded (`vite build`, output in `dist/`).
