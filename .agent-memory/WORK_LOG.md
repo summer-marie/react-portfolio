@@ -271,6 +271,22 @@
 - `81f61f5` — docs: mark Homepage sections complete in implementation checklist
 - `af99dd8` — chore: update agent memory for homepage rebuild task
 
-**Push status (final):** pushed to `origin/feat/homepage`. **Not yet merged** — awaiting user review/merge via GitHub (PR not yet opened as of this writing: https://github.com/summer-marie/react-portfolio/pull/new/feat/homepage).
+**Push status (final):** pushed to `origin/feat/homepage`; merged into `main` as PR #11 (`8d8feae`).
 
 **Remaining concerns:** Current Focus section is a placeholder pending real `content_option.js` data (tracked in Discovered Tasks). The pre-existing `/work`+`/about` horizontal-scroll bug is untouched (out of scope for this task). No other pages, Bootstrap, or `content_option.js` data values were touched.
+
+## 2026-07-23 — Claude Code — branch `docs/finalize-homepage-memory`
+
+**Work performed:**
+- Small follow-up: one commit (`b4c8b30`, filling in the Homepage task's WORK_LOG/CURRENT_SESSION push-status placeholders) was pushed to `feat/homepage` after the user had already merged that branch as PR #11, so it never landed in `main`. Cherry-picked it onto a fresh branch and corrected its "not yet merged" language (accurate when originally written, stale now) to reflect that the Homepage task is in fact merged.
+- This is a direct, concrete instance of the exact problem the "Multi-Part Phases on a Shared Branch" rule (added to `AGENTS.md` §4 earlier this session) exists to prevent — reinforces committing normally but holding pushes until a branch/phase is genuinely finished, and never pushing further commits to an already-merged branch.
+
+**Files changed:** `.agent-memory/CURRENT_SESSION.md`, `.agent-memory/WORK_LOG.md`.
+
+**Tests run and results:** none required — documentation/memory only, no build/source impact.
+
+**Commit hashes:** (recorded on push below)
+
+**Push status:** to be pushed to `origin/docs/finalize-homepage-memory`.
+
+**Remaining concerns:** none.
