@@ -634,6 +634,28 @@ Create a new branch for every:
 
 Unless the user explicitly instructs otherwise.
 
+### Multi-Part Phases on a Shared Branch
+
+Sometimes the user explicitly instructs an agent to continue work on an existing branch
+across multiple task prompts (for example, a phase split into several prompts that all
+target the same branch name).
+
+When this happens:
+
+- Commit normally after each coherent milestone.
+- Do not push after every prompt just because the prompt's own scope is complete.
+- Push only once the user confirms the branch or phase as a whole is finished.
+- If it is unclear whether a given prompt is the final part of the phase, ask before
+  pushing rather than pushing and finding out afterward.
+
+Reason: pushing after each prompt forces a separate pull-request review and merge cycle
+per prompt, even though the user experiences the phase as one continuous piece of work.
+Holding commits locally until the phase is genuinely done avoids repeated, unnecessary
+merge cycles for a single logical unit of work.
+
+This does not change the rule for ordinary, single-prompt tasks: those still follow the
+normal one-branch-one-task, push-and-stop-for-review pattern.
+
 ## 11. Completion and Handoff
 
 A task is complete only when:
