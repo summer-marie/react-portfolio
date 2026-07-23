@@ -265,8 +265,12 @@
 - Grep for `px` in `src/pages/home/` — all matches reviewed and justified (1px borders, sub-pixel hover-lift transforms matching the motion doc's hover guidance, `text-underline-offset: 2px`, Framer Motion's `viewport` margin prop).
 - Manual Playwright verification at 375px and 1440px (scripts written, run, then deleted — not committed): correct section order and heading hierarchy (1 h1, 4 h2), no legacy `.h_bg-image`/`.Typewriter` markup, no horizontal scroll at either width, all CTA hrefs correct, Selected Work cards stack to 1 column on mobile and stretch evenly to fill the row on desktop (confirmed via bounding-box measurement, not just computed grid-template-columns), theme toggle switches correctly at desktop width, reduced-motion content is immediately at full opacity. Screenshots read visually in both themes and at both viewports — clean, matches the wireframe's layout hierarchy while using tokens (not the wireframe's placeholder serif font/stock photography).
 
-**Commit hashes:** (recorded on push below)
+**Commit hashes:**
+- `947fa0f` — feat: rebuild homepage with token-driven sections
+- `e245b89` — test: add homepage smoke test and IntersectionObserver polyfill
+- `81f61f5` — docs: mark Homepage sections complete in implementation checklist
+- `af99dd8` — chore: update agent memory for homepage rebuild task
 
-**Push status:** to be pushed to `origin/feat/homepage`.
+**Push status (final):** pushed to `origin/feat/homepage`. **Not yet merged** — awaiting user review/merge via GitHub (PR not yet opened as of this writing: https://github.com/summer-marie/react-portfolio/pull/new/feat/homepage).
 
 **Remaining concerns:** Current Focus section is a placeholder pending real `content_option.js` data (tracked in Discovered Tasks). The pre-existing `/work`+`/about` horizontal-scroll bug is untouched (out of scope for this task). No other pages, Bootstrap, or `content_option.js` data values were touched.
