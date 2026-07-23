@@ -190,3 +190,43 @@ cruft into V1.
 
 **Files/Systems affected:** the files listed above, plus `src/app/App.jsx` and route
 configuration.
+
+---
+
+## 2026-07-23 — Foundation phase: technical substitutions to decisions #1 and #4
+
+**Source/Approver:** Implementing agent, during the Foundation phase implementation.
+Recorded per decision #8's requirement that important decisions be reflected here.
+These are technical necessities, not product/architectural choices — flagged here for
+visibility rather than escalated as open questions, since no alternative exists.
+
+### Addendum to decision #4 — Geist font package
+
+**Decision:** Use `@fontsource-variable/geist` and `@fontsource-variable/geist-mono`
+instead of the `geist` npm package named in decision #4.
+
+**Reason:** The `geist` package published by Vercel is coupled to Next.js's
+`next/font/local` loader and throws at runtime (`TypeError:
+(0, import_local.default) is not a function`) in a plain Vite/React app — confirmed via
+the package's own export map (Next.js-oriented conditional exports) and a documented
+failure report (`vercel/geist-font` issue #94). Since this repository will not adopt
+Next.js (`docs/06-tech-stack.md`), that package cannot function here. The Fontsource
+distributions ship the same Geist typeface as self-hosted, npm-versioned CSS + woff2,
+resolved automatically by Vite with no CDN and no bundler plugin — satisfying decision
+#4's actual intent (repository-managed, self-hosted, no CDN).
+
+**Files/Systems affected:** `package.json`, `src/index.css` (font imports).
+
+### Addendum to decision #1 — ESLint version
+
+**Decision:** Install ESLint `^9.39.5` (latest 9.x) instead of ESLint 10.
+
+**Reason:** `eslint-plugin-react@7.37.5` (the latest release as of this writing) declares
+a peer dependency of `eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9.7`, with no released
+version supporting ESLint 10 yet. Installing ESLint 10 alongside it produces an
+unresolvable `ERESOLVE` peer-dependency conflict. ESLint 9 uses the same flat-config
+format as ESLint 10, so no configuration syntax differs. When `eslint-plugin-react`
+publishes ESLint 10 support, upgrading is a routine dependency bump, not a
+reconfiguration.
+
+**Files/Systems affected:** `package.json` (devDependencies), `eslint.config.mjs`.
