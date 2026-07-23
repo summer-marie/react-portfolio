@@ -3,7 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { BrowserRouter as Router, useLocation } from 'react-router'
 import withRouter from '../hooks/withRouter.jsx'
 import AppRoutes from './routes.jsx'
-import Headermain from '../header/index.jsx'
+import { Navbar } from '../components/navbar/index.jsx'
+import { Footer } from '../components/footer/index.jsx'
 import './App.css'
 
 function ScrollToTopBase(props) {
@@ -23,9 +24,15 @@ export default function App() {
         v7_relativeSplatPath: true,
       }}
     >
+      <a href="#main" className="skip-link">
+        Skip to content
+      </a>
       <ScrollToTop>
-        <Headermain />
-        <AppRoutes />
+        <Navbar />
+        <main id="main">
+          <AppRoutes />
+        </main>
+        <Footer />
       </ScrollToTop>
     </Router>
   )
