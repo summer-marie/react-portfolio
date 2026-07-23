@@ -70,9 +70,9 @@ Before beginning work, read the following files in order when they exist:
 7. `docs\00-project-vision.md`
 8. `docs\01-visual-language.md`
 9. `docs\02-site-architecture.md`
-10. `docs\03-design-system.md`
-11. `docs\04-engineering-standards.md`
-12. `docs\05-build-plan.md`, when created
+10. `docs\03-motion-and-components.md`
+11. `docs\04-build-plan.md`
+12. `docs\05-engineering-standards.md`
 13. Relevant source files, tests, and configuration for the current task
 
 If a referenced file does not exist, continue without creating speculative content unless the current task includes creating it.
@@ -480,7 +480,7 @@ All tests must pass before a task is considered complete, unless the user explic
 
 ## 8. Implementation Standards
 
-Follow `docs\04-engineering-standards.md`. In particular:
+Follow `docs\05-engineering-standards.md`. In particular:
 
 - Prefer fluid and intrinsic layouts.
 - Prefer `rem`, `em`, `%`, viewport-relative units, and `clamp()`.
