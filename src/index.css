@@ -1,45 +1,136 @@
+@import 'tailwindcss';
+
+/*
+ * Design tokens
+ *
+ * Color, typography, spacing, radius, shadow, motion, layout, and z-index
+ * tokens live here as CSS custom properties. Tailwind utility classes may be
+ * used for layout assistance, but color/typography/radius/shadow decisions
+ * must come from these tokens, not Tailwind theme extension.
+ */
 :root {
-    --bg-color: #0c0c0c;
-    --primary-color: #0d0d0d;
-    --secondary-color: #fff;
-    --text-color: #fff;
-    --text-color-2: #fff;
-    --text-color-3: rgb(204, 0, 0);
-    --overlay-color: rgb(12 12 12 / 63%);
+  /* Color — warm neutral dark (default theme) */
+  --color-bg: #16130f;
+  --color-surface: #201b15;
+  --color-surface-raised: #2a241c;
+  --color-border: #372f24;
+  --color-text: #f3ede1;
+  --color-text-muted: #b6ab99;
+  --color-accent: #c68a52;
+  --color-accent-strong: #dba06a;
+  --color-highlight: #c2603a;
+  --color-overlay: rgb(22 19 15 / 70%);
+
+  /* Legacy aliases — kept resolvable for component CSS not yet migrated
+       to the token vocabulary above (see docs/decisions.md decision #9 follow-up). */
+  --bg-color: var(--color-bg);
+  --primary-color: var(--color-surface);
+  --secondary-color: var(--color-text);
+  --text-color: var(--color-text);
+  --text-color-2: var(--color-text);
+  --text-color-3: var(--color-highlight);
+  --overlay-color: var(--color-overlay);
+
+  /* Typography */
+  --font-display: 'Geist Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-body: 'Geist Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, 'Courier New', monospace;
+
+  --font-size-xs: clamp(0.75rem, 0.72rem + 0.15vw, 0.8125rem);
+  --font-size-sm: clamp(0.875rem, 0.83rem + 0.2vw, 0.9375rem);
+  --font-size-base: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+  --font-size-md: clamp(1.125rem, 1.06rem + 0.3vw, 1.25rem);
+  --font-size-lg: clamp(1.375rem, 1.28rem + 0.5vw, 1.625rem);
+  --font-size-xl: clamp(1.75rem, 1.55rem + 1vw, 2.25rem);
+  --font-size-2xl: clamp(2.25rem, 1.9rem + 1.75vw, 3rem);
+  --font-size-3xl: clamp(2.75rem, 2.2rem + 2.75vw, 4rem);
+  --font-size-4xl: clamp(3.25rem, 2.4rem + 4.25vw, 5.5rem);
+
+  /* Spacing — 4px base scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+
+  /* Border radius */
+  --radius-sm: 0.625rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-full: 999px;
+
+  /* Shadows — tone-matched to the dark surface */
+  --shadow-sm: 0 1px 3px rgb(10 8 5 / 45%);
+  --shadow-md: 0 8px 24px rgb(10 8 5 / 35%);
+  --shadow-lg: 0 20px 48px rgb(10 8 5 / 40%);
+
+  /* Motion — durations and easing per docs/03-motion-and-components.md */
+  --duration-hover: 200ms;
+  --duration-page: 320ms;
+  --duration-entrance: 500ms;
+  --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Layout */
+  --content-width: min(90%, 80rem);
+  --content-width-narrow: min(90%, 60rem);
+
+  /* Z-index layers */
+  --z-base: 0;
+  --z-sticky: 100;
+  --z-overlay: 500;
+  --z-toast: 900;
 }
 
-[data-theme="light"] {
-    --bg-color: #ffffff;
-    --primary-color: #ffffff;
-    --secondary-color: #000;
-    --text-color: #000;
-    --text-color-2: #000;
-    --text-color-3: rgb(204, 0, 0);
-    --overlay-color: rgb(255 255 255 / 70%);
+[data-theme='light'] {
+  /* Color — warm neutral light overrides */
+  --color-bg: #f7f2e9;
+  --color-surface: #efe8db;
+  --color-surface-raised: #fdfbf6;
+  --color-border: #ddd2bd;
+  --color-text: #221d15;
+  --color-text-muted: #6c6250;
+  --color-accent: #a8632f;
+  --color-accent-strong: #8a4f26;
+  --color-highlight: #8a3a22;
+  --color-overlay: rgb(247 242 233 / 70%);
+
+  /* Shadows — tone-matched to the light surface */
+  --shadow-sm: 0 1px 3px rgb(70 60 40 / 12%);
+  --shadow-md: 0 8px 24px rgb(70 60 40 / 14%);
+  --shadow-lg: 0 20px 48px rgb(70 60 40 / 18%);
 }
 
+/* Base reset */
 html,
 body {
-    height: 100%;
+  height: 100%;
 }
 
 body {
-    margin: 0;
-    height: 100%;
-    overflow-x: hidden;
-    overflow-y: visible;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    font-family: 'Raleway', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    padding-top: 60px;
-    border-left: 10px solid var(--primary-color);
-    border-right: 10px solid var(--primary-color);
+  margin: 0;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: visible;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding-top: 60px;
+  border-left: 10px solid var(--color-surface);
+  border-right: 10px solid var(--color-surface);
 }
 
 ul {
-    list-style: none;
+  list-style: none;
 }
 
 h1,
@@ -48,49 +139,36 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: Marcellus;
+  font-family: var(--font-display);
 }
 
 a,
 a:hover {
-    color: var(--text-color);
+  color: var(--color-text);
 }
 
 p {
-    word-break: break-word;
-    hyphens: auto;
+  word-break: break-word;
+  hyphens: auto;
 }
 
 .ovhidden {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 .text_2,
 .text_2:hover {
-    color: var(--text-color-2);
+  color: var(--text-color-2);
 }
 
 code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-}
-
-.cursor__dot div {
-    z-index: 999999 !important;
-}
-
-.cursor__dot div:last-child {
-    background-color: var(--text-color-3) !important;
-}
-
-.cursor__dot div:first-child {
-    filter: invert(1);
-    background-color: var(--overlay-color) !important;
+  font-family: var(--font-mono);
 }
 
 .color_pr {
-    color: var(--primary-color) !important;
+  color: var(--primary-color) !important;
 }
 
 .color_sec {
-    color: var(--secondary-color);
+  color: var(--secondary-color);
 }
