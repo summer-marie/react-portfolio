@@ -1,7 +1,7 @@
 # Portfolio V1
 
 ## Foundation
-- [ ] Routing
+- [x] Routing
 - [ ] Theme
 - [ ] Navigation
 - [ ] Footer
