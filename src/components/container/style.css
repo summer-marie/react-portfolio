@@ -1,0 +1,10 @@
+.container-primitive {
+  box-sizing: border-box;
+  width: var(--content-width);
+  margin-inline: auto;
+  padding-inline: clamp(var(--space-4), 4vw, var(--space-8));
+}
+
+.container-primitive--narrow {
+  width: var(--content-width-narrow);
+}
