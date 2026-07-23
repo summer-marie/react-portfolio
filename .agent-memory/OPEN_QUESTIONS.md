@@ -10,4 +10,4 @@
 
 **Safe work that can continue:** Vitest and Playwright installation, configuration, and smoke tests are unaffected and were completed.
 
-**Resolution:** Unresolved. Recommend a dedicated `chore/configure-eslint` task if the user wants lint enforced.
+**Resolution:** Resolved 2026-07-23 in the Foundation phase (`feat/foundation-tokens-and-tooling`). ESLint (flat config, `eslint.config.mjs`) and Prettier are now configured with `lint`/`lint:fix`/`format` scripts in `package.json`. `npm run lint` passes with 0 errors (11 warnings scoped to not-yet-migrated legacy files — see `docs/implementation-checklist.md` Discovered Tasks).

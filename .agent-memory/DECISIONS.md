@@ -45,3 +45,16 @@
 **Source/Approver:** User, approving the Phase 1 architecture review.
 
 **Files/Systems Affected:** `docs/decisions.md` (new content), `package.json`, `index.html`, token/layout foundation, routing, header/navigation, home/about/work/contact/resume pages, and the legacy files slated for removal.
+
+## 2026-07-23 — Foundation phase: technical substitutions (Geist package, ESLint version)
+
+**Decision:** Two technical substitutions to prior decisions, made during Foundation-phase implementation and recorded durably in `docs/decisions.md`:
+
+1. Use `@fontsource-variable/geist` + `@fontsource-variable/geist-mono` instead of the `geist` npm package (decision #4 addendum) — the Vercel `geist` package requires Next.js's `next/font/local` and throws at runtime in Vite/React (confirmed via package export map + `vercel/geist-font` issue #94).
+2. Install ESLint `^9.39.5` instead of ESLint 10 (decision #1 addendum) — `eslint-plugin-react@7.37.5`'s peer dependency caps at `eslint ^9.7`; no released version supports ESLint 10 yet. Same flat-config format, no syntax impact; routine bump once the plugin catches up.
+
+**Reason:** Both are hard technical constraints, not preference calls — no working alternative existed within the original decisions' literal package names.
+
+**Source/Approver:** Implementing agent; full reasoning and affected files recorded in `docs/decisions.md` per decision #8.
+
+**Files/Systems Affected:** `package.json`, `src/index.css`, `eslint.config.mjs`.
