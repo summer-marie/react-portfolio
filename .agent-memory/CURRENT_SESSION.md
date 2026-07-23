@@ -122,7 +122,10 @@ deleted, not committed).
 
 ## Work Remaining
 
-- Commit in the suggested sequence and push.
+None for this task. Commits are pushed to `origin/feat/homepage`. **Not yet merged** —
+next session should check whether the user has merged it before branching further work
+from `main` (`git fetch --prune && git log --oneline main` — if `feat/homepage`'s commits
+aren't in `main`'s history yet, it's still pending review).
 
 ## Current Blockers
 
