@@ -142,3 +142,31 @@
 **Push status:** to be pushed to `origin/docs/phase-3-planning`.
 
 **Remaining concerns:** none. The Phase 3 prompt notes two items for its executor to handle: the `Socialicons` rail vs. footer social-link redundancy (preserve rail; flag for user decision — out of Phase 3 scope), and the opportunity to uninstall `react-transition-group` once its only usage (`src/app/routes.jsx`) is replaced by Framer Motion.
+
+## 2026-07-23 — Claude Code — branch `feat/core-layout`
+
+**Work performed:**
+- Scoped subset of Core Layout: finalized routing, added Container/Section layout primitives, added placeholder Resume and NotFound pages. Top Navigation, Footer, and the Framer Motion page-transition wrapper were explicitly out of scope for this task.
+- Rewrote `src/app/routes.jsx`: removed `react-transition-group` (`CSSTransition`/`TransitionGroup`) and the `withRouter` wrapper it required; canonical routes are now `/`, `/work`, `/about`, `/resume`, `/contact`; `/portfolio` redirects to `/work` via `<Navigate to="/work" replace />`; `*` renders the new `NotFound` page instead of `Home`; removed the no-op `exact` prop.
+- Added `Container` and `Section` layout primitives (`src/components/container/`, `src/components/section/`) — token-only (`--content-width`, `--content-width-narrow`, spacing scale via `clamp()`), no color/border/shadow.
+- Added `Resume` and `NotFound` placeholder pages (`src/pages/resume/`, `src/pages/notfound/`) following the existing named-export + `react-helmet-async` page convention; no fabricated résumé content, a clearly-labeled disabled "Download PDF (coming soon)" affordance.
+- Confirmed via grep that nothing in `src/` imports `react-transition-group` after the rewrite, then ran `npm uninstall react-transition-group`; confirmed removed from `package.json` (remaining lockfile entries are `react-bootstrap`'s own transitive dependency).
+- Marked `[x] Routing` under Foundation in `docs/implementation-checklist.md` (Theme, Navigation, Footer intentionally left unchecked — not touched by this task).
+
+**Files changed:** `src/app/routes.jsx`, `package.json`, `package-lock.json`, `docs/implementation-checklist.md`, `.agent-memory/CURRENT_SESSION.md`, `.agent-memory/WORK_LOG.md`. New: `src/components/container/index.jsx`, `src/components/container/style.css`, `src/components/section/index.jsx`, `src/components/section/style.css`, `src/pages/resume/index.jsx`, `src/pages/resume/style.css`, `src/pages/notfound/index.jsx`, `src/pages/notfound/style.css`.
+
+**Tests run and results:**
+- `npm run build` — PASSED.
+- `npm run lint` — PASSED: 0 errors, 11 warnings (same pre-existing set as Foundation phase; no new warnings from the new files).
+- `npm run test` — PASSED (1/1).
+- `npm run test:e2e` — PASSED (1/1).
+- `Select-String`/grep equivalent for `react-transition-group` across `src/` — no matches, as expected.
+- `Get-ChildItem`/`ls` equivalent confirming `src/components/container`, `src/components/section`, `src/pages/resume`, `src/pages/notfound` all exist.
+- `Select-String`/grep equivalent on `src/app/routes.jsx` for `/work|Navigate|NotFound` — all present.
+- Manual routing verification via a throwaway Playwright script (removed after use, not committed): `/work` renders the Projects page, `/portfolio` redirects to `/work`, `/resume` and an unmatched path render the new pages, `/about`/`/contact` unaffected, zero console errors.
+
+**Commit hashes:** (recorded on push below)
+
+**Push status:** to be pushed to `origin/feat/core-layout`.
+
+**Remaining concerns:** top Navigation (replacing `src/header/`), Footer, and the Framer Motion page-transition wrapper are still outstanding — explicitly out of scope for this task and need a follow-up task/branch. The `Socialicons` rail vs. footer redundancy question (recorded during Phase 3 planning) remains open since no footer exists yet.
