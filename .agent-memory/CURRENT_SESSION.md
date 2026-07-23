@@ -2,58 +2,43 @@
 
 ## Task Objective
 
-Rename `.agents-memory` to `.agent-memory`, install and configure Vitest and Playwright with minimal smoke tests, and verify the repository with the required check suite.
+Phase 0 — Documentation Consistency: fix wrong file references in `AGENTS.md`'s Required Reading Order (Section 2) and Implementation Standards (Section 8). Documentation only; no application code, styles, or configuration.
 
 ## Approved Scope
 
-- Rename `.agents-memory` folder to `.agent-memory`.
-- Update any repository references still using `.agents-memory`.
-- Install and configure Vitest and Playwright.
-- Add required test scripts to `package.json`.
-- Add minimum configuration and smoke tests to verify the setup.
-- Run `npm run lint`, `npm run test`, `npm run test:e2e`, `npm run build`.
-- Update agent memory files.
-- Commit and push on the current dedicated branch.
-
-No unrelated tooling, application restructuring, or architecture changes are in scope.
+- Correct `AGENTS.md` Section 2, items 10–12, to reference the actual committed doc filenames.
+- Correct `AGENTS.md` Section 8's `docs\04-engineering-standards.md` reference to `docs\05-engineering-standards.md`.
+- No changes to `docs/implementation-checklist.md` (already valid task-list syntax).
+- No project architecture, application source, or other doc-content changes.
 
 ## Current Branch
 
-`portfolio-redesign`
+`docs/fix-doc-references`
 
 ## Files Being Changed
 
-- `.agent-memory\` (renamed from `.agents-memory`, files created)
-- `package.json` / `package-lock.json`
-- `vite.config.js`
-- `playwright.config.js` (new)
-- `src/test/setup.js` (new)
-- `src/components/socialicons/Socialicons.test.jsx` (new)
-- `e2e/smoke.spec.js` (new)
+- `AGENTS.md`
 
 ## Tests Required
 
-- Vitest smoke test rendering an existing presentational component.
-- Playwright smoke test loading the home route.
+None (documentation-only change). Verification via `Select-String` reference checks and `npm run build`.
 
 ## Work Completed
 
-- Renamed `.agents-memory` to `.agent-memory`.
-- Confirmed no other repository files referenced `.agents-memory`.
-- Installed and configured Vitest (jsdom, React Testing Library, jest-dom, user-event, coverage-v8) via `vite.config.js`.
-- Installed and configured Playwright (`@playwright/test`, Chromium browser) via `playwright.config.js`.
-- Added `test`, `test:watch`, `test:coverage`, `test:e2e`, `test:e2e:ui` scripts to `package.json`.
-- Added smoke tests: `src/components/socialicons/Socialicons.test.jsx` (Vitest) and `e2e/smoke.spec.js` (Playwright).
-- Added `coverage/`, `test-results/`, `playwright-report/` to `.gitignore`.
-- Ran full verification suite: lint (missing script — pre-existing gap), test (pass), test:e2e (pass), build (pass).
+- Verified actual `docs/` filenames via directory listing: `03-motion-and-components.md`, `04-build-plan.md`, `05-engineering-standards.md` all exist.
+- Corrected `AGENTS.md` Section 2, items 10–12, to the actual filenames (dropped stale ", when created" note on `04-build-plan.md` since it now exists).
+- Corrected `AGENTS.md` Section 8 reference from `04-engineering-standards.md` to `05-engineering-standards.md`.
+- Confirmed via `Select-String` that corrected references are present and old wrong references (`03-design-system`, `04-engineering-standards`) are gone.
+- Ran `npm run build` — passed.
+- Committed (`1e28323`) and pushed to `origin/docs/fix-doc-references`.
 
 ## Work Remaining
 
-- Commit and push.
+None. Task complete; stopped per Section 10 Stop Condition to await user review/approval.
 
 ## Current Blockers
 
-None. No ESLint configuration exists in the repo (see `OPEN_QUESTIONS.md`); out of scope for this task.
+None.
 
 ## Last Verified Command and Result
 
