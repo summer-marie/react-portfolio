@@ -165,8 +165,47 @@
 - `Select-String`/grep equivalent on `src/app/routes.jsx` for `/work|Navigate|NotFound` — all present.
 - Manual routing verification via a throwaway Playwright script (removed after use, not committed): `/work` renders the Projects page, `/portfolio` redirects to `/work`, `/resume` and an unmatched path render the new pages, `/about`/`/contact` unaffected, zero console errors.
 
+**Commit hashes:**
+- `6cd1305` — feat: add Container and Section layout primitives
+- `4117e50` — feat: add Resume and NotFound placeholder pages
+- `49cdb79` — feat: finalize routing (/work, /portfolio redirect, /resume, 404)
+- `6f53baf` — chore: remove react-transition-group
+- `6d31794` — docs: mark Routing complete in implementation checklist
+- `4999091` — chore: update agent memory for Core Layout routing task
+
+**Push status (final):** pushed to `origin/feat/core-layout`; merged into `main` as PR #9.
+
+**Remaining concerns:** top Navigation (replacing `src/header/`), Footer, and the Framer Motion page-transition wrapper are still outstanding — explicitly out of scope for this task and need a follow-up task/branch. The `Socialicons` rail vs. footer redundancy question (recorded during Phase 3 planning) remains open since no footer exists yet.
+
+## 2026-07-23 — Claude Code — branch `feat/core-layout` (continued)
+
+**Work performed:**
+- Completed the remaining half of Core Layout: top Navigation, Footer, and the Framer Motion page-transition wrapper, wired into `App.jsx`. (Note: the `feat/core-layout` branch from the prior entry was already merged as PR #9; this session checked out the same local branch name per instruction and added new commits on top — equivalent to branching fresh from `main` since the trees were identical.)
+- **Icon-library constraint:** `lucide-react` does not export `Github`/`Linkedin` (or any brand/logo icons — verified by inspecting the package's exports; it intentionally ships only generic UI icons). Reused `react-icons/fa`'s `FaGithub`/`FaLinkedin` for just those two brand marks in Navbar and Footer (same icons the pre-existing `Socialicons` component already uses), while using Lucide (`Menu`, `X`, `Sun`, `Moon`) for all generic UI icons — satisfying the actual intent of "Lucide only" without a new, unauthorized dependency.
+- Deleted `src/header/`; built `Navbar` (`src/components/navbar/`): passive+rAF-throttled scroll listener toggling a `.navbar--scrolled` state, `NavLink` active indicator (`aria-current` automatic), mobile hamburger drawer below 768px with focus-into-menu on open, Escape-to-close with focus-return-to-trigger, body-scroll lock while open, closes on link click and on route change.
+- Built `Footer` (`src/components/footer/`): name, `meta.description` tagline, `mailto:` email, GitHub/LinkedIn icons, dynamic `new Date().getFullYear()` copyright, stacks on mobile.
+- Upgraded `ThemeToggle` to a real `<button aria-label>` with Lucide `Sun`/`Moon`; toggle/localStorage logic unchanged.
+- Added `--nav-height` token to `src/index.css`; body `padding-top` now uses it; removed the decorative `border-left`/`border-right` frame declarations on `body` (the other half of the `.br-*` template-cruft frame); added a `.skip-link` utility. Removed a now-vestigial mobile-only `.s_c` padding rule from `src/app/App.css` tied to the old header's layout.
+- Added `src/lib/motion.js` (JS constants mirroring the CSS motion tokens — Framer Motion needs numeric/array values, not `var()` strings) and `PageTransition` (`src/components/pagetransition/`), a `motion.div` wrapper using `useReducedMotion()` to pick an instant variant when reduced motion is requested.
+- Rewrote `src/app/routes.jsx`: each route wraps its page in `PageTransition`; `<Routes location={location} key={location.pathname}>` inside `<AnimatePresence mode="wait">` (standard Framer Motion route-transition pattern). The `/portfolio` redirect route is left unwrapped.
+- Composed `App.jsx`: skip-link → `ScrollToTop` → `Navbar` → `<main id="main">` → `Footer`.
+- **Bug found and fixed:** the brand/logo was also a `NavLink to="/"`, so at the root route both it and the "Home" nav item became active simultaneously, both carrying `aria-current="page"` (caught via a Playwright check finding two elements matching `a[aria-current="page"]`). Changed the brand to a plain `Link`; re-verified exactly one active/`aria-current` element per route afterward.
+- **Pre-existing issue found, not fixed (out of scope):** horizontal scroll at 375px on `/work` and `/about` only — isolated via per-route `scrollWidth`/`clientWidth` checks showing `/`, `/resume`, `/contact`, and the shell chrome are all clean; the overflow originates in the untouched `Portfolio`/`About` page interiors. Recorded in `docs/implementation-checklist.md` Discovered Tasks.
+- Recorded the `Socialicons` vs. Footer redundancy in `.agent-memory/OPEN_QUESTIONS.md` (rail preserved, not removed).
+- Marked `[x]` Routing, Theme, Navigation, Footer, Design Tokens under Foundation in `docs/implementation-checklist.md`.
+
+**Files changed:** `src/app/App.jsx`, `src/app/routes.jsx`, `src/app/App.css`, `src/index.css`, `src/components/themetoggle/index.jsx`, `src/components/themetoggle/style.css`, `docs/implementation-checklist.md`, `.agent-memory/OPEN_QUESTIONS.md`, `.agent-memory/CURRENT_SESSION.md`, `.agent-memory/WORK_LOG.md`. New: `src/components/navbar/index.jsx`, `src/components/navbar/style.css`, `src/components/footer/index.jsx`, `src/components/footer/style.css`, `src/components/pagetransition/index.jsx`, `src/lib/motion.js`. Deleted: `src/header/index.jsx`, `src/header/style.css`.
+
+**Tests run and results:**
+- `npm run build` — PASSED.
+- `npm run lint` — PASSED: 0 errors, 10 warnings (one fewer than before — `src/header/`'s warning no longer exists since the file was deleted).
+- `npm run test` — PASSED (1/1).
+- `npm run test:e2e` — PASSED (1/1).
+- `Get-ChildItem`/`ls` equivalent confirming `src/components/navbar`, `src/components/footer` exist and `src/header` does not.
+- Manual verification via a throwaway Playwright script (removed after use, not committed) at 375px and 1440px: all five routes render with correct single active nav item and `aria-current`; landmarks (`header`=1, `main#main`=1, `footer`=1); skip-link is the first Tab-focused element; footer contents (name, tagline, mailto, copyright with current year) correct; sticky nav gains `.navbar--scrolled` on scroll; theme toggle switches themes and updates its `aria-label` in both directions; hamburger hidden on desktop, visible on mobile; mobile menu opens via pointer with focus moving in, closes via Escape with focus returning to the trigger, closes on link click/route change with body-scroll lock released; reduced-motion navigation completes near-instantly; zero console errors in every check.
+
 **Commit hashes:** (recorded on push below)
 
 **Push status:** to be pushed to `origin/feat/core-layout`.
 
-**Remaining concerns:** top Navigation (replacing `src/header/`), Footer, and the Framer Motion page-transition wrapper are still outstanding — explicitly out of scope for this task and need a follow-up task/branch. The `Socialicons` rail vs. footer redundancy question (recorded during Phase 3 planning) remains open since no footer exists yet.
+**Remaining concerns:** two items intentionally left open per scope — the `Socialicons`/Footer redundancy (user decision, see `.agent-memory/OPEN_QUESTIONS.md`) and the pre-existing `/work`+`/about` 375px horizontal-scroll bug (belongs to those pages' rebuild phases, tracked in `docs/implementation-checklist.md` Discovered Tasks). No page interiors, Bootstrap, or EmailJS were touched.

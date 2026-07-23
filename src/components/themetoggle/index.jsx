@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { WiMoonAltWaningCrescent4 } from 'react-icons/wi'
+import { Moon, Sun } from 'lucide-react'
+import './style.css'
 
 const Themetoggle = () => {
   const [theme, settheme] = useState(() => localStorage.getItem('theme') || 'dark')
@@ -11,9 +12,14 @@ const Themetoggle = () => {
     localStorage.setItem('theme', theme)
   }, [theme])
   return (
-    <div className="nav_ac" onClick={themetoggle}>
-      <WiMoonAltWaningCrescent4 />
-    </div>
+    <button
+      type="button"
+      className="theme-toggle"
+      onClick={themetoggle}
+      aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+    >
+      {theme === 'dark' ? <Sun aria-hidden="true" /> : <Moon aria-hidden="true" />}
+    </button>
   )
 }
 

@@ -81,6 +81,7 @@
   /* Layout */
   --content-width: min(90%, 80rem);
   --content-width-narrow: min(90%, 60rem);
+  --nav-height: 4.5rem;
 
   /* Z-index layers */
   --z-base: 0;
@@ -124,9 +125,7 @@ body {
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  padding-top: 60px;
-  border-left: 10px solid var(--color-surface);
-  border-right: 10px solid var(--color-surface);
+  padding-top: var(--nav-height);
 }
 
 ul {
@@ -171,4 +170,21 @@ code {
 
 .color_sec {
   color: var(--secondary-color);
+}
+
+/* Utilities */
+.skip-link {
+  position: absolute;
+  top: -3rem;
+  left: var(--space-4);
+  z-index: var(--z-toast);
+  padding: var(--space-2) var(--space-4);
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+  border-radius: var(--radius-sm);
+  transition: top var(--duration-hover) var(--ease-standard);
+}
+
+.skip-link:focus {
+  top: var(--space-4);
 }
