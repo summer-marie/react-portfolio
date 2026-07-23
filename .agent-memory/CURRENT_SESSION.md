@@ -2,96 +2,50 @@
 
 ## Task Objective
 
-Phase — Foundation: install approved tooling (Tailwind, Framer Motion, Lucide, ESLint,
-Prettier, Geist fonts), replace the styling foundation with a design-token system, fix
-the ThemeToggle first-load bug, and remove legacy elements per `docs/decisions.md`
-decision #9. No page layout, navigation, footer, or Bootstrap removal in this task.
+Between phases (planning). The Foundation phase is merged; prepare the Phase 3 — Core
+Layout implementation prompt and keep shared agent memory current. No application code is
+written in this step.
 
 ## Approved Scope
 
-- Install Tailwind CSS + PostCSS, Framer Motion, Lucide React, ESLint, Prettier, and
-  self-hosted Geist fonts.
-- Replace `src/index.css` with a complete design-token system (color, typography,
-  spacing, radius, shadow, motion, layout, z-index).
-- Fix `ThemeToggle`'s first-load `data-theme="null"` bug.
-- Remove: custom cursor, vertical section-nav rail, empty bottomnav, orphan entry files
-  (`src/index.jsx`, `src/reportWebVitals.js`), legacy full-height slide transition.
-- Configure ESLint (flat config) and Prettier; add `lint`/`lint:fix`/`format` scripts.
-- Remove Google Fonts links from `index.html`.
-- Out of scope: `src/pages/`, `src/header/`, `src/components/socialicons/`, Bootstrap
-  removal, EmailJS, Resume page, route changes, shadcn/ui.
+- Confirm Foundation phase merged to `main`.
+- Produce the Phase 3 — Core Layout implementation prompt (routing updates, top
+  Navigation, Footer, Framer Motion page-transition wrapper, Container/Section
+  primitives), delivered to the user for review/execution.
+- Update agent memory (`CURRENT_SESSION.md`, `WORK_LOG.md`) per AGENTS.md §3.
+
+Out of scope: any application source, styles, configuration, or dependency changes. Those
+happen when the Phase 3 prompt is executed as its own task/branch.
 
 ## Current Branch
 
-`feat/foundation-tokens-and-tooling`
+`docs/phase-3-planning`
 
 ## Files Being Changed
 
-- `package.json`, `package-lock.json`
-- `postcss.config.mjs` (new)
-- `eslint.config.mjs` (new)
-- `.prettierrc`, `.prettierignore` (new)
-- `src/index.css` (full token replacement)
-- `src/app/App.jsx`, `src/app/App.css`
-- `src/main.jsx` (font imports)
-- `src/components/themetoggle/index.jsx`
-- `index.html`
-- `docs/decisions.md`, `.agent-memory/DECISIONS.md`, `.agent-memory/OPEN_QUESTIONS.md`
-- `docs/implementation-checklist.md`
-- Deleted: `src/hooks/AnimatedCursor.jsx`, `src/components/navigation/`,
-  `src/components/bottomnav/`, `src/index.jsx`, `src/reportWebVitals.js`
+- `.agent-memory/CURRENT_SESSION.md`
+- `.agent-memory/WORK_LOG.md`
 
 ## Tests Required
 
-`npm run build`, `npm run lint`, `npm run test`, `npm run test:e2e` — all required to
-pass (or documented) per `AGENTS.md` §7.
+None (documentation/memory only).
 
 ## Work Completed
 
-- Verified all package versions against the npm registry before installing (none had
-  moved since the Phase-2-prompt-drafting research).
-- Installed Tailwind CSS 4.3.3 + `@tailwindcss/postcss` + PostCSS, Framer Motion 12.42.2,
-  Lucide React 1.26.0, `@fontsource-variable/geist`/`geist-mono` 5.3.0.
-- Hit an ERESOLVE conflict installing ESLint 10 (`eslint-plugin-react@7.37.5` peer-caps at
-  `eslint ^9.7`) — resolved by installing ESLint 9.39.5 instead (same flat-config format).
-  Documented as a decision addendum in `docs/decisions.md` and `.agent-memory/DECISIONS.md`.
-- Documented the `geist` → `@fontsource-variable/geist*` substitution (Vercel's `geist`
-  package requires Next.js's `next/font/local` and doesn't run under Vite) the same way.
-- Replaced `src/index.css` with the full token system; kept the seven legacy variable
-  names (`--bg-color`, `--primary-color`, etc.) aliased to new tokens so untouched
-  component CSS in `src/pages/`, `src/header/`, etc. keeps resolving correctly.
-- Fixed `ThemeToggle`'s initializer to default to `"dark"`.
-- Removed all six legacy items; updated `App.jsx` accordingly; confirmed via grep no
-  remaining references to deleted files/`cursor: none`.
-- Configured `eslint.config.mjs` (flat config): React + hooks + refresh rules,
-  `no-unused-vars`/`no-console` as errors, `eslint-config-prettier` last. Disabled
-  `react/prop-types` (no PropTypes library used anywhere in this codebase). Added a
-  scoped override downgrading `src/pages/`, `src/header/`, `src/components/socialicons/`
-  to warnings (documented — those files are out of scope for this task; see
-  `docs/implementation-checklist.md` Discovered Tasks).
-- Fixed a genuine `react-hooks/rules-of-hooks` violation in `App.jsx` (renamed
-  `_ScrollToTop` → `ScrollToTopBase` — leading underscore broke the naming convention
-  the rule checks; in-scope file, no behavior change).
-- Configured Prettier (`.prettierrc`, `.prettierignore`); ran `prettier --write` only on
-  files touched in this task (not the whole repo, to avoid touching out-of-scope files).
-- Hit a build-time issue: `@import`ing the Fontsource CSS through `src/index.css` (which
-  goes through `@tailwindcss/postcss`'s Lightning CSS engine) left the nested woff2
-  `url()`s unresolved in the `dist` output. Fixed by moving the two Fontsource imports to
-  `src/main.jsx` (plain Vite CSS pipeline), which correctly hashes and copies the font
-  files into `dist/assets`.
-- Ran full verification suite: build (pass), lint (0 errors / 11 warnings, all in
-  documented out-of-scope files), test (pass), test:e2e (pass).
-- Manually verified via a throwaway Playwright script against the dev server:
-  `data-theme="dark"` on first load, Geist Variable font applied, native cursor restored
-  (`cursor: auto`), zero console errors.
-- Updated `docs/implementation-checklist.md` (`[x] Design Tokens` under Foundation; two
-  Discovered Tasks appended).
-- Resolved the long-standing `.agent-memory/OPEN_QUESTIONS.md` "No ESLint configuration"
-  entry.
+- Verified Foundation phase merged to `main` as PR #7 (`81a8402`); stale remote branches
+  pruned.
+- Read the current post-Foundation state of `src/app/routes.jsx`, `src/app/App.jsx`,
+  `src/header/index.jsx`, and `src/header/style.css` to ground the Phase 3 prompt in the
+  actual code (notably: `routes.jsx` still uses `react-transition-group` CSSTransition
+  with the now-removed `.page-*` CSS, and still mounts `/portfolio` + a catch-all to
+  `Home`; the header nav menu is commented out).
+- Produced the Phase 3 — Core Layout implementation prompt and delivered it to the user.
 
 ## Work Remaining
 
-- Commit in small coherent commits and push.
+- Commit and push this memory update.
+- Await user execution/approval of the Phase 3 prompt (runs as its own `feat/core-layout`
+  task/branch).
 
 ## Current Blockers
 
@@ -99,4 +53,17 @@ None.
 
 ## Last Verified Command and Result
 
-`npm run test:e2e` — passed (1/1, home page loads via Playwright/Chromium).
+`git log --oneline` — confirmed `81a8402 Merge pull request #7 ... feat/foundation-tokens-and-tooling`
+on `main`.
+
+## Notes for the Phase 3 executor
+
+- No new decisions were made in this planning step; `docs/decisions.md` is unchanged.
+- Open item to surface during Phase 3: the existing `Socialicons` vertical "Follow Me"
+  rail (rendered via `src/app/routes.jsx`) will overlap with the new footer's social
+  links. Removing it is NOT in the approved Phase 3 scope — preserve it and flag the
+  redundancy for a user decision.
+- `react-transition-group` is used only in `src/app/routes.jsx`; once Phase 3 replaces the
+  transition mechanism with Framer Motion, it can be uninstalled per decision #3
+  ("confirm no imports → uninstall"). Bootstrap, `animate.css`, and `typewriter-effect`
+  must stay (still used by not-yet-rebuilt pages).

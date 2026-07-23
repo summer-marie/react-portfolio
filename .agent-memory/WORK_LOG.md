@@ -122,3 +122,23 @@
 **Push status:** to be pushed to `origin/feat/foundation-tokens-and-tooling`.
 
 **Remaining concerns:** 11 ESLint warnings remain in `src/pages/contact/index.jsx`, `src/pages/home/index.jsx`, `src/header/index.jsx`, `src/components/socialicons/index.jsx`, and `src/components/socialicons/Socialicons.test.jsx` — all pre-existing issues in files explicitly out of scope for this task; tracked in `docs/implementation-checklist.md` Discovered Tasks. `web-vitals` npm dependency is now orphaned (its only consumer was deleted) — also tracked there, not removed in this task since dependency removal wasn't part of the approved scope. No page layout, navigation, footer, or Bootstrap-removal work was performed — out of scope for the Foundation phase.
+
+**Push status (final):** merged into `main` as PR #7 (`81a8402`).
+
+## 2026-07-23 — Claude Code — branch `docs/phase-3-planning`
+
+**Work performed:**
+- Planning step between phases (no application code). Confirmed the Foundation phase merged to `main` (PR #7).
+- Read the current post-Foundation `src/app/routes.jsx`, `src/app/App.jsx`, and `src/header/` to ground the next prompt in the real code.
+- Produced the Phase 3 — Core Layout implementation prompt (routing updates: `/work` rename + `/portfolio` redirect + `/resume` placeholder + 404 catch-all; top Navigation replacing `src/header/`; Footer; Framer Motion page-transition wrapper with reduced-motion fallback; Container/Section layout primitives) and delivered it to the user for review/execution.
+- Refreshed agent memory (`CURRENT_SESSION.md`) to the between-phases state.
+
+**Files changed:** `.agent-memory/CURRENT_SESSION.md`, `.agent-memory/WORK_LOG.md`. No application source, styles, config, or dependencies touched.
+
+**Tests run and results:** none — documentation/memory only; no build/source impact.
+
+**Commit hashes:** (recorded on push below)
+
+**Push status:** to be pushed to `origin/docs/phase-3-planning`.
+
+**Remaining concerns:** none. The Phase 3 prompt notes two items for its executor to handle: the `Socialicons` rail vs. footer social-link redundancy (preserve rail; flag for user decision — out of Phase 3 scope), and the opportunity to uninstall `react-transition-group` once its only usage (`src/app/routes.jsx`) is replaced by Framer Motion.
