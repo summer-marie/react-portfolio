@@ -2,129 +2,133 @@
 
 ## Task Objective
 
-Build the top Navigation (replacing `src/header/`), Footer, and the Framer Motion
-page-transition wrapper; wire everything into `App.jsx`. This is the remaining half of
-Core Layout that the previous routing/primitives task explicitly deferred.
+Rebuild `src/pages/home/` from scratch: five sections (Hero → Selected Work → How I
+Work → Current Focus → Contact CTA) per `docs/02-site-architecture.md`, using
+`Container`/`Section` primitives, design tokens, and Framer Motion entrance animations.
+Remove the Bootstrap-based hero, headshot background, and typewriter loop (explicit
+anti-goals). This is the first page-content rebuild since Core Layout — Bootstrap stays
+installed (still used by Work/About/Contact, not rebuilt yet).
 
 ## Approved Scope
 
-- `src/components/navbar/` (new): sticky header/nav, active-state links, mobile drawer,
-  GitHub/LinkedIn icons, integrated `ThemeToggle`, skip-link target.
-- `src/components/footer/` (new): name, tagline, email, GitHub/LinkedIn, dynamic
-  copyright year.
-- `src/lib/motion.js` + `src/components/pagetransition/` (new): Framer Motion
-  fade+rise page transitions, `prefers-reduced-motion` aware.
-- `src/app/routes.jsx`: wrap in `AnimatePresence`/`PageTransition`.
-- `src/app/App.jsx`: compose skip-link → Navbar → `<main id="main">` → Footer.
-- `src/components/themetoggle/`: upgrade to a real `<button>` with Lucide `Sun`/`Moon`.
-- Delete `src/header/`.
-- Record the `Socialicons`/Footer redundancy as an open question (do not remove
-  `Socialicons`).
-
-Out of scope: page interiors (Home, Work, About, Contact), Bootstrap/react-bootstrap/
-animate.css/typewriter-effect, EmailJS, `src/content_option.js`.
+- Complete rewrite of `src/pages/home/index.jsx` and `style.css` only.
+- Reuse `introData`, `meta`, `projects`, `strengths`, `contactConfig` from
+  `content_option.js` (not `heroData`/`aboutData`/`worksData` — those field names do not
+  exist in the file; verified by reading it fresh rather than trusting the task
+  prompt's summary).
+- Out of scope: `src/pages/{projects,about,contact,resume}/`, Navbar/Footer/shared
+  components, `src/content_option.js` data values, uninstalling Bootstrap/
+  react-bootstrap/animate.css/typewriter-effect.
 
 ## Current Branch
 
-`feat/core-layout` (continued — the routing/primitives task on this branch name was
-already merged to `main` as PR #9; this session checked out the same local branch name
-per instruction and added new commits on top, equivalent to branching fresh from `main`).
+`feat/homepage` (created fresh from `main`, which includes the AGENTS.md multi-part-
+phase-push-timing update).
 
 ## Files Being Changed
 
-New: `src/components/navbar/index.jsx`, `style.css`; `src/components/footer/index.jsx`,
-`style.css`; `src/components/pagetransition/index.jsx`; `src/lib/motion.js`.
-Modified: `src/app/App.jsx`, `src/app/routes.jsx`, `src/app/App.css`, `src/index.css`,
-`src/components/themetoggle/index.jsx`, `style.css`, `docs/implementation-checklist.md`,
-`.agent-memory/OPEN_QUESTIONS.md`, `.agent-memory/CURRENT_SESSION.md`,
-`.agent-memory/WORK_LOG.md`.
-Deleted: `src/header/index.jsx`, `src/header/style.css`.
+- `src/pages/home/index.jsx` (full rewrite)
+- `src/pages/home/style.css` (full rewrite)
+- `src/pages/home/Home.test.jsx` (new)
+- `src/test/setup.js` (IntersectionObserver polyfill, shared)
+- `docs/implementation-checklist.md`
+- `.agent-memory/CURRENT_SESSION.md`, `.agent-memory/WORK_LOG.md`
 
 ## Tests Required
 
 `npm run build`, `npm run lint` (0 errors required), `npm run test`, `npm run test:e2e`
-— all run and passing. Manual verification at 375px/1440px via a throwaway Playwright
-script (written, run, then deleted — not committed), covering routes, sticky-scroll
-state, mobile menu (pointer/keyboard/Escape), focus management, theme toggle, footer
-contents, landmarks, skip-link, and reduced motion.
+— all run and passing. Manual verification at 375px/1440px via throwaway Playwright
+scripts (written, run, deleted — not committed): section order/headings, no legacy
+hero markup, no horizontal scroll, all CTA hrefs, card stacking/grid behavior, theme
+toggle, reduced-motion. Screenshots taken and read for visual sanity check (also
+deleted, not committed).
 
 ## Work Completed
 
-- **Icon-library constraint discovered:** Lucide's package intentionally excludes
-  brand/logo icons (`Github`/`Linkedin` do not exist in `lucide-react`; only generic
-  `Git*` icons do — verified by inspecting the package exports). Since installing a new
-  brand-icon package wasn't authorized and `react-icons` is already a dependency (used
-  identically in the pre-existing `Socialicons` component), reused `react-icons/fa`'s
-  `FaGithub`/`FaLinkedin` for just those two brand marks in both Navbar and Footer.
-  Lucide (`Menu`, `X`, `Sun`, `Moon`) is used for every generic UI icon, matching the
-  actual intent of "Lucide only."
-- Deleted `src/header/`; built `Navbar` (sticky via a passive+rAF-throttled scroll
-  listener toggling `.navbar--scrolled`, `NavLink` active state with `aria-current`,
-  mobile hamburger drawer below 768px with focus-into-menu on open, Escape-to-close +
-  focus-return-to-trigger, body-scroll lock while open, close on link click and on route
-  change).
-- Built `Footer` (name, `meta.description` as tagline, `mailto:` email link, GitHub/
-  LinkedIn icons, `new Date().getFullYear()` copyright, stacks on mobile).
-- Upgraded `ThemeToggle` to a real `<button aria-label="Switch to ... theme">` with
-  Lucide `Sun`/`Moon` (icon reflects the action: Sun shown in dark mode = "switch to
-  light", Moon shown in light mode = "switch to dark"); toggle/localStorage logic
-  unchanged.
-- Added `--nav-height: 4.5rem` token to `src/index.css`; changed `body`'s
-  `padding-top: 60px` to `padding-top: var(--nav-height)`; removed the decorative
-  `border-left`/`border-right` frame declarations on `body` (the other half of the
-  `.br-*` template-cruft frame, whose four fixed divs lived in the now-deleted
-  `src/header/index.jsx`). Added a `.skip-link` utility (offscreen until focused).
-  Removed a now-vestigial `.s_c { padding-top: 40px }` mobile-only rule from
-  `src/app/App.css` that compensated for the old header's mobile layout and no longer
-  serves a purpose now that Navbar has a single consistent height.
-- Added `src/lib/motion.js`: JS constants mirroring the CSS motion tokens (Framer
-  Motion's transition config needs numeric seconds/cubic-bezier arrays, not `var()`
-  strings, so these are hand-kept in sync with `src/index.css`) plus a
-  `pageTransitionVariants` object (default: opacity+`y` fade/rise at
-  `--duration-page`/`--ease-standard`; reduced: nearly-instant, no offset).
-  `PageTransition` (`src/components/pagetransition/`) wraps route content in a
-  `motion.div`, picking the reduced variant via `useReducedMotion()`.
-- Rewrote `src/app/routes.jsx`: each route element now wraps its page in
-  `PageTransition`; `<Routes location={location} key={location.pathname}>` inside
-  `<AnimatePresence mode="wait">` (the standard Framer Motion route-transition
-  pattern — the `key` forces remount on path change so `AnimatePresence` can run exit
-  animations). The `/portfolio` → `/work` redirect route is left unwrapped (a redirect
-  shouldn't animate).
-- Composed `App.jsx`: skip-link (first child of the router tree) → `ScrollToTop` →
-  `Navbar` → `<main id="main">` wrapping `AppRoutes` → `Footer`.
-- **Bug found and fixed during manual verification:** the brand/logo link was also a
-  `NavLink to="/"`, so at the root route both it and the "Home" nav item independently
-  became active and both got `aria-current="page"` simultaneously (confirmed via a
-  Playwright check — two elements matched `a[aria-current="page"]` at `/`). Changed the
-  brand to a plain `Link` (no active-state semantics needed for a logo); re-verified only
-  one element is ever active/`aria-current` per route now.
-- **Pre-existing issue found, not fixed (out of scope):** horizontal scroll at 375px
-  exists on `/work` and `/about` specifically — isolated via a per-route
-  `scrollWidth`/`clientWidth` check showing `/`, `/resume`, `/contact`, and the shell
-  chrome are all clean, so the overflow originates in the untouched `Portfolio`/`About`
-  page-interior content (Bootstrap grid/images), not in anything built this session.
-  Recorded in `docs/implementation-checklist.md` Discovered Tasks for the pages'
-  eventual rebuild phases.
-- Recorded the `Socialicons` rail vs. Footer redundancy in
-  `.agent-memory/OPEN_QUESTIONS.md` (rail preserved, not removed, per scope).
-- Marked `[x]` Routing, Theme, Navigation, Footer, Design Tokens under Foundation in
-  `docs/implementation-checklist.md`; added three Discovered Tasks entries (web-vitals,
-  ESLint warning count correction, the 375px overflow finding, and the Socialicons
-  question).
-- Full verification suite: build (pass), lint (0 errors, 10 warnings — one fewer than
-  before since `src/header/`'s warning no longer exists), unit tests (pass), e2e smoke
-  test (pass). Manual Playwright-driven checks at 375px and 1440px covered every item in
-  the task's verification list; script deleted after use.
+- Read the wireframe (`docs/wireframes/homepage-1440.png`) successfully — no image
+  issues. Noted it as layout reference only (section order/hierarchy), not a color/
+  type/motion spec — the wireframe's serif display font, stock photography, and dark
+  hero background image are wireframe-tool placeholders, not things to replicate; real
+  typography/color come from tokens, and no stock/placeholder photography was used
+  anywhere (avoids AGENTS.md's "no copyrighted reference imagery as production
+  content").
+- **Discrepancy found and resolved:** the task's "KNOWN STATE" section claimed
+  `content_option.js` has `heroData`/`aboutData`/`worksData` fields. Re-reading the file
+  fresh showed the actual exports are `introData`, `dataAbout`, `projects`, `strengths`,
+  etc. — different names entirely. Mapped accordingly: Hero ← `introData.title` (h1) +
+  `meta.description` (tagline, verbatim); Selected Work ← `projects` (2 available,
+  `.slice(0,3)` so a future 3rd project is picked up automatically); How I Work ←
+  `strengths` (3 items — used `.title` + first sentence of `.description` only, since
+  the full paragraphs are too long for "concise" card copy; matches an existing
+  precedent in the pre-rebuild home page, which also truncated `introData.description`
+  via `.split()`).
+- **Current Focus has no data source at all** in `content_option.js` — per the task's
+  own instructions, left as an explicit placeholder: a JSX comment above a single,
+  honestly-labeled paragraph ("Current focus areas are coming soon."), left unchecked
+  in the checklist, and recorded as a Discovered Task asking for a real
+  `content_option.js` export.
+- Built all five sections with `Container`/`Section` primitives, token-only CSS (no
+  hex, no magic-number px — the few `px` values present are all justified: `1px`
+  borders, sub-pixel hover-lift transforms matching the "tiny upward movement" hover
+  guidance in `docs/03-motion-and-components.md`, and Framer Motion's `viewport`
+  margin prop, which is a JS scroll-trigger threshold, not a CSS token candidate).
+- Entrance animation: Hero uses immediate `animate` (fade + rise, `PAGE_TRANSITION_OFFSET`/
+  `DURATION_ENTRANCE`/`EASE_STANDARD` from `src/lib/motion.js`); the other four sections
+  use `whileInView` (same variant, triggers once on scroll) with staggered children for
+  the Selected Work and How I Work card grids. All reduced-motion-aware via
+  `useReducedMotion()`.
+- **Ran the numbers on WCAG AA contrast** before committing to a color choice: the
+  filled/solid CTA buttons (white-ish text on accent background) fail AA in light theme
+  at `--color-accent` (4.19:1, below the 4.5:1 threshold for normal text) but pass
+  comfortably at `--color-accent-strong` (5.83:1 light, even higher dark) — used
+  `--color-accent-strong` for both solid buttons instead of `--color-accent`. Verified
+  body text and muted text against both theme backgrounds too (15+:1 and 5.4–8+:1
+  respectively) — all pass.
+- Verified all 5 planned Lucide icons (`ArrowRight`, `Mail`, `Layers`, `ShieldCheck`,
+  `Sparkles`) actually exist in the installed package before using them (lesson learned
+  from the Navbar task's Github/Linkedin discovery).
+- **Screenshot-verification debugging:** initial `fullPage` Playwright screenshots
+  appeared to show most of the page below the hero as blank/missing. Diagnosed this as
+  a screenshot-methodology artifact, not a real bug — `whileInView` sections'
+  IntersectionObservers never fired because `fullPage` screenshots resize-and-capture
+  rather than scrolling incrementally. Confirmed via direct `scrollIntoViewIfNeeded()` +
+  computed-style checks on every section that each one correctly reaches `opacity: 1`
+  with zero console errors. Re-captured screenshots by scrolling to each `whileInView`
+  target first (their `once: true` state then persists); the corrected screenshots show
+  the full page rendering correctly in both themes and at both viewports. A "duplicate
+  navbar mid-page" artifact in `fullPage` screenshots was separately confirmed to be a
+  known Playwright/browser limitation with `position: fixed` elements during
+  full-page stitching, not a real rendering issue (confirmed via plain, non-fullPage
+  viewport screenshots at scroll position 0 and 800px).
+- Full verification suite: build (pass), lint (0 errors, 9 warnings — one fewer than
+  before, home's old unescaped-entity warning is gone), unit tests (pass), e2e smoke
+  test (pass). Grep checks: no bootstrap/typewriter/animate.css references, no hex
+  colors; all `px` matches reviewed and justified (see above).
+- Added `src/pages/home/Home.test.jsx` (Vitest + React Testing Library, matching the
+  existing `Socialicons.test.jsx` pattern): renders `<Home />` in a `MemoryRouter`,
+  asserts the h1 and all four h2 headings exist, and the primary/secondary hero CTAs
+  point to `/work`/`/contact`.
+  **Discovered while adding it:** jsdom (the test environment) has no
+  `IntersectionObserver`, which Framer Motion's `whileInView` requires — the test
+  crashed with `ReferenceError: IntersectionObserver is not defined`. This is a known
+  jsdom gap, not a real bug (already confirmed working correctly in actual Chromium via
+  Playwright). Added a minimal no-op polyfill to the shared `src/test/setup.js` so this
+  and any future `whileInView`-using test can mount without crashing.
+- Updated `docs/implementation-checklist.md`: checked Hero/Featured Work/Engineering
+  Philosophy/CTA under Homepage; added a "Current Focus" line (didn't previously exist
+  in the checklist template) and left it unchecked; corrected the ESLint warning count
+  in Discovered Tasks (10 → 9) and added a Discovered Task for the Current Focus data
+  gap.
 
 ## Work Remaining
 
-- Commit in small coherent commits and push.
+- Commit in the suggested sequence and push.
 
 ## Current Blockers
 
-None. Two items intentionally left open per scope: the `Socialicons`/Footer redundancy
-(user decision) and the pre-existing `/work`+`/about` horizontal-scroll bug (belongs to
-those pages' rebuild phases).
+None. Two items carried forward: the Current Focus placeholder needs real
+`content_option.js` data (tracked), and the pre-existing `/work`+`/about` horizontal-
+scroll bug remains untouched (out of scope, tracked since the prior task).
 
 ## Last Verified Command and Result
 

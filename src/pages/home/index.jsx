@@ -1,72 +1,222 @@
 import React from "react";
 import "./style.css";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import Typewriter from "typewriter-effect";
-import { introData, meta } from "../../content_option.js";
 import { Link } from "react-router";
+import { motion, useReducedMotion } from "framer-motion";
+import { ArrowRight, Layers, Mail, ShieldCheck, Sparkles } from "lucide-react";
+import { Container } from "../../components/container/index.jsx";
+import { Section } from "../../components/section/index.jsx";
+import { contactConfig, introData, meta, projects, strengths } from "../../content_option.js";
+import {
+  DURATION_ENTRANCE,
+  DURATION_REDUCED,
+  EASE_STANDARD,
+  PAGE_TRANSITION_OFFSET,
+} from "../../lib/motion.js";
+
+const STRENGTH_ICONS = [Layers, ShieldCheck, Sparkles];
 
 export const Home = () => {
+  const prefersReducedMotion = useReducedMotion();
+
+  const entranceTransition = prefersReducedMotion
+    ? { duration: DURATION_REDUCED }
+    : { duration: DURATION_ENTRANCE, ease: EASE_STANDARD };
+
+  const fadeRise = {
+    hidden: {
+      opacity: prefersReducedMotion ? 1 : 0,
+      y: prefersReducedMotion ? 0 : PAGE_TRANSITION_OFFSET,
+    },
+    show: { opacity: 1, y: 0, transition: entranceTransition },
+  };
+
+  const staggerContainer = {
+    hidden: {},
+    show: {
+      transition: { staggerChildren: prefersReducedMotion ? 0 : 0.12 },
+    },
+  };
+
+  const featuredProjects = projects.slice(0, 3);
+
   return (
     <HelmetProvider>
-      <section id="home" className="home">
+      <div className="home">
         <Helmet>
           <meta charSet="utf-8" />
-          <title> {meta.title}</title>
+          <title>{meta.title}</title>
           <meta name="description" content={meta.description} />
         </Helmet>
-        <div className="intro_sec d-block d-lg-flex align-items-center ">
-          <div
-            className="h_bg-image order-1 order-lg-2 h-100 "
-            style={{ backgroundImage: `url(${introData.your_img_url})` }}
-          ></div>
-          <div className="text order-2 order-lg-1 h-100 d-lg-flex justify-content-center">
-            <div className="align-self-center ">
-              <div className="intro mx-auto">
-                <h2 className="mb-1x">{introData.title}</h2>
-                <h1 className="fluidz-48 mb-1x">
-                  <Typewriter
-                    options={{
-                      strings: [
-                        introData.animated.first,
-                        introData.animated.second,
-                        introData.animated.third,
-                        introData.animated.fourth,
-                      ],
-                      autoStart: true,
-                      loop: true,
-                      deleteSpeed: 10,
-                    }}
-                  />
-                </h1>
-                <p className="mb-1x">
-                  {introData.description.split('. I\'m eager to contribute my developing web development skills.')[0]}.
-                </p>
-                <p className="mb-1x" style={{ marginTop: '1.5rem' }}>
-                  I'm eager to contribute my developing web development skills.
-                </p>
-                <div className="intro_btn-action pb-5">
-                  <Link to="/portfolio" className="text_2">
-                    <div id="button_p" className="ac_btn btn ">
-                      My Projects
-                      <div className="ring one"></div>
-                      <div className="ring two"></div>
-                      <div className="ring three"></div>
-                    </div>
-                  </Link>
-                  <Link to="/contact">
-                    <div id="button_h" className="ac_btn btn">
-                      Contact Me
-                      <div className="ring one"></div>
-                      <div className="ring two"></div>
-                      <div className="ring three"></div>
-                    </div>
-                  </Link>
-                </div>
+
+        <Section className="home-hero" aria-labelledby="home-hero-heading">
+          <Container>
+            <motion.div
+              className="home-hero__content"
+              initial="hidden"
+              animate="show"
+              variants={fadeRise}
+            >
+              <h1 id="home-hero-heading" className="home-hero__heading">
+                {introData.title}
+              </h1>
+              <p className="home-hero__tagline">{meta.description}</p>
+              <div className="home-hero__actions">
+                <Link to="/work" className="home-hero__cta home-hero__cta--primary">
+                  View Work
+                  <ArrowRight aria-hidden="true" />
+                </Link>
+                <Link to="/contact" className="home-hero__cta home-hero__cta--secondary">
+                  Contact Me
+                </Link>
               </div>
+            </motion.div>
+          </Container>
+        </Section>
+
+        <Section className="home-work" aria-labelledby="home-work-heading">
+          <Container>
+            <motion.h2
+              id="home-work-heading"
+              className="home-section-heading"
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-80px" }}
+              variants={fadeRise}
+            >
+              Selected Work
+            </motion.h2>
+
+            <motion.ul
+              className="home-work__list"
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-80px" }}
+              variants={staggerContainer}
+            >
+              {featuredProjects.map((project) => (
+                <motion.li key={project.title} className="home-work__item" variants={fadeRise}>
+                  <a
+                    className="home-work__card"
+                    href={project.link}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <img
+                      className="home-work__image"
+                      src={project.images[0]}
+                      alt={`${project.title} preview screenshot`}
+                    />
+                    <div className="home-work__body">
+                      <h3 className="home-work__title">{project.title}</h3>
+                      <p className="home-work__description">{project.description}</p>
+                      {project.technologies && (
+                        <ul className="home-work__tags">
+                          {project.technologies.map((tech) => (
+                            <li key={tech} className="home-work__tag">
+                              {tech}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  </a>
+                </motion.li>
+              ))}
+            </motion.ul>
+
+            <div className="home-work__footer">
+              <Link to="/work" className="home-section-link">
+                View all work
+                <ArrowRight aria-hidden="true" />
+              </Link>
             </div>
-          </div>
-        </div>
-      </section>
+          </Container>
+        </Section>
+
+        <Section className="home-how" aria-labelledby="home-how-heading">
+          <Container>
+            <motion.h2
+              id="home-how-heading"
+              className="home-section-heading"
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-80px" }}
+              variants={fadeRise}
+            >
+              How I Work
+            </motion.h2>
+
+            <motion.ul
+              className="home-how__list"
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-80px" }}
+              variants={staggerContainer}
+            >
+              {strengths.map((strength, index) => {
+                const Icon = STRENGTH_ICONS[index % STRENGTH_ICONS.length];
+                const firstSentence = strength.description.split(". ")[0].replace(/\.*$/, ".");
+
+                return (
+                  <motion.li key={strength.title} className="home-how__item" variants={fadeRise}>
+                    <Icon className="home-how__icon" aria-hidden="true" />
+                    <h3 className="home-how__title">{strength.title}</h3>
+                    <p className="home-how__summary">{firstSentence}</p>
+                  </motion.li>
+                );
+              })}
+            </motion.ul>
+          </Container>
+        </Section>
+
+        <Section className="home-focus" aria-labelledby="home-focus-heading">
+          <Container>
+            <motion.h2
+              id="home-focus-heading"
+              className="home-section-heading"
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-80px" }}
+              variants={fadeRise}
+            >
+              Current Focus
+            </motion.h2>
+            {/*
+              Placeholder: content_option.js does not yet export a "current focus"
+              field. Replace this paragraph with real data (e.g. a currentFocus
+              export) once it exists. See docs/implementation-checklist.md.
+            */}
+            <p className="home-focus__placeholder">Current focus areas are coming soon.</p>
+          </Container>
+        </Section>
+
+        <Section className="home-cta" aria-labelledby="home-cta-heading">
+          <Container narrow>
+            <motion.div
+              className="home-cta__content"
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-80px" }}
+              variants={fadeRise}
+            >
+              <h2 id="home-cta-heading" className="home-cta__heading">
+                Ready to build something together
+              </h2>
+              <p className="home-cta__text">{contactConfig.description}</p>
+              <div className="home-cta__actions">
+                <a className="home-cta__link" href={`mailto:${contactConfig.YOUR_EMAIL}`}>
+                  <Mail aria-hidden="true" />
+                  {contactConfig.YOUR_EMAIL}
+                </a>
+                <Link to="/contact" className="home-cta__button">
+                  Go to Contact
+                </Link>
+              </div>
+            </motion.div>
+          </Container>
+        </Section>
+      </div>
     </HelmetProvider>
   );
 };

@@ -204,8 +204,69 @@
 - `Get-ChildItem`/`ls` equivalent confirming `src/components/navbar`, `src/components/footer` exist and `src/header` does not.
 - Manual verification via a throwaway Playwright script (removed after use, not committed) at 375px and 1440px: all five routes render with correct single active nav item and `aria-current`; landmarks (`header`=1, `main#main`=1, `footer`=1); skip-link is the first Tab-focused element; footer contents (name, tagline, mailto, copyright with current year) correct; sticky nav gains `.navbar--scrolled` on scroll; theme toggle switches themes and updates its `aria-label` in both directions; hamburger hidden on desktop, visible on mobile; mobile menu opens via pointer with focus moving in, closes via Escape with focus returning to the trigger, closes on link click/route change with body-scroll lock released; reduced-motion navigation completes near-instantly; zero console errors in every check.
 
-**Commit hashes:** (recorded on push below)
+**Commit hashes:**
+- `9def9e7` — chore: add nav-height token, skip-link utility, remove frame remnants
+- `e53a4df` — feat: upgrade ThemeToggle to a real button with Lucide icons
+- `7cb6990` — feat: replace header with an accessible top Navigation
+- `c53b3f8` — feat: add site Footer
+- `8a10caa` — feat: replace page transitions with Framer Motion (fade + rise)
+- `bbeeb3c` — feat: compose app shell with Navbar, main landmark, and Footer
+- `b41d743` — docs: mark Theme, Navigation, and Footer complete in checklist
+- `1048627` — chore: update agent memory for Navigation/Footer/transitions task
 
-**Push status:** to be pushed to `origin/feat/core-layout`.
+**Push status (final):** pushed to `origin/feat/core-layout`; merged into `main` as PR #10 (`a8cb457`).
 
 **Remaining concerns:** two items intentionally left open per scope — the `Socialicons`/Footer redundancy (user decision, see `.agent-memory/OPEN_QUESTIONS.md`) and the pre-existing `/work`+`/about` 375px horizontal-scroll bug (belongs to those pages' rebuild phases, tracked in `docs/implementation-checklist.md` Discovered Tasks). No page interiors, Bootstrap, or EmailJS were touched.
+
+## 2026-07-23 — Claude Code — branch `main` (AGENTS.md doc update)
+
+**Work performed:**
+- User requested a new AGENTS.md rule documenting the push-timing lesson from the feat/core-layout branch reuse (two prompts, same branch name, forcing two separate merge cycles for what the user experienced as one continuous task). Added a "Multi-Part Phases on a Shared Branch" subsection under Git Workflow §4: commit normally, but hold pushes until the user confirms the branch/phase is finished.
+- Also saved a matching feedback memory outside the repo (Claude's persistent memory system) for future sessions.
+- Per explicit user instruction, committed directly on `main` (no branch/PR) since the user was pushing this one themselves.
+
+**Files changed:** `AGENTS.md`.
+
+**Tests run and results:** none required — single-line documentation addition, no code impact.
+
+**Commit hashes:**
+- `7f76acf` — docs: document push timing for multi-part phases on a shared branch
+
+**Push status:** committed locally on `main`; user pushing directly themselves (explicit instruction, not the agent).
+
+**Remaining concerns:** none.
+
+## 2026-07-23 — Claude Code — branch `feat/homepage`
+
+**Work performed:**
+- Rebuilt `src/pages/home/` from scratch: five sections (Hero, Selected Work, How I Work, Current Focus, Contact CTA) per `docs/02-site-architecture.md`, using `Container`/`Section` primitives and design tokens throughout. Removed the Bootstrap-based hero markup, the headshot background image, and the `typewriter-effect` loop entirely (explicit anti-goals).
+- **Verified `content_option.js` fresh before writing code** — the task prompt's "KNOWN STATE" section claimed fields (`heroData`, `aboutData`, `worksData`) that do not exist in the actual file; used the real exports (`introData`, `dataAbout`, `projects`, `strengths`, `contactConfig`) instead.
+- Hero: `introData.title` as h1, `meta.description` as tagline (verbatim, no fabrication), primary CTA → `/work`, secondary CTA → `/contact`, no image — ambient token-based gradient tint only.
+- Selected Work: `projects.slice(0, 3)` (2 available today) as cards linking to each project's real `link` URL, plus a "View all work" link to `/work`.
+- How I Work: `strengths` (3 items) — used `.title` + first sentence of `.description` only (concise; full paragraphs were too long for card copy — same truncation precedent the pre-rebuild home page used).
+- Current Focus: no matching `content_option.js` field exists — left as an explicit, honestly-labeled placeholder (JSX comment + a plain "coming soon" line), left unchecked in the checklist, and added as a Discovered Task asking for a real data export.
+- Contact CTA: `contactConfig.description` + `contactConfig.YOUR_EMAIL` mailto link + `/contact` button.
+- Entrance animation: Hero fades/rises immediately on mount; the other four sections use `whileInView` (same variant, staggered children for the two card grids), all built from `src/lib/motion.js` constants and reduced-motion-aware via `useReducedMotion()`.
+- **Contrast check before committing to a button color:** `--color-accent` as a solid-button background fails WCAG AA in light theme (4.19:1); `--color-accent-strong` passes comfortably in both themes (5.83:1 light, higher dark) — used `--color-accent-strong` for both solid CTA buttons instead.
+- Verified all 5 new Lucide icon imports (`ArrowRight`, `Mail`, `Layers`, `ShieldCheck`, `Sparkles`) actually exist in the installed package before using them.
+- **Screenshot debugging:** initial `fullPage` Playwright screenshots showed most of the page as blank below the hero. Diagnosed as a screenshot-methodology artifact (whileInView sections' IntersectionObservers never fired because fullPage capture doesn't scroll incrementally), not a real bug — confirmed via direct `scrollIntoViewIfNeeded()` + computed-style checks that every section reaches `opacity: 1` correctly with zero console errors. Re-captured screenshots correctly after scrolling to each target first. Also confirmed a "duplicate navbar mid-page" artifact in fullPage screenshots is a known Playwright/`position: fixed` limitation, not a real rendering issue (via plain, non-fullPage viewport screenshots).
+
+- Added `src/pages/home/Home.test.jsx` (Vitest + RTL, matching the existing `Socialicons.test.jsx` pattern): asserts the h1, all four h2 section headings, and the primary/secondary hero CTA hrefs. Discovered jsdom has no `IntersectionObserver` (required by Framer Motion's `whileInView`) — added a minimal no-op polyfill to the shared `src/test/setup.js` so this test (and any future one using scroll-triggered motion) can mount without crashing; not a real bug, already confirmed working in actual Chromium.
+
+**Files changed:** `src/pages/home/index.jsx` (full rewrite), `src/pages/home/style.css` (full rewrite), `src/pages/home/Home.test.jsx` (new), `src/test/setup.js`, `docs/implementation-checklist.md`, `.agent-memory/CURRENT_SESSION.md`, `.agent-memory/WORK_LOG.md`.
+
+**Tests run and results:**
+- `npm run build` — PASSED.
+- `npm run lint` — PASSED: 0 errors, 9 warnings (same baseline as before the polyfill/test addition — the new test file was written with an explicit React import to stay warning-free).
+- `npm run test` — PASSED (2/2 — Socialicons + the new Home test).
+- `npm run test:e2e` — PASSED (1/1).
+- Grep for `bootstrap|typewriter|animate\.css` in `src/pages/home/` — no matches.
+- Grep for hex colors in `src/pages/home/` — no matches.
+- Grep for `px` in `src/pages/home/` — all matches reviewed and justified (1px borders, sub-pixel hover-lift transforms matching the motion doc's hover guidance, `text-underline-offset: 2px`, Framer Motion's `viewport` margin prop).
+- Manual Playwright verification at 375px and 1440px (scripts written, run, then deleted — not committed): correct section order and heading hierarchy (1 h1, 4 h2), no legacy `.h_bg-image`/`.Typewriter` markup, no horizontal scroll at either width, all CTA hrefs correct, Selected Work cards stack to 1 column on mobile and stretch evenly to fill the row on desktop (confirmed via bounding-box measurement, not just computed grid-template-columns), theme toggle switches correctly at desktop width, reduced-motion content is immediately at full opacity. Screenshots read visually in both themes and at both viewports — clean, matches the wireframe's layout hierarchy while using tokens (not the wireframe's placeholder serif font/stock photography).
+
+**Commit hashes:** (recorded on push below)
+
+**Push status:** to be pushed to `origin/feat/homepage`.
+
+**Remaining concerns:** Current Focus section is a placeholder pending real `content_option.js` data (tracked in Discovered Tasks). The pre-existing `/work`+`/about` horizontal-scroll bug is untouched (out of scope for this task). No other pages, Bootstrap, or `content_option.js` data values were touched.
