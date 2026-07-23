@@ -2,39 +2,45 @@
 
 ## Task Objective
 
-Phase 0 — Documentation Consistency: fix wrong file references in `AGENTS.md`'s Required Reading Order (Section 2) and Implementation Standards (Section 8). Documentation only; no application code, styles, or configuration.
+Record the approved Phase 1 architecture-review decisions durably, following the
+project's Decision Records policy. Documentation and agent memory only — no application
+source changes.
 
 ## Approved Scope
 
-- Correct `AGENTS.md` Section 2, items 10–12, to reference the actual committed doc filenames.
-- Correct `AGENTS.md` Section 8's `docs\04-engineering-standards.md` reference to `docs\05-engineering-standards.md`.
-- No changes to `docs/implementation-checklist.md` (already valid task-list syntax).
-- No project architecture, application source, or other doc-content changes.
+- Write the nine approved migration decisions to `docs/decisions.md` (durable source of truth).
+- Mirror a summary into `.agent-memory/DECISIONS.md` (working memory).
+- Update agent memory (`CURRENT_SESSION.md`, `WORK_LOG.md`).
+- Prepare (as text, not execute) the next scoped prompt for the documentation-correction task.
+
+Out of scope: any application source, styles, configuration, or dependency changes.
 
 ## Current Branch
 
-`docs/fix-doc-references`
+`docs/record-architecture-decisions`
 
 ## Files Being Changed
 
-- `AGENTS.md`
+- `docs/decisions.md` (was empty; now the durable decision record)
+- `.agent-memory/DECISIONS.md`
+- `.agent-memory/CURRENT_SESSION.md`
+- `.agent-memory/WORK_LOG.md`
 
 ## Tests Required
 
-None (documentation-only change). Verification via `Select-String` reference checks and `npm run build`.
+None (documentation/memory only). No build impact expected.
 
 ## Work Completed
 
-- Verified actual `docs/` filenames via directory listing: `03-motion-and-components.md`, `04-build-plan.md`, `05-engineering-standards.md` all exist.
-- Corrected `AGENTS.md` Section 2, items 10–12, to the actual filenames (dropped stale ", when created" note on `04-build-plan.md` since it now exists).
-- Corrected `AGENTS.md` Section 8 reference from `04-engineering-standards.md` to `05-engineering-standards.md`.
-- Confirmed via `Select-String` that corrected references are present and old wrong references (`03-design-system`, `04-engineering-standards`) are gone.
-- Ran `npm run build` — passed.
-- Committed (`1e28323`) and pushed to `origin/docs/fix-doc-references`.
+- Read all required files per AGENTS.md Section 2 for the Phase 1 architecture review.
+- Delivered the read-only architecture review; user approved with nine decisions.
+- Recorded all nine decisions in `docs/decisions.md`.
+- Mirrored a decision summary into `.agent-memory/DECISIONS.md`.
 
 ## Work Remaining
 
-None. Task complete; stopped per Section 10 Stop Condition to await user review/approval.
+- Commit and push this branch.
+- Hand off the prepared documentation-correction prompt for the user to run as the next task.
 
 ## Current Blockers
 
@@ -42,4 +48,11 @@ None.
 
 ## Last Verified Command and Result
 
-`npm run build` — succeeded (`vite build`, output in `dist/`).
+`git fetch --prune` / `git log` — confirmed Phase 0 (`docs/fix-doc-references`) merged as
+PR #4 into `main`; branched `docs/record-architecture-decisions` from latest `main`.
+
+## Next Task (prepared, not started)
+
+Documentation-correction task (decision #7): fix stale filename references in
+`docs/README.md` and `docs/wireframes/README.md`. Scoped prompt handed to the user.
+Must run before application implementation begins.

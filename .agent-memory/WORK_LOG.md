@@ -48,6 +48,26 @@
 **Commit hashes:**
 - `1e28323` — docs: correct file references in AGENTS.md reading order
 
-**Push status:** pushed to `origin/docs/fix-doc-references`.
+**Push status:** pushed to `origin/docs/fix-doc-references`. Merged into `main` as PR #4.
 
 **Remaining concerns:** none. Documentation-only change; no application code, styles, or configuration touched.
+
+## 2026-07-23 — Claude Code — branch `docs/record-architecture-decisions`
+
+**Work performed:**
+- Completed the Phase 1 architecture review (read-only assessment) and delivered it to the user.
+- User approved the review with nine migration decisions.
+- Recorded all nine decisions durably in `docs/decisions.md` (previously empty), which is now the source of truth per decision #8.
+- Mirrored a decision summary into `.agent-memory/DECISIONS.md`.
+- Updated `.agent-memory/CURRENT_SESSION.md` to reflect the new task.
+- Prepared (as text, handed to the user — not executed) the next scoped prompt for the documentation-correction task (decision #7).
+
+**Files changed:** `docs/decisions.md`, `.agent-memory/DECISIONS.md`, `.agent-memory/CURRENT_SESSION.md`, `.agent-memory/WORK_LOG.md`.
+
+**Tests run and results:** none required — documentation and agent-memory only; no build/source impact.
+
+**Commit hashes:** (recorded on push below)
+
+**Push status:** to be pushed to `origin/docs/record-architecture-decisions`.
+
+**Remaining concerns:** none. No application source, styles, configuration, or dependencies were touched. Dependency installation and implementation begin in later, separately scoped phase tasks; the documentation-correction task (decision #7) should run before application implementation.
