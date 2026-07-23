@@ -22,7 +22,12 @@
         "build": "vite build",
         "preview": "vite preview",
         "predeploy": "npm run build && cp dist/index.html dist/404.html",
-        "deploy": "gh-pages -d dist"
+        "deploy": "gh-pages -d dist",
+        "test": "vitest run",
+        "test:watch": "vitest",
+        "test:coverage": "vitest run --coverage",
+        "test:e2e": "playwright test",
+        "test:e2e:ui": "playwright test --ui"
     },
     "browserslist": {
         "production": [
@@ -37,7 +42,17 @@
         ]
     },
     "devDependencies": {
+        "@playwright/test": "^1.61.1",
+        "@testing-library/jest-dom": "^7.0.0",
+        "@testing-library/react": "^16.3.2",
+        "@testing-library/user-event": "^14.6.1",
         "@vitejs/plugin-react": "^4.5.2",
-        "vite": "^6.3.5"
+        "@vitest/coverage-v8": "^4.1.10",
+        "jsdom": "^29.1.1",
+        "vite": "^6.3.5",
+        "vitest": "^4.1.10"
+    },
+    "allowScripts": {
+        "esbuild@0.25.5": true
     }
 }
