@@ -674,3 +674,20 @@ Agents should:
 - Use placeholders for missing assets.
 
 Do not redesign approved layouts without user approval.
+
+### Wireframe Usage
+
+Wireframes define page layout, hierarchy, spacing, and content placement.
+
+They do not define:
+
+- Colors
+- Typography
+- Shadows
+- Gradients
+- Motion
+- Component styling
+
+Those are defined by the project documentation.
+
+Implement the structure shown in the wireframes while following the design system and engineering standards.
