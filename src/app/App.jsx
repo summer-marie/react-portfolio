@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css'
 import { BrowserRouter as Router, useLocation } from 'react-router'
 import withRouter from '../hooks/withRouter.jsx'
 import AppRoutes from './routes.jsx'
 import { Navbar } from '../components/navbar/index.jsx'
 import { Footer } from '../components/footer/index.jsx'
-import './App.css'
 
 function ScrollToTopBase(props) {
   const { pathname } = useLocation()

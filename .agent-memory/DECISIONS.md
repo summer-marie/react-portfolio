@@ -100,3 +100,51 @@ rebuild task.
 
 **Files/Systems Affected:** `src/app/routes.jsx` (import/usage rename only — route
 paths untouched), `src/components/navbar/index.jsx` (untouched).
+
+## 2026-07-23 — Final phase: "Bootstrap" content string doesn't block the Bootstrap uninstall
+
+**Decision:** During the Final-phase Bootstrap/legacy removal task, the required
+grep (`bootstrap|react-bootstrap|animate\.css|typewriter`) turned up one match in
+`src/` after removing the actual `bootstrap` CSS import: `src/content_option.js`
+lists `"Bootstrap"` as a skill name (with a `value: 60` percentage, unused by any
+component — skills render as name-only badges) in the `skills` array shown on the
+About and Resume pages. Treated this as page content describing a technology the
+developer knows, not a package usage, and proceeded with `npm uninstall bootstrap
+react-bootstrap animate.css typewriter-effect` rather than skipping the uninstall
+per the task's literal "any match found → do not uninstall" instruction.
+
+**Reason:** The instruction's intent is to catch unexpected code-level remnants of
+the removed packages (stray imports, leftover component usage), not incidental
+substring matches in unrelated content data. Blocking a verified-safe uninstall
+over a skill-name string would contradict the task's own stated goal.
+
+**Source/Approver:** Implementing agent's judgment call, recorded here per
+`AGENTS.md` Decision Escalation guidance rather than silently reinterpreting the
+safety gate. `npm run build`/`lint`/`test` all passed after the uninstall.
+
+**Files/Systems Affected:** `package.json`, `package-lock.json`, `src/app/App.jsx`
+(removed `bootstrap/dist/css/bootstrap.min.css` import), `src/app/App.css`
+(deleted — its only rules were dead Bootstrap grid overrides).
+
+## 2026-07-23 — Final phase: light-theme `--color-accent` link text raised to `--color-accent-strong`
+
+**Decision:** During the Final-phase accessibility audit, calculated WCAG contrast
+for `--color-accent` (#a8632f) against `--color-bg` (#f7f2e9) in the light theme:
+~4.19:1, under the 4.5:1 AA minimum for normal-size text. Three default-state text
+links used `--color-accent` directly: `.home-section-link`, `.contact-info__email`,
+`.notfound-page__link`. Changed all three to `--color-accent-strong` (5.83:1 light,
+8.15:1 dark) instead of changing the shared `--color-accent` token itself, since
+darkening the token enough to pass 4.5:1 would make it nearly indistinguishable
+from `--color-accent-strong` and affect every other consumer (icons, borders,
+hover-only states) that doesn't need the change.
+
+**Reason:** `AGENTS.md`/task briefing explicitly authorized fixing token values (or
+usages) for "visually suspect" contrast during this audit; this is a numeric
+failure, not just a visual judgment call.
+
+**Source/Approver:** Implementing agent, within the explicit scope of the Final
+phase's accessibility audit task.
+
+**Files/Systems Affected:** `src/pages/home/style.css`, `src/pages/contact/style.css`
+(also changed the email link's hover color from `--color-accent-strong` to
+`--color-text` so hover still reads as a distinct state), `src/pages/notfound/style.css`.

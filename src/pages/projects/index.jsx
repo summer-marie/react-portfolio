@@ -16,6 +16,9 @@ import {
 
 const CAROUSEL_INTERVAL_MS = 3000;
 
+const PAGE_DESCRIPTION =
+  "Explore selected software projects by Summer Halsey, a full stack developer working in React, Node.js, and MongoDB, focused on clean UX and solid engineering.";
+
 export const WorkPage = () => {
   const prefersReducedMotion = useReducedMotion();
   const [currentImageIndex, setCurrentImageIndex] = useState({});
@@ -92,7 +95,12 @@ export const WorkPage = () => {
         <Helmet>
           <meta charSet="utf-8" />
           <title>Work | {meta.title}</title>
-          <meta name="description" content={meta.description} />
+          <meta name="description" content={PAGE_DESCRIPTION} />
+          <meta property="og:title" content={`Work | ${meta.title}`} />
+          <meta property="og:description" content={PAGE_DESCRIPTION} />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content="https://shalsey.dev/work" />
+          <meta name="robots" content="index, follow" />
         </Helmet>
 
         <Section className="work-header" aria-labelledby="work-header-heading">
@@ -133,6 +141,10 @@ export const WorkPage = () => {
                         className="work-card__image"
                         src={project.images[currentImg]}
                         alt={`${project.title} screenshot ${currentImg + 1} of ${imageCount}`}
+                        width="1920"
+                        height="1020"
+                        loading={projectIndex === 0 ? "eager" : "lazy"}
+                        decoding="async"
                       />
 
                       {hasMultipleImages && (

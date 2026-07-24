@@ -27,6 +27,9 @@ const toIsoMonth = (date) => {
   return `${year}-${month.padStart(2, "0")}`;
 };
 
+const PAGE_DESCRIPTION =
+  "View Summer Halsey resume: education, technical skills, and experience as a full stack developer, with a downloadable PDF for hiring managers and recruiters.";
+
 const DownloadResumeButton = ({ className = "" }) => (
   <a
     className={["resume-download-button", className].filter(Boolean).join(" ")}
@@ -69,7 +72,12 @@ export const Resume = () => {
         <Helmet>
           <meta charSet="utf-8" />
           <title>Resume | {meta.title}</title>
-          <meta name="description" content={meta.description} />
+          <meta name="description" content={PAGE_DESCRIPTION} />
+          <meta property="og:title" content={`Resume | ${meta.title}`} />
+          <meta property="og:description" content={PAGE_DESCRIPTION} />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content="https://shalsey.dev/resume" />
+          <meta name="robots" content="index, follow" />
         </Helmet>
 
         <Section className="resume-header" aria-labelledby="resume-header-heading">

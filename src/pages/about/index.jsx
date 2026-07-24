@@ -5,7 +5,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Palette, Server, ShieldCheck } from "lucide-react";
 import { Container } from "../../components/container/index.jsx";
 import { Section } from "../../components/section/index.jsx";
-import { dataAbout, education, introData, meta, skills, strengths } from "../../content_option.js";
+import { dataAbout, education, introData, skills, strengths } from "../../content_option.js";
 import {
   DURATION_ENTRANCE,
   DURATION_REDUCED,
@@ -14,6 +14,10 @@ import {
 } from "../../lib/motion.js";
 
 const STRENGTH_ICONS = [Server, Palette, ShieldCheck];
+
+const PAGE_TITLE = "About | Summer Halsey";
+const PAGE_DESCRIPTION =
+  "Learn about Summer Halsey, a full stack developer with strengths in backend security and UI/UX design, plus her education, skills, and engineering approach.";
 
 const summarize = (text, sentenceCount = 2) => {
   const sentences = text.split(". ").filter(Boolean);
@@ -47,8 +51,13 @@ export const About = () => {
       <div className="about">
         <Helmet>
           <meta charSet="utf-8" />
-          <title>About | {meta.title}</title>
-          <meta name="description" content={meta.description} />
+          <title>{PAGE_TITLE}</title>
+          <meta name="description" content={PAGE_DESCRIPTION} />
+          <meta property="og:title" content={PAGE_TITLE} />
+          <meta property="og:description" content={PAGE_DESCRIPTION} />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content="https://shalsey.dev/about" />
+          <meta name="robots" content="index, follow" />
         </Helmet>
 
         <Section className="about-intro" aria-labelledby="about-intro-heading">
@@ -71,6 +80,10 @@ export const About = () => {
                   className="about-intro__image"
                   src={introData.your_img_url}
                   alt="Portrait of Summer Halsey, full stack developer"
+                  width="1254"
+                  height="1254"
+                  loading="eager"
+                  decoding="async"
                 />
               </motion.div>
             </motion.div>
