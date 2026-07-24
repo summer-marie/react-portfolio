@@ -290,3 +290,74 @@
 **Push status:** to be pushed to `origin/docs/finalize-homepage-memory`.
 
 **Remaining concerns:** none.
+
+## 2026-07-23 — Claude Code — branch `feat/about-page`
+
+**Work performed:**
+- Confirmed `main` contained the merged Homepage rebuild (PR #11, `8d8feae`) before
+  branching, and fast-forwarded local `main` to `origin/main` (PR #12) first.
+- Full rewrite of `src/pages/about/index.jsx` and `src/pages/about/style.css`: removed
+  all `react-bootstrap` markup (`Container`/`Row`/`Col`) and the skill percentage-bar
+  UI, replaced with the project's `Container`/`Section` primitives, design tokens, and
+  Framer Motion fade+rise entrances matching the Home page's established pattern.
+- Discovered `docs/wireframes/about-1440.png` exists and is listed as approved in
+  `docs/wireframes/README.md`, contradicting the task briefing's claim that no About
+  wireframe exists. Viewed it, used it only for layout inspiration on the parts that
+  overlap the task's explicit 4-section scope (image-beside-bio intro, 3-card
+  strengths grid, tag-style skill badges) — did not adopt its extra sections (stats
+  row, 6-card grid, categorized skills, "Beyond the Terminal", closing CTA), since the
+  task's explicit section list is a direct user instruction and outranks a wireframe
+  under `AGENTS.md`'s conflict-resolution order. Recorded full reasoning in
+  `.agent-memory/CURRENT_SESSION.md` and flagged it in the completion report.
+- Condensed each `strengths[].description` to its first two sentences
+  programmatically (a generalized version of the Home page's first-sentence-only
+  helper) rather than hand-paraphrasing, to avoid introducing factual drift from the
+  source content.
+- Verified all three new Lucide icon imports (`Server`, `Palette`, `ShieldCheck`)
+  exist in the installed `lucide-react@1.26.0` package before using them.
+- Added `src/pages/about/About.test.jsx` (Vitest + RTL): asserts exactly one h1, all
+  three h2 section headings, the profile image's accessible name, and a regression
+  check that no `%` text renders anywhere on the page.
+- Screenshot verification repeated the Home rebuild's known Playwright pitfall:
+  `fullPage` screenshots taken immediately after `goto()` showed the Strengths/
+  Education/Skills sections as blank, because their `whileInView` `IntersectionObserver`
+  never fired without real scroll events. Confirmed via direct DOM queries
+  (`.count()`/`.innerText()`) that all content was present and correct regardless;
+  re-captured screenshots after manually scrolling through the page in steps, which
+  fixed the visual confirmation. Not a real bug.
+
+**Files changed:** `src/pages/about/index.jsx` (full rewrite), `src/pages/about/style.css`
+(full rewrite), `src/pages/about/About.test.jsx` (new), `docs/implementation-checklist.md`,
+`.agent-memory/CURRENT_SESSION.md`, `.agent-memory/WORK_LOG.md`.
+
+**Tests run and results:**
+- `npm run build` — PASSED.
+- `npm run lint` — PASSED: 0 errors, 9 warnings (all in unrelated legacy files —
+  `src/pages/contact/index.jsx`, `src/components/socialicons/`; none introduced by
+  this task).
+- `npm run test` — PASSED (4/4 across 3 files).
+- `npm run test:e2e` — PASSED (1/1).
+- Grep for `bootstrap|typewriter|animate\.css` in `src/pages/about/` — no matches.
+- Grep for `skills.*value|value.*%` in `src/pages/about/` — no matches.
+- Manual Playwright verification at 375px and 1440px, light and dark themes,
+  `prefers-reduced-motion` on and off (8 combinations, script written/run/deleted —
+  not committed): no horizontal scroll at any combination (`scrollWidth` ==
+  `clientWidth` in all 8), exactly one h1, inline `<img class="about-intro__image">`
+  present (not a CSS background), zero console errors, no `%` text found, no
+  Bootstrap grid classes found in the DOM. Screenshots reviewed visually in both
+  themes at both viewports after scrolling — all four sections render, strengths
+  cards stack to one column on mobile and three columns on desktop, skill badges wrap
+  cleanly, WCAG-adequate contrast in both themes.
+
+**Commit hashes:**
+- `127c599` — feat: rebuild about page (introduction, strengths, education, skills)
+- `e98306d` — test: add about page tests
+- (docs/memory commit to follow)
+
+**Push status:** pending — will push after the docs/memory commit, per this task's
+single-prompt (not multi-part-phase) instructions.
+
+**Remaining concerns:** `/work`'s matching pre-existing 375px horizontal-scroll bug is
+still open (out of scope here; `/about`'s half is now resolved and the checklist
+Discovered Task was updated accordingly). No other pages, Bootstrap, or
+`content_option.js` data values were touched.
