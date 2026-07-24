@@ -716,3 +716,11 @@ question about revisiting how projects are displayed (no specifics yet).
 **Push status:** NOT pushed yet — user asked mid-task to pause before pushing so they can add favicon files. Holding on `git push -u origin feat/polish` until they confirm.
 
 **Remaining concerns:** Two Discovered Tasks recorded as open questions (not blocking): About page's 2.7 MB profile image affects `/about` LCP (no image-compression tooling in repo, out of this task's scope); canonical link in `index.html` uses a placeholder domain pending the real production domain.
+
+**Follow-up — same session:** user added real favicon files (`favicon.png`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png`, `favicon.ico`, `site.webmanifest`) to `public/` and confirmed the production domain is `shalsey.dev`. Wired the new icons into `index.html`, corrected `public/manifest.json` and `public/site.webmanifest` (previously pointed at nonexistent filenames), deleted the orphaned placeholder SVGs, fixed the canonical link and `theme-color` (was an unrelated red, `#8B0000`), and added `og:url` to every real page now that the domain is known. Wrote, ran, and deleted a Playwright script confirming the new icon links resolve, the manifests are accurate, and `og:url` matches per route. `npm run build`/`lint`/`test`/`test:e2e` all still pass.
+
+**Commit hashes (follow-up):**
+- `e7e1306` — feat: replace placeholder favicons with real S/H logo mark
+- `e8cb522` — feat: add og:url to every page now that the production domain is confirmed
+
+**Push status:** pushing now — the user's hold condition (add favicon files first) is resolved.
