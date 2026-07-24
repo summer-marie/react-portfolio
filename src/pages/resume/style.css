@@ -1,23 +1,153 @@
 .resume-page {
-  width: var(--content-width);
-  margin-inline: auto;
-  padding-block: var(--space-16);
+  display: flex;
+  flex-direction: column;
 }
 
-.resume-page__heading {
-  margin-bottom: var(--space-4);
+/* Header */
+
+.resume-header__content {
+  max-width: 42rem;
 }
 
-.resume-page__note {
+.resume-header__heading {
+  font-size: var(--font-size-3xl);
+  line-height: 1.05;
+  margin: 0 0 var(--space-4) 0;
+}
+
+.resume-header__tagline {
   color: var(--color-text-muted);
-  margin-bottom: var(--space-8);
+  margin: 0 0 var(--space-8) 0;
 }
 
-.resume-page__download {
+/* Shared section heading */
+
+.resume-section-heading {
+  font-size: var(--font-size-2xl);
+  margin: 0 0 var(--space-8) 0;
+}
+
+/* Download button */
+
+.resume-download-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+  min-height: 2.75rem;
   padding: var(--space-3) var(--space-6);
   border-radius: var(--radius-md);
-  border: 1px solid var(--color-border);
-  background: var(--color-surface);
+  background-color: var(--color-accent-strong);
+  color: var(--color-bg);
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform var(--duration-hover) var(--ease-standard);
+}
+
+@media (min-width: 640px) {
+  .resume-download-button {
+    width: auto;
+  }
+}
+
+.resume-download-button:hover,
+.resume-download-button:focus-visible {
+  color: var(--color-bg);
+  transform: translateY(-1px);
+}
+
+.resume-download-button:focus-visible {
+  outline: 2px solid var(--color-accent-strong);
+  outline-offset: 2px;
+}
+
+.resume-download-button__icon {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+/* Education timeline */
+
+.resume-education {
+  background-color: var(--color-surface);
+  border-block: 1px solid var(--color-border);
+}
+
+.resume-timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  margin: 0;
+  padding-left: var(--space-8);
+  list-style: none;
+}
+
+.resume-timeline::before {
+  content: "";
+  position: absolute;
+  left: 0.3125rem;
+  top: 0.3125rem;
+  bottom: 0.3125rem;
+  width: 1px;
+  background-color: var(--color-border);
+}
+
+.resume-timeline__item {
+  position: relative;
+}
+
+.resume-timeline__marker {
+  position: absolute;
+  left: calc(var(--space-8) * -1 + 0.0625rem);
+  top: 0.3125rem;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: var(--radius-full);
+  background-color: var(--color-accent-strong);
+}
+
+.resume-timeline__cert {
+  font-size: var(--font-size-md);
+  margin: 0 0 var(--space-1) 0;
+}
+
+.resume-timeline__where {
   color: var(--color-text-muted);
-  cursor: not-allowed;
+  margin: 0 0 var(--space-1) 0;
+}
+
+.resume-timeline__date {
+  display: inline-block;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+}
+
+/* Skills */
+
+.resume-skills__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.resume-skills__badge {
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  background-color: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+}
+
+/* Footer CTA */
+
+.resume-footer-cta .container-primitive {
+  display: flex;
+  justify-content: center;
 }

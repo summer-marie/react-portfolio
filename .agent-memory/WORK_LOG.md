@@ -549,3 +549,71 @@ intentionally skipped (see above) — flag to the user if they want an explicit,
 separate live-send confirmation. Only `Socialicons` (2 warnings) and, once rebuilt,
 Resume remain before the ESLint relaxed-rule override block for `src/pages/**` can
 be fully retired. Other unrelated Discovered Tasks remain open.
+
+## 2026-07-23 — Claude Code — branch `feat/resume-page`
+
+**Work performed:**
+- Confirmed `main` contained the merged Contact rebuild (PR #15, `fd99c1f`) and the
+  resume PDF add/rename commits (`20e6223`, `7ba5ee4`) before branching.
+- Verified the PDF's Vite-serve path with the two prescribed `node -e
+  "fs.existsSync(...)"` checks: present under `docs/assets/resume/`, absent under
+  `public/assets/resume/`. Moved it via `git mv` (tracked as a rename) and wired the
+  download link to the root-relative path `/assets/resume/summer-halsey-resume.pdf`.
+  Confirmed post-move: `npm run build` succeeds and
+  `dist/assets/resume/summer-halsey-resume.pdf` exists. Recorded as a durable
+  decision in `.agent-memory/DECISIONS.md`.
+- Full rewrite of `src/pages/resume/index.jsx` and `style.css`: removed the
+  placeholder stub (disabled button, "coming soon" copy), replaced with
+  `Container`/`Section` primitives, design tokens, and the established Framer
+  Motion fade+rise entrance pattern. Three sections: header (h1 "Résumé" +
+  first-sentence excerpt of `dataAbout.aboutMe` + primary download link), Education
+  (a timeline built from `education[]` — connecting line + dot markers, `<time
+  dateTime="YYYY-MM">` per entry, structured to hold future entries without layout
+  changes), and Technical Skills (`skills[].name`-only badges, no percentage UI).
+  Repeated the download link in a closing CTA section via a single shared
+  `DownloadResumeButton` component so both instances can never visually diverge.
+- Verified `lucide-react`'s `Download` icon exists before using it.
+- Added `src/pages/resume/Resume.test.jsx` (Vitest + RTL): heading structure, the
+  education `<time>` element's `dateTime` conversion, a no-percentage-text
+  regression check, and both download links' `href`/`download`/`target`/`rel`
+  attributes.
+
+**Files changed:** `src/pages/resume/index.jsx` (full rewrite), `src/pages/resume/style.css`
+(full rewrite), `src/pages/resume/Resume.test.jsx` (new),
+`public/assets/resume/summer-halsey-resume.pdf` (moved via `git mv` from
+`docs/assets/resume/summer-halsey-resume.pdf`), `docs/implementation-checklist.md`,
+`.agent-memory/DECISIONS.md`, `.agent-memory/CURRENT_SESSION.md`,
+`.agent-memory/WORK_LOG.md`.
+
+**Tests run and results:**
+- `npm run build` — PASSED; `dist/assets/resume/summer-halsey-resume.pdf` confirmed
+  present.
+- `npm run lint` — PASSED: 0 errors, 2 warnings (both pre-existing, in
+  `src/components/socialicons/`; 0 new warnings introduced by this task).
+- `npm run test` — PASSED (15/15 across 6 files, 4 new).
+- `npm run test:e2e` — PASSED (1/1).
+- Grep for `bootstrap|react-bootstrap|animate\.css` in `src/pages/resume/` — no
+  matches.
+- Grep for `\.value|skills.*%` in `src/pages/resume/index.jsx` — no matches.
+- Grep for hex colors in `src/pages/resume/` — no matches.
+- Manual Playwright verification (script written, run, then deleted — not
+  committed): 375px/1440px × light/dark (4 combinations) — no horizontal scroll in
+  any combination, exactly 1 h1, both download links present with correct
+  attributes, zero console errors; confirmed the link is keyboard-focusable and
+  that clicking it fires a real Playwright `download` event resolving to
+  `summer-halsey-resume.pdf` (not just present in markup — genuinely downloadable).
+
+**Commit hashes:**
+- `2fa9d56` — chore: move resume PDF to public/assets for Vite static serving
+- `2a6e62e` — feat: rebuild resume page with timeline, skills, and PDF download
+- `9a740e1` — test: add resume page tests
+- `418fe57` — docs: update checklist and agent memory for resume page rebuild
+
+**Push status:** pushed to `origin/feat/resume-page`.
+
+**Remaining concerns:** None from this task's scope. The `eslint.config.mjs`
+relaxed-rule override for `src/pages/**` is now dead weight (every page under it is
+rebuilt to the strict baseline) but narrowing it wasn't part of this task's approved
+scope — tracked as a Discovered Task in `docs/implementation-checklist.md`. Other
+unrelated Discovered Tasks (Socialicons warnings/redundancy, `web-vitals` cleanup,
+Homepage Current Focus placeholder) remain open.

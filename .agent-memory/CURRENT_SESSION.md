@@ -2,117 +2,96 @@
 
 ## Task Objective
 
-Rebuild `src/pages/contact/` from scratch using the documented design system, layout
-primitives, and design tokens. Remove all Bootstrap markup. Preserve the EmailJS form
-submission logic exactly (live production credentials). Replace the Bootstrap Alert
-with a token-based inline status message. Remove all `console.log` debug statements
-(the 9 pre-existing ESLint warnings tracked since Foundation).
+Rebuild `src/pages/resume/` from scratch using the documented design system, layout
+primitives, and design tokens. Replace the placeholder stub (no real content, disabled
+download button) with a real, content-driven Resume page: education timeline, skills
+summary, and a working PDF download button using the already-supplied resume asset.
 
 ## Approved Scope
 
-- Full rewrite of `src/pages/contact/index.jsx` and `src/pages/contact/style.css`.
-- New `src/pages/contact/Contact.test.jsx`.
-- `docs/implementation-checklist.md` — mark Contact items complete.
+- Full rewrite of `src/pages/resume/index.jsx` and `src/pages/resume/style.css`.
+- New `src/pages/resume/Resume.test.jsx`.
+- Move `docs/assets/resume/summer-halsey-resume.pdf` to `public/assets/resume/` (Vite
+  static-serve requirement — confirmed `docs/` is not served, only `public/` is).
+- `docs/implementation-checklist.md` — mark Resume items complete, update the
+  ESLint-warnings Discovered Task now that Resume is rebuilt.
+- `.agent-memory/` files.
 - No other pages, shared components, or `content_option.js` touched.
-- (Not originally listed, added as a small necessary addition — see below:)
-  `src/test/setup.js` — one-line `scrollIntoView` polyfill, same pattern as the
-  existing `IntersectionObserver` polyfill.
 
 ## Current Branch
 
-`feat/contact-page`, created from `main` (confirmed via `git log`/`git branch -a`
-that `main` already includes the merged Work rebuild, PR #14, `795ead3`, before
-branching).
+`feat/resume-page`, created from `main` (confirmed via `git log` that `main` already
+includes the merged Contact rebuild, PR #15, `fd99c1f`, and the resume PDF
+add/rename commits, `20e6223`/`7ba5ee4`, before branching).
 
 ## Files Changed
 
-- `src/pages/contact/index.jsx` (full rewrite)
-- `src/pages/contact/style.css` (full rewrite)
-- `src/pages/contact/Contact.test.jsx` (new)
-- `src/test/setup.js` (added `scrollIntoView` no-op polyfill)
+- `src/pages/resume/index.jsx` (full rewrite)
+- `src/pages/resume/style.css` (full rewrite)
+- `src/pages/resume/Resume.test.jsx` (new)
+- `public/assets/resume/summer-halsey-resume.pdf` (moved via `git mv` from
+  `docs/assets/resume/summer-halsey-resume.pdf`)
 - `docs/implementation-checklist.md`
+- `.agent-memory/DECISIONS.md`, `.agent-memory/CURRENT_SESSION.md`,
+  `.agent-memory/WORK_LOG.md`
 
 ## Tests Required / Run
 
-- `npm run build` — PASSED
-- `npm run lint` — PASSED (0 errors, 2 warnings — both pre-existing and unrelated,
-  in `src/components/socialicons/`; **all 9 original `console.log`-related warnings
-  in `src/pages/contact/index.jsx` are gone**, confirmed by lint output shrinking
-  from 9 warnings to 2)
-- `npm run test` — PASSED (11/11 across 5 files)
-- `npm run test:e2e` — PASSED (1/1)
-- Grep `bootstrap|react-bootstrap|animate\.css` in `src/pages/contact/` — no matches
-- Grep `console\.` in `src/pages/contact/index.jsx` — no matches
-- Grep `YOUR_SERVICE_ID|YOUR_TEMPLATE_ID|YOUR_USER_ID` in `src/pages/contact/index.jsx`
-  — exactly 3 matches (the `emailjs.send()` call), credentials themselves untouched
-  in `content_option.js`
-- Manual Playwright verification (script written, run, then deleted — not
-  committed): 375px/1440px × light/dark — no horizontal scroll, exactly one h1, all
-  four fields resolve via `getByLabel` (Name/Email/Subject/Message), zero console
-  errors; Tab order confirmed exactly Name → Email → Subject → Message → Send;
-  typing into all four fields updates each independently (no stale-closure bugs).
-  **Deliberately did not submit the form during live browser verification** — doing
-  so would fire a real `emailjs.send()` call against live production credentials.
-  Submit/success/error/dismiss/scroll-into-view behavior is instead covered by the
-  mocked Vitest suite (`Contact.test.jsx`), which asserts the exact `templateParams`
-  shape sent to `emailjs.send` and both the resolved and rejected paths.
+- `npm run build` — PASSED; confirmed `dist/assets/resume/summer-halsey-resume.pdf`
+  exists after build.
+- `npm run lint` — PASSED (0 errors, 2 warnings — both pre-existing, in
+  `src/components/socialicons/`, unrelated to this task; 0 new warnings from Resume).
+- `npm run test` — PASSED (15/15 across 6 files, 4 new Resume tests).
+- `npm run test:e2e` — PASSED (1/1).
+- Grep `bootstrap|react-bootstrap|animate\.css` in `src/pages/resume/` — no matches.
+- Grep `\.value|skills.*%` in `src/pages/resume/index.jsx` — no matches.
+- Grep for hex colors in `src/pages/resume/` — no matches.
+- Manual Playwright verification (script written, run, then deleted — not committed):
+  375px/1440px × light/dark (4 combinations) — no horizontal scroll in any
+  combination, exactly 1 h1, both download links present with correct
+  `href`/`download`/`target`/`rel` attributes, zero console errors; keyboard-focus
+  check confirmed the download link is reachable and focusable via `.focus()`; a
+  real click on the link triggered an actual Playwright `download` event resolving
+  to `summer-halsey-resume.pdf` — confirms the PDF is genuinely reachable and
+  downloadable, not just present in the DOM.
 
 ## Work Completed
 
-- Confirmed `main` contains the merged Work rebuild (PR #14, `795ead3`) before
-  branching.
-- **Found the task briefing's styling tokens don't exist in this design system**:
-  it referenced `--color-primary`, `--color-surface-2`, `--color-success`/
-  `--color-success-highlight`, `--color-error`/`--color-error-highlight`, none of
-  which are defined in `src/index.css` (the actual set is `--color-bg/surface/
-  surface-raised/border/text/text-muted/accent/accent-strong/highlight/overlay`).
-  Rather than inventing new hex-backed tokens — which `docs/01-visual-language.md`
-  explicitly argues against ("muted accent colors", "avoid rainbow or
-  high-saturation gradients") — mapped: `--color-surface-2` → `--color-surface-raised`,
-  `--color-primary` → `--color-accent-strong` (this project's established
-  interactive/CTA color per prior tasks' "Known Patterns"), and differentiated the
-  success/error alert via existing `--color-accent-strong` (success) and
-  `--color-highlight` (error — already a warm rust/red tone) instead of inventing a
-  green. This is a lower-risk judgment call than the routing/wireframe discrepancies
-  in prior tasks (no functionality removed, no product decision), so I proceeded
-  without asking, documenting the substitution here and in the completion report.
-- Also found `docs/implementation-checklist.md`'s `## Contact` section used
-  different, never-completed item names ("Contact Cards", "Contact Form", "CTA")
-  than what the task asked to check off. Replaced them with the task's item names
-  since none were previously completed.
-- Preserved the EmailJS submission logic exactly: same `contactConfig.YOUR_SERVICE_ID`/
-  `YOUR_TEMPLATE_ID`/`YOUR_USER_ID` call shape, same `templateParams` (`user_name`,
-  `user_email`, `subject`, `message`), same success (clear fields, show success
-  alert) and error (keep fields, show error alert) behavior. Removed all 7
-  `console.log` calls (3 in the old `handleChange`, 1 in the old
-  `handleMessageChange`, 2 in the `.then`/error callbacks) and switched `setFormData`
-  calls to the functional-updater form to explicitly rule out stale-closure bugs.
-- Removed the duplicate `handleMessageChange` handler and the `onInput` workaround
-  on the message textarea — it now uses the same `onChange={handleChange}` as the
-  other three fields.
-- Added real `<label>` elements (`htmlFor` matching each field's `id`) for all four
-  fields, visually hidden via a new `.sr-only` utility class in
-  `src/pages/contact/style.css` (the exact class name the task suggested).
-  `aria-required="true"` added alongside the native `required` attribute.
-- Replaced the Bootstrap `<Alert>` with a native `<div role="alert">` (role only
-  applied while `show` is true) with a dismiss `<button aria-label="Dismiss
-  notification">` using a Lucide `X` icon. The alert div is always mounted (never
-  conditionally removed) so the `alertRef` stays valid for the synchronous
-  `scrollIntoView` call made right after `setFormData` in the error path — this
-  mirrors why the original's `document.getElementsByClassName` approach worked
-  despite firing before the state update visually applied.
-- Reimplemented the loading indicator as a `.contact-form__progress` bar (absolute,
-  thin, token-colored) driven entirely by CSS — a sliding `::after` animation under
-  normal conditions, collapsing to a static full-width bar under
-  `@media (prefers-reduced-motion: reduce)`. No JS animation logic needed.
-- Discovered jsdom doesn't implement `Element.prototype.scrollIntoView` (same
-  category of gap as the existing `IntersectionObserver` polyfill) — the rejected-
-  submission Vitest test surfaced an unhandled-rejection error from this. Added a
-  matching no-op polyfill to `src/test/setup.js`, following the established
-  precedent from the Homepage rebuild task.
-- Verified content fields used: `contactConfig.YOUR_EMAIL`, `.description`,
-  `.YOUR_SERVICE_ID`, `.YOUR_TEMPLATE_ID`, `.YOUR_USER_ID`, `meta.title`/
-  `.description` — no new fields invented, `content_option.js` untouched.
+- Confirmed `main` contains both required prerequisite commits before branching.
+- Verified the PDF asset's Vite-serve path via the two `node -e "fs.existsSync(...)"`
+  checks specified in the task: `docs/assets/resume/summer-halsey-resume.pdf` existed,
+  `public/assets/resume/summer-halsey-resume.pdf` did not. Moved it via `git mv`
+  (tracked as a rename) and used the root-relative path
+  `/assets/resume/summer-halsey-resume.pdf` (not an import, not an absolute URL) as
+  the download href. Recorded as a durable decision in `.agent-memory/DECISIONS.md`.
+- Verified `lucide-react`'s `Download` icon exists (`typeof Download === "object"`)
+  before using it.
+- Three sections, following the same `Container`/`Section`/Framer Motion fade+rise
+  pattern established by Home/About/Work/Contact:
+  1. Header — h1 "Résumé", first-sentence-only excerpt of `dataAbout.aboutMe`
+     (reusing the About page's sentence-splitting approach, single-sentence variant),
+     and the primary download link.
+  2. Education — `education[]` rendered as an `<ol class="resume-timeline">` with a
+     connecting line + dot markers (CSS `::before`/marker span), built to
+     accommodate more than one entry without layout changes; each entry uses an
+     `<h3>` for the certification, plain text for the institution, and a `<time
+     dateTime="YYYY-MM">` for the date (source data is `"M/YYYY"`, converted with a
+     small `toIsoMonth` helper — verified against the one real entry,
+     `"6/2025"` → `dateTime="2025-06"`).
+  3. Skills — h2 "Technical Skills", `skills[].name` only (no `.value`, no percentage
+     UI), same badge/tag visual pattern as the About page's skills list.
+  - Repeated the download link a second time in a closing CTA section, identical in
+    appearance/behavior to the header one (both share a single
+    `DownloadResumeButton` component so they can never drift out of sync).
+- Download link implementation: `<a>` (not `<button>`), `href` to the public path,
+  `download="summer-halsey-resume.pdf"`, `target="_blank" rel="noopener noreferrer"`,
+  `aria-label="Download Summer Halsey resume PDF"`, `--color-accent-strong` filled
+  background, `min-height: 2.75rem` (44px) touch target, full-width under 640px and
+  `width: auto` at 640px+, visible `:focus-visible` ring.
+- Added `src/pages/resume/Resume.test.jsx` (Vitest + RTL): one h1 + both section
+  headings, the education entry rendering as a `<time>` element with the correct
+  `dateTime`, a regression check for no `%` text anywhere, and both download links
+  resolving with the exact expected `href`/`download`/`target`/`rel` attributes.
 
 ## Work Remaining
 
@@ -128,10 +107,9 @@ None.
 
 ## Note for next session
 
-- Live-email verification was intentionally skipped in this session. If real
-  end-to-end confirmation of the EmailJS send is ever wanted, it needs to be an
-  explicit, separate ask — not something to do silently during routine QA.
-- The ESLint-warnings Discovered Task item now only covers `src/components/
-  socialicons/` (2 warnings) — Contact's 7 `console.log` warnings are gone, and
-  Work/About already contributed 0. Only `Socialicons` (and, once rebuilt, Resume)
-  remain to fully retire the relaxed-rule ESLint override block for `src/pages/**`.
+- The `eslint.config.mjs` relaxed-rule override block still lists `src/pages/**`,
+  but every page under it (Home, Work, About, Contact, Resume) is now rebuilt to the
+  strict baseline with 0 new warnings — only `src/components/socialicons/` still
+  needs the relaxation. Narrowing/removing the `src/pages/**` entry from that
+  override was left untouched here since editing `eslint.config.mjs` wasn't part of
+  this task's approved scope; flagged as a Discovered Task instead.
