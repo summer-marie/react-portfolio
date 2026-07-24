@@ -22,7 +22,7 @@
 
 **Safe work that can continue:** All other Core Layout and future page-rebuild work.
 
-**Resolution:** Unresolved. Recommend the user decide whether to remove `Socialicons`, keep both, or fold its behavior (e.g., scroll-linked visibility) into the Footer/Navbar during a later page-content or polish phase.
+**Resolution:** Resolved 2026-07-23 in the `fix/socialicons-cleanup` task. User decision: remove `Socialicons` entirely — the Footer already covers the same GitHub/LinkedIn links, so the rail was pure redundancy. Deleted `src/components/socialicons/` and its usage in `src/app/routes.jsx` (the actual render site — not `src/app/App.jsx`, which the task briefing assumed; `App.jsx` never imported `Socialicons`).
 
 ## 2026-07-23 — User wants to revisit how projects are displayed (specifics TBD)
 

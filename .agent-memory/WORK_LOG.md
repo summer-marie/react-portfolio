@@ -617,3 +617,69 @@ rebuilt to the strict baseline) but narrowing it wasn't part of this task's appr
 scope — tracked as a Discovered Task in `docs/implementation-checklist.md`. Other
 unrelated Discovered Tasks (Socialicons warnings/redundancy, `web-vitals` cleanup,
 Homepage Current Focus placeholder) remain open.
+
+## 2026-07-23 — Claude Code — branch `fix/socialicons-cleanup`
+
+**Work performed:**
+- Confirmed `main` contained all five merged page rebuilds (Home, Work, About,
+  Contact, Resume — Resume most recently as PR #16, `c93708f`) before branching.
+- **Found the task briefing's location assumption was stale**: `Socialicons` was
+  never imported by `src/app/App.jsx` — the actual import/render site was
+  `src/app/routes.jsx` (inside `AppRoutes`, rendered on every route alongside
+  `<Routes>`). Removed it there instead. `src/components/navigation/` (also
+  referenced in the briefing) doesn't exist — already deleted in the Core Layout
+  phase.
+- Deleted `src/components/socialicons/` in full (`index.jsx`, `style.css`,
+  `Socialicons.test.jsx`) via `git rm -r`.
+- Removed the `Socialicons` import and `<Socialicons />` render from
+  `src/app/routes.jsx`. Left the wrapping `<div className="s_c">` untouched — no
+  matching CSS rule exists for it anywhere (confirmed via grep), so it's inert
+  either way, and removing it would exceed this task's "don't refactor beyond the
+  import/render" boundary.
+- Removed `web-vitals` from `package.json` (confirmed orphaned — zero remaining
+  references anywhere in `src/`, its only consumer was deleted in the Foundation
+  phase); ran `npm install` to sync `package-lock.json`.
+- Removed the ESLint relaxed-rule override block in `eslint.config.mjs` entirely
+  (not just its `socialicons` entry) — all three globs it covered were moot:
+  `src/pages/**` (fully migrated to the strict baseline per the Resume task's
+  note), `src/header/**` (directory already deleted), and
+  `src/components/socialicons/**` (now deleted). Confirmed via `npm run lint`: 0
+  errors, 0 warnings.
+- Updated `docs/implementation-checklist.md`: all three related Discovered Tasks
+  marked `[x]` with resolution notes.
+- Closed the Socialicons/Footer open question in `.agent-memory/OPEN_QUESTIONS.md`.
+
+**Files changed:** Deleted `src/components/socialicons/index.jsx`, `style.css`,
+`Socialicons.test.jsx`. Modified: `src/app/routes.jsx`, `package.json`,
+`package-lock.json`, `eslint.config.mjs`, `docs/implementation-checklist.md`,
+`.agent-memory/OPEN_QUESTIONS.md`, `.agent-memory/CURRENT_SESSION.md`,
+`.agent-memory/WORK_LOG.md`.
+
+**Tests run and results:**
+- `npm run build` — PASSED.
+- `npm run lint` — PASSED: **0 errors, 0 warnings** (down from 2).
+- `npm run test` — PASSED (14/14 across 5 files — one fewer file, the deleted
+  `Socialicons.test.jsx`).
+- `npm run test:e2e` — PASSED (1/1).
+- `Test-Path`/`test -d` equivalent on `src/components/socialicons` — confirmed
+  `False`/gone.
+- Grep for `socialicons` across `src/`, `package.json`, `eslint.config.mjs` — no
+  matches (only the historical, now-resolved checklist entries remain in
+  `docs/implementation-checklist.md`, expected).
+- Grep for `web-vitals` in `package.json` — no matches.
+- Manual Playwright verification (script written, run, then deleted — not
+  committed) across all five routes at 1440px: `.stick_follow_icon` and "Follow
+  Me" text both absent on every route; exactly one Footer GitHub link and one
+  Footer LinkedIn link present on every route; no horizontal overflow; zero
+  console errors on every route.
+
+**Commit hashes:**
+- `7347257` — fix: remove socialicons rail, clean up eslint override, remove orphaned web-vitals
+- `935b177` — docs: update checklist and agent memory for socialicons cleanup
+
+**Push status:** pushed to `origin/fix/socialicons-cleanup`.
+
+**Remaining concerns:** None from this task's scope. Remaining unrelated
+Discovered Tasks: Work page's missing `liveUrl`/CTA field, About's "Beyond
+Engineering" section, Homepage's "Current Focus" placeholder, and the open
+question about revisiting how projects are displayed (no specifics yet).
