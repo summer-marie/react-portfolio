@@ -13,14 +13,23 @@ import intervalSetBreak from "./assets/images/interval-timer/set-break.jpg";
 // Profile image
 import profileImage from "./assets/images/image5.png";
 
+// Navbar (brand link), Footer (name + copyright)
 const logoText = "SummerHalsey";
 
+// title: <title>/og:title on Home only ("Work | ", "About | ", etc. prefix the
+// title on every other page, but their base value is this same meta.title).
+// description: Home hero tagline, Work header tagline, Footer tagline — used
+// on 3 pages. NOT used for the per-page SEO <meta name="description"> tags;
+// those are separate 150-160 char strings hardcoded in each page's Helmet
+// block (see PAGE_DESCRIPTION in each src/pages/*/index.jsx).
 const meta = {
   title: "Summer Halsey",
   description:
-    "I’m Summer Halsey — Full Stack Developer with a data-driven mindset",
+    "Full-Stack Engineer solving real-world problems through software, AI, and client collaboration.",
 };
 
+// Contact (form submission target + email/description display), Home (CTA
+// section email + description), Footer (email link) — used on 3 pages.
 const contactConfig = {
   YOUR_EMAIL: "summer.halsey0318@gmail.com",
   description:
@@ -30,81 +39,100 @@ const contactConfig = {
   YOUR_USER_ID: "RWa_z8LLUwpm4FOHJ",
 };
 
+// title: Home hero heading. description: About bio paragraph. your_img_url:
+// About profile portrait. Used across 2 pages.
 const introData = {
   title: "I’m Summer Halsey",
-  animated: {
-    first: "Always curious, sometimes failing, always moving forward.",
-    second: "I enjoy turning ideas into interactive React experiences.",
-    third: "Turning complex business logic into intuitive user experiences.",
-    fourth: "I use AI as a tool, not a crutch.",
-  },
   description:
-    "From MongoDB schemas to React components, I now build with a production mindset—prioritizing security, fast-loading UIs, and a smooth user experience. I love using tools like Jest and React Testing Library to keep my code solid, and I rely on things like Argon2 hashing and express-validator to keep things secure. Whether I'm working with Vite, Tailwind, or setting up structured logging with Pino, I'm all about creating apps that are reliable, maintainable, and a joy to use from database to interface.",
+    "I'm a full-stack engineer who enjoys solving complex problems with thoughtful software. I work directly with clients to understand their challenges, design practical solutions, and build production-ready applications that are secure, maintainable, and designed around the people who use them.",
   your_img_url: profileImage,
 };
 
+// title + aboutMe: About heading/bio. aboutMe is also reused (first sentence
+// only) as the Resume page tagline. Used on 2 pages.
 const dataAbout = {
-  title: "My Purpose",
+  title: "How I Work",
   aboutMe:
-    "Eager to contribute my skills and passion, I'm a full stack developer with a strong affinity for creating dynamic user experiences through React and building robust database systems. My recent immersive training has equipped me with a solid foundation in modern web development practices, and I'm excited to apply and expand my knowledge in a collaborative environment.",
+    "Every project starts with understanding the problem—not the technology. I enjoy learning how people work, identifying operational challenges, and designing systems that are reliable, maintainable, and built for long-term success. My experience spans client collaboration, AI-assisted applications, systems architecture, testing, deployment, and technical documentation. I'm most energized by projects where the requirements are still evolving and thoughtful engineering, communication, and adaptability are just as important as writing code.",
 };
+
+// About (education list), Resume (education timeline) — used on 2 pages.
 const education = [
   {
     certification: "Full Stack Developer Certification",
     where: "Persevere Code Camp",
     date: "6/2025",
   },
+    {
+    certification: "AI Assisted Software Engineering",
+    where: "Next Chapter",
+    date: "7/2026",
+  },
 ];
 
+// About, Resume — rendered as labeled columns on both pages (name-only
+// items, no percentage bars, by design — see docs/00-project-vision.md
+// anti-goals). Layout reference: docs/wireframes/about-1440.png and
+// resume-1440.png "Expertise & Tooling" section.
 const skills = [
   {
-    name: "JavaScript",
-    value: 75,
+    category: "Languages",
+    items: ["TypeScript", "JavaScript", "SQL", "Python"],
   },
   {
-    name: "React",
-    value: 90,
+    category: "Frontend",
+    items: ["React", "Next.js", "Tailwind CSS"],
   },
   {
-    name: "TailwindCSS",
-    value: 80,
+    category: "Backend",
+    items: ["Node.js", "REST APIs", "Prisma", "PostgreSQL"],
   },
   {
-    name: "Bootstrap",
-    value: 60,
+    category: "AI & Architecture",
+    items: ["OpenAI APIs", "RAG", "OCR Pipelines", "System Design"],
   },
   {
-    name: "Node.js & Express.js",
-    value: 85,
-  },
-  {
-    name: "MongoDB Atlas",
-    value: 95,
-  },
-  {
-    name: "Redux Toolkit",
-    value: 90,
+    category: "Engineering",
+    items: ["Testing", "Git", "Vercel", "Documentation"],
   },
 ];
 
+// Home ("How I Work" section), About ("Strengths" section) — used on 2 pages.
 const strengths = [
   {
-    title: "Production-Ready Backend Engineering",
+    title: "Customer-Focused Engineering",
     description:
-      "I have strong expertise in building robust, scalable backends using modern frameworks like Express and MongoDB. My approach includes event-driven structured logging with Pino, automated background tasks with cron jobs, and comprehensive rate limiting and endpoint-level validation to ensure security and reliability. I design backend systems that are maintainable, efficient, and ready for production—supporting seamless integration and smooth operation at scale.",
+      "I enjoy working directly with people to understand how they work before proposing technical solutions. Whether modernizing an existing workflow or building a new product from scratch, I focus on translating operational challenges into software that is practical, maintainable, and genuinely useful.",
   },
   {
-    title: "Style & UI/UX Design",
+    title: "AI & Retrieval Systems",
     description:
-      "I have strong expertise in designing responsive, user-focused interfaces using modern tools like Tailwind CSS and systematic design patterns. I prioritize clear visual hierarchy, consistent layouts, and accessible components to create intuitive experiences across all devices. My approach combines thoughtful color schemes, scalable typography, and strategic use of space to guide users naturally—even through complex data. I’m constantly improving my ability to have the website match my internal vision, always striving to learn new practices and techniques.",
+      "I build AI-assisted applications that prioritize accuracy, transparency, and maintainability. My experience includes retrieval-augmented generation (RAG), document processing pipelines, prompt engineering, and designing systems that provide grounded responses instead of unreliable AI-generated content.",
   },
   {
-    title: "Security-Driven Full-Stack Development",
+    title: "Systems Architecture",
     description:
-      "I have strong expertise in building security-first full-stack applications, implementing layered authentication with JWT and session strategies to support diverse user needs. I consistently use Argon2 for password hashing, enforce rate limiting, and apply XSS protection and input validation across the stack. My approach includes role-based access controls, secure session management, and data redaction in logs to safeguard sensitive information. I prioritize proactive threat mitigation and strive for seamless, secure user experiences in every project I build",
+      "I enjoy designing software before writing code. From data models and API boundaries to deployment strategies and security considerations, I create architectures that are easy to extend, test, and maintain as projects grow.",
+  },
+  {
+    title: "Documentation-First Development",
+    description:
+      "I believe good documentation is an engineering feature, not an afterthought. I create architecture documents, implementation plans, setup guides, and technical handoffs that help both clients and developers understand, maintain, and evolve a system with confidence.",
+  },
+  {
+    title: "Quality & Testing",
+    description:
+      "Reliable software comes from deliberate engineering practices. I incorporate automated testing, validation, structured logging, and thoughtful debugging into my workflow to build applications that are dependable in production—not just functional during development.",
+  },
+  {
+    title: "Security & Production Mindset",
+    description:
+      "I design applications with security and long-term reliability in mind. From authentication and authorization to input validation, rate limiting, privacy, and deployment, I approach software as something people will trust with real work and real data.",
   },
 ];
 
+// Home (first 3, "Selected Work" section), Work (full list + image carousel)
+// — used on 2 pages.
 // TODO: turn photos into carousel. make card container larger to fit more content
 const projects = [
   {
@@ -131,6 +159,7 @@ const projects = [
   },
 ];
 
+// Navbar, Footer (icon links) — used on 2 components (rendered on every page).
 const socialProfiles = {
   github: "https://github.com/summer-marie",
   // facebook: "https://facebook.com",

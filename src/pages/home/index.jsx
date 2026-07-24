@@ -3,7 +3,7 @@ import "./style.css";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { Link } from "react-router";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, Layers, Mail, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowRight, BadgeCheck, Blocks, BrainCircuit, FileText, Mail, ShieldCheck, Users } from "lucide-react";
 import { Container } from "../../components/container/index.jsx";
 import { Section } from "../../components/section/index.jsx";
 import { contactConfig, introData, meta, projects, strengths } from "../../content_option.js";
@@ -14,7 +14,11 @@ import {
   PAGE_TRANSITION_OFFSET,
 } from "../../lib/motion.js";
 
-const STRENGTH_ICONS = [Layers, ShieldCheck, Sparkles];
+// Index-matched to content_option.js's `strengths` array (Customer-Focused
+// Engineering, AI & Retrieval Systems, Systems Architecture,
+// Documentation-First Development, Quality & Testing, Security & Production
+// Mindset).
+const STRENGTH_ICONS = [Users, BrainCircuit, Blocks, FileText, BadgeCheck, ShieldCheck];
 
 const PAGE_DESCRIPTION =
   "Summer Halsey is a full stack developer building production-ready React apps with a data-driven, product-minded approach. Explore her work and get in touch.";

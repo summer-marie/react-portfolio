@@ -148,19 +148,26 @@ export const Resume = () => {
               Technical Skills
             </motion.h2>
 
-            <motion.ul
-              className="resume-skills__list"
+            <motion.div
+              className="resume-skills__grid"
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, margin: "-80px" }}
               variants={staggerContainer}
             >
-              {skills.map((skill) => (
-                <motion.li key={skill.name} className="resume-skills__badge" variants={fadeRise}>
-                  {skill.name}
-                </motion.li>
+              {skills.map((group) => (
+                <motion.div key={group.category} className="resume-skills__group" variants={fadeRise}>
+                  <h3 className="resume-skills__category">{group.category}</h3>
+                  <ul className="resume-skills__items">
+                    {group.items.map((item) => (
+                      <li key={item} className="resume-skills__item">
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
               ))}
-            </motion.ul>
+            </motion.div>
           </Container>
         </Section>
 
