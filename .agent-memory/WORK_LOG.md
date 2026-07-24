@@ -440,9 +440,9 @@ Discovered Task was updated accordingly). No other pages, Bootstrap, or
 **Commit hashes:**
 - `8316dfa` — feat: rebuild work page with carousel and rename Portfolio to WorkPage
 - `b17c651` — test: add work page tests
-- (docs/memory commit to follow)
+- `30b9568` — docs: update checklist and agent memory for work page rebuild
 
-**Push status:** pending — will push after the docs/memory commit.
+**Push status:** pushed to `origin/feat/work-page`.
 
 **Remaining concerns:** None from this task's scope. The user has an open item in
 `.agent-memory/OPEN_QUESTIONS.md` about wanting to change how projects are displayed
