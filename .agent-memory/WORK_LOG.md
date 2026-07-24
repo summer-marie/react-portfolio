@@ -449,3 +449,103 @@ Discovered Task was updated accordingly). No other pages, Bootstrap, or
 in a future task, with no specifics yet. Unrelated Discovered Tasks (ESLint warnings
 in Contact/Socialicons, `web-vitals` cleanup, Socialicons/Footer duplication, Homepage
 Current Focus placeholder) remain open.
+
+## 2026-07-23 — Claude Code — branch `feat/contact-page`
+
+**Work performed:**
+- Confirmed `main` contained the merged Work rebuild (PR #14, `795ead3`) before
+  branching.
+- Found the task briefing referenced design tokens (`--color-primary`,
+  `--color-surface-2`, `--color-success`/`-highlight`, `--color-error`/`-highlight`)
+  that don't exist in `src/index.css`. Mapped to the actual token set instead of
+  inventing new hex-backed colors: `--color-surface-raised` for the "surface-2" role,
+  `--color-accent-strong` for the "primary" interactive role (matches this project's
+  established CTA pattern), and differentiated success/error alert borders using
+  `--color-accent-strong` / `--color-highlight` (an existing warm rust/red tone)
+  rather than adding a green — consistent with `docs/01-visual-language.md`'s
+  "muted, no rainbow colors" philosophy. Lower-risk than prior tasks' discrepancies
+  (styling only, no functionality/product decision), so proceeded without asking;
+  documented in `.agent-memory/CURRENT_SESSION.md`.
+- Also found `docs/implementation-checklist.md`'s `## Contact` section used
+  different, never-completed item names than the task's checklist. Replaced them
+  with the task's exact item names.
+- Full rewrite of `src/pages/contact/index.jsx` and `style.css`: removed all
+  `react-bootstrap` usage, replaced with `Container`/`Section` primitives, design
+  tokens, and Framer Motion fade+rise entrances. Two sections: page header (h1 "Get
+  in Touch") and a two-column body (contact info + form), side-by-side at 768px+,
+  stacked on mobile.
+- Preserved the EmailJS submission logic exactly (same credentials call shape, same
+  `templateParams`, same success/error flow) while removing all 7 `console.log`
+  debug statements and the duplicate `handleMessageChange`/`onInput` workaround —
+  the message field now uses the same single `handleChange` as the other three
+  fields. Switched `setFormData` calls to the functional-updater form to rule out
+  stale-closure bugs (explicitly required by the task's manual verification list).
+- Added real `<label>` elements (visually hidden via a new `.sr-only` utility, the
+  exact class name suggested by the task) for all four fields, plus
+  `aria-required="true"` alongside the native `required` attribute.
+- Replaced the Bootstrap `<Alert>` with a native always-mounted `<div role="alert">`
+  (role applied only while shown) and a `<button aria-label="Dismiss notification">`
+  using Lucide's `X` icon. Kept the alert div permanently mounted (never
+  conditionally removed from the DOM) so the `alertRef` used for the error-path
+  `scrollIntoView` call stays valid — mirrors why the original's
+  `document.getElementsByClassName` approach worked despite firing synchronously
+  right after the state update.
+- Reimplemented the loading indicator as a pure-CSS `.contact-form__progress` bar
+  (sliding `::after` animation, collapsing to a static bar under
+  `prefers-reduced-motion: reduce` via a plain media query) — no JS animation logic
+  needed.
+- Discovered jsdom doesn't implement `Element.prototype.scrollIntoView` (same class
+  of gap as the existing `IntersectionObserver` polyfill) — surfaced as an unhandled
+  rejection in the rejected-submission Vitest test. Added a matching no-op polyfill
+  to `src/test/setup.js`, following the Homepage rebuild task's precedent for this
+  exact kind of jsdom gap.
+- Added `src/pages/contact/Contact.test.jsx` (Vitest + RTL, `@emailjs/browser`
+  mocked): labeled-field presence, per-field controlled-input updates, a successful
+  submission asserting the exact `templateParams` object sent to `emailjs.send` and
+  a dismissible success alert, and a rejected submission showing the error alert. No
+  real network calls or live credentials exercised.
+- **Deliberately did not submit the form during live dev-server verification** —
+  doing so would fire a real `emailjs.send()` call against live production
+  credentials (a real email to `contactConfig.YOUR_EMAIL`). Verified everything else
+  live (labels, tab order, per-field typing, responsive/theme rendering) and relied
+  on the mocked Vitest suite for submit/success/error/dismiss/scroll behavior.
+
+**Files changed:** `src/pages/contact/index.jsx` (full rewrite), `src/pages/contact/style.css`
+(full rewrite), `src/pages/contact/Contact.test.jsx` (new), `src/test/setup.js`
+(added `scrollIntoView` polyfill), `docs/implementation-checklist.md`,
+`.agent-memory/CURRENT_SESSION.md`, `.agent-memory/WORK_LOG.md`.
+
+**Tests run and results:**
+- `npm run build` — PASSED.
+- `npm run lint` — PASSED: 0 errors, 2 warnings (both pre-existing, in
+  `src/components/socialicons/`, unrelated to this task). **Confirmed the 9
+  pre-existing `console.log`-related warnings tracked since Foundation are gone** —
+  lint output dropped from 9 warnings to 2 after this rewrite.
+- `npm run test` — PASSED (11/11 across 5 files).
+- `npm run test:e2e` — PASSED (1/1).
+- Grep for `bootstrap|react-bootstrap|animate\.css` in `src/pages/contact/` — no
+  matches.
+- Grep for `console\.` in `src/pages/contact/index.jsx` — no matches.
+- Grep for `YOUR_SERVICE_ID|YOUR_TEMPLATE_ID|YOUR_USER_ID` in
+  `src/pages/contact/index.jsx` — exactly 3 matches (the `emailjs.send()` call
+  site); `content_option.js` itself untouched, credentials never logged.
+- Manual Playwright verification (script written, run, then deleted — not
+  committed) at 375px/1440px × light/dark: no horizontal scroll in any combination,
+  exactly one h1, all four fields resolve via accessible label text, zero console
+  errors; Tab order confirmed Name → Email → Subject → Message → Send; typing into
+  all four fields updates each independently with no stale values. Screenshots
+  reviewed in both themes at both viewports — info/form columns stack on mobile and
+  sit side-by-side on desktop, good contrast in both themes.
+
+**Commit hashes:**
+- `fafbb04` — feat: rebuild contact page, replace Bootstrap Alert, remove debug logs
+- `2f55d0c` — test: add contact page tests
+- (docs/memory commit to follow)
+
+**Push status:** pending — will push after the docs/memory commit.
+
+**Remaining concerns:** None from this task's scope. Live-email verification was
+intentionally skipped (see above) — flag to the user if they want an explicit,
+separate live-send confirmation. Only `Socialicons` (2 warnings) and, once rebuilt,
+Resume remain before the ESLint relaxed-rule override block for `src/pages/**` can
+be fully retired. Other unrelated Discovered Tasks remain open.

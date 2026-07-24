@@ -2,113 +2,117 @@
 
 ## Task Objective
 
-Rebuild `src/pages/projects/` from scratch using the documented design system, layout
-primitives, and design tokens. Remove all Bootstrap markup and `animate.css` entrance
-animations (replaced with Framer Motion). Preserve and improve the existing image
-carousel behavior. Rename the component from `Portfolio` to `WorkPage`.
+Rebuild `src/pages/contact/` from scratch using the documented design system, layout
+primitives, and design tokens. Remove all Bootstrap markup. Preserve the EmailJS form
+submission logic exactly (live production credentials). Replace the Bootstrap Alert
+with a token-based inline status message. Remove all `console.log` debug statements
+(the 9 pre-existing ESLint warnings tracked since Foundation).
 
 ## Approved Scope
 
-- Full rewrite of `src/pages/projects/index.jsx` (exported as `WorkPage`) and
-  `src/pages/projects/style.css`.
-- New `src/pages/projects/Work.test.jsx`.
-- `src/app/routes.jsx` — component import/usage rename only (`Portfolio` → `WorkPage`).
-  Per explicit user decision (see below), the `/portfolio` → `/work` redirect route and
-  the route path structure are **not** touched.
-- `docs/implementation-checklist.md` — mark Work > Project cards/Image carousel/
-  Technology tags/GitHub links complete; leave Live demo/CTA unchecked (no `liveUrl`
-  data).
+- Full rewrite of `src/pages/contact/index.jsx` and `src/pages/contact/style.css`.
+- New `src/pages/contact/Contact.test.jsx`.
+- `docs/implementation-checklist.md` — mark Contact items complete.
 - No other pages, shared components, or `content_option.js` touched.
+- (Not originally listed, added as a small necessary addition — see below:)
+  `src/test/setup.js` — one-line `scrollIntoView` polyfill, same pattern as the
+  existing `IntersectionObserver` polyfill.
 
 ## Current Branch
 
-`feat/work-page`, created from `main` (confirmed via `git log`/`git branch -a` that
-`main` already includes the merged About rebuild, PR #13, `ddd593f`, before branching).
+`feat/contact-page`, created from `main` (confirmed via `git log`/`git branch -a`
+that `main` already includes the merged Work rebuild, PR #14, `795ead3`, before
+branching).
 
 ## Files Changed
 
-- `src/pages/projects/index.jsx` (full rewrite, renamed export)
-- `src/pages/projects/style.css` (full rewrite)
-- `src/pages/projects/Work.test.jsx` (new)
-- `src/app/routes.jsx` (import/usage rename only)
+- `src/pages/contact/index.jsx` (full rewrite)
+- `src/pages/contact/style.css` (full rewrite)
+- `src/pages/contact/Contact.test.jsx` (new)
+- `src/test/setup.js` (added `scrollIntoView` no-op polyfill)
 - `docs/implementation-checklist.md`
-- `.agent-memory/OPEN_QUESTIONS.md` (new entry, see below)
 
 ## Tests Required / Run
 
 - `npm run build` — PASSED
-- `npm run lint` — PASSED (0 errors; same 9 pre-existing warnings in unrelated legacy
-  files, none from this task)
-- `npm run test` — PASSED (7/7 across 4 files)
+- `npm run lint` — PASSED (0 errors, 2 warnings — both pre-existing and unrelated,
+  in `src/components/socialicons/`; **all 9 original `console.log`-related warnings
+  in `src/pages/contact/index.jsx` are gone**, confirmed by lint output shrinking
+  from 9 warnings to 2)
+- `npm run test` — PASSED (11/11 across 5 files)
 - `npm run test:e2e` — PASSED (1/1)
-- Grep `bootstrap|animate\.css|react-bootstrap` in `src/pages/projects/` — no matches
-- Grep `FaGithub` in `src/pages/projects/index.jsx` — confirmed present
-- Grep `portfolio` in `src/app/routes.jsx` — one match, the intentionally-preserved
-  `/portfolio` → `/work` redirect (see Decisions below)
-- Manual Playwright verification (scripts written, run, then deleted — not committed):
-  - Route/nav: `/work` renders with h1 "Work"; `/portfolio` resolves to `/work` via the
-    redirect; nav link text is "Work" and points to `/work`.
-  - 375px/1440px × light/dark × reduced-motion on/off (8 combinations): no horizontal
-    scroll in any combination, exactly one h1, two h2s (one per project), two GitHub
-    links, zero console errors.
-  - Carousel: auto-cycles after ~3s, pauses correctly while hovered, Tab+Enter on the
-    Next button advances the image, dot buttons are keyboard-activatable, the
-    `aria-live="polite"` region reports "Image N of M" correctly.
-  - `prefers-reduced-motion: reduce`: auto-cycle interval does not fire (image stays
-    static after 3.5s), manual Next click still advances the image.
-  - Screenshots reviewed in both themes at both viewports — cards stack to one column
-    on mobile, sit side-by-side on desktop (2 projects fit without crowding), no
-    overflow, good contrast in both themes.
+- Grep `bootstrap|react-bootstrap|animate\.css` in `src/pages/contact/` — no matches
+- Grep `console\.` in `src/pages/contact/index.jsx` — no matches
+- Grep `YOUR_SERVICE_ID|YOUR_TEMPLATE_ID|YOUR_USER_ID` in `src/pages/contact/index.jsx`
+  — exactly 3 matches (the `emailjs.send()` call), credentials themselves untouched
+  in `content_option.js`
+- Manual Playwright verification (script written, run, then deleted — not
+  committed): 375px/1440px × light/dark — no horizontal scroll, exactly one h1, all
+  four fields resolve via `getByLabel` (Name/Email/Subject/Message), zero console
+  errors; Tab order confirmed exactly Name → Email → Subject → Message → Send;
+  typing into all four fields updates each independently (no stale-closure bugs).
+  **Deliberately did not submit the form during live browser verification** — doing
+  so would fire a real `emailjs.send()` call against live production credentials.
+  Submit/success/error/dismiss/scroll-into-view behavior is instead covered by the
+  mocked Vitest suite (`Contact.test.jsx`), which asserts the exact `templateParams`
+  shape sent to `emailjs.send` and both the resolved and rejected paths.
 
 ## Work Completed
 
-- Confirmed `main` contains the merged About rebuild (PR #13, `ddd593f`) before
+- Confirmed `main` contains the merged Work rebuild (PR #14, `795ead3`) before
   branching.
-- **Discovered two stale assumptions in the task briefing, both resolved with the
-  user before implementing:**
-  1. The task assumed the route was still `/portfolio`. In fact `/work` (with a
-     `/portfolio` → `/work` redirect) and the "Work" nav label were already
-     implemented in the Foundation phase (commit `49cdb79`, "feat: finalize routing").
-     Asked the user whether to remove the redirect (matching the task's literal
-     verification script, which expected zero `"portfolio"` matches in `routes.jsx`
-     and treated a 404 as the outcome) or keep it. **User decision: keep the
-     redirect and the existing `/work` route/nav label exactly as they are** —
-     do not rework routing already completed in an earlier phase, and treat the
-     verification script's zero-match expectation as outdated. Recorded as a
-     durable decision in `.agent-memory/DECISIONS.md`.
-  2. `docs/implementation-checklist.md`'s existing `## Work` section used different
-     item names ("Featured Project", "Project Grid", "CTA") than what the task asked
-     to check off ("Project cards", "Image carousel", "Technology tags", "GitHub
-     links"). Replaced the section with the task's item names since the originals
-     were all still unchecked (not overwriting completed work) and no longer matched
-     the actual page structure being built.
-- Renamed the component export from `Portfolio` to `WorkPage` in
-  `src/pages/projects/index.jsx` and updated the sole import/usage site in
-  `src/app/routes.jsx` — a behavior-preserving rename, not a routing change.
-- Rebuilt the page with three sections per the task spec: page header (h1 "Work" +
-  `meta.description` as the positioning line), a project-cards grid (one `work-card`
-  per `projects[]` entry), and a low-prominence "More to come…" closing line.
-- Rebuilt the carousel keeping the established `useState`/`useEffect`/`setInterval`
-  approach (no third-party library): auto-cycles every 3s, pauses on hover, adds
-  keyboard-accessible Prev/Next buttons and dot indicators (each a real `<button>`
-  with a 44×44px hit target), wraps the image area in `role="region" aria-label="Project
-  screenshots"`, and adds an `aria-live="polite" aria-atomic="true"` region announcing
-  "Image N of M". `useReducedMotion()` fully disables the auto-cycle interval (manual
-  controls remain).
-- Used `react-icons/fa`'s `FaGithub` (not Lucide, which has no brand icons) for the
-  "View on GitHub" link, opened in a new tab with `rel="noopener noreferrer"`.
-- Technology badges reuse the same tag/badge visual pattern as the About page's
-  skill badges (token-based surface/border/radius-full, presentational only).
-- Carousel Prev/Next buttons and dot indicators use a fixed dark-scrim / light-icon
-  color (functional `rgb()`, not hex) instead of theme tokens, documented inline in
-  `style.css` as a deliberate exception — they sit on top of arbitrary project
-  screenshots, not a themed surface, and must stay legible regardless of the photo
-  or active theme.
-- Verified content fields used: `projects[].images[]`, `.title`, `.description`,
-  `.technologies[]`, `.link` — no invented fields (no `liveUrl`/`githubUrl`/`featured`).
-- Logged a user note in `.agent-memory/OPEN_QUESTIONS.md`: the user said (before this
-  task's implementation began) that they want to revisit how projects are displayed
-  in a future task, with no specifics given yet.
+- **Found the task briefing's styling tokens don't exist in this design system**:
+  it referenced `--color-primary`, `--color-surface-2`, `--color-success`/
+  `--color-success-highlight`, `--color-error`/`--color-error-highlight`, none of
+  which are defined in `src/index.css` (the actual set is `--color-bg/surface/
+  surface-raised/border/text/text-muted/accent/accent-strong/highlight/overlay`).
+  Rather than inventing new hex-backed tokens — which `docs/01-visual-language.md`
+  explicitly argues against ("muted accent colors", "avoid rainbow or
+  high-saturation gradients") — mapped: `--color-surface-2` → `--color-surface-raised`,
+  `--color-primary` → `--color-accent-strong` (this project's established
+  interactive/CTA color per prior tasks' "Known Patterns"), and differentiated the
+  success/error alert via existing `--color-accent-strong` (success) and
+  `--color-highlight` (error — already a warm rust/red tone) instead of inventing a
+  green. This is a lower-risk judgment call than the routing/wireframe discrepancies
+  in prior tasks (no functionality removed, no product decision), so I proceeded
+  without asking, documenting the substitution here and in the completion report.
+- Also found `docs/implementation-checklist.md`'s `## Contact` section used
+  different, never-completed item names ("Contact Cards", "Contact Form", "CTA")
+  than what the task asked to check off. Replaced them with the task's item names
+  since none were previously completed.
+- Preserved the EmailJS submission logic exactly: same `contactConfig.YOUR_SERVICE_ID`/
+  `YOUR_TEMPLATE_ID`/`YOUR_USER_ID` call shape, same `templateParams` (`user_name`,
+  `user_email`, `subject`, `message`), same success (clear fields, show success
+  alert) and error (keep fields, show error alert) behavior. Removed all 7
+  `console.log` calls (3 in the old `handleChange`, 1 in the old
+  `handleMessageChange`, 2 in the `.then`/error callbacks) and switched `setFormData`
+  calls to the functional-updater form to explicitly rule out stale-closure bugs.
+- Removed the duplicate `handleMessageChange` handler and the `onInput` workaround
+  on the message textarea — it now uses the same `onChange={handleChange}` as the
+  other three fields.
+- Added real `<label>` elements (`htmlFor` matching each field's `id`) for all four
+  fields, visually hidden via a new `.sr-only` utility class in
+  `src/pages/contact/style.css` (the exact class name the task suggested).
+  `aria-required="true"` added alongside the native `required` attribute.
+- Replaced the Bootstrap `<Alert>` with a native `<div role="alert">` (role only
+  applied while `show` is true) with a dismiss `<button aria-label="Dismiss
+  notification">` using a Lucide `X` icon. The alert div is always mounted (never
+  conditionally removed) so the `alertRef` stays valid for the synchronous
+  `scrollIntoView` call made right after `setFormData` in the error path — this
+  mirrors why the original's `document.getElementsByClassName` approach worked
+  despite firing before the state update visually applied.
+- Reimplemented the loading indicator as a `.contact-form__progress` bar (absolute,
+  thin, token-colored) driven entirely by CSS — a sliding `::after` animation under
+  normal conditions, collapsing to a static full-width bar under
+  `@media (prefers-reduced-motion: reduce)`. No JS animation logic needed.
+- Discovered jsdom doesn't implement `Element.prototype.scrollIntoView` (same
+  category of gap as the existing `IntersectionObserver` polyfill) — the rejected-
+  submission Vitest test surfaced an unhandled-rejection error from this. Added a
+  matching no-op polyfill to `src/test/setup.js`, following the established
+  precedent from the Homepage rebuild task.
+- Verified content fields used: `contactConfig.YOUR_EMAIL`, `.description`,
+  `.YOUR_SERVICE_ID`, `.YOUR_TEMPLATE_ID`, `.YOUR_USER_ID`, `meta.title`/
+  `.description` — no new fields invented, `content_option.js` untouched.
 
 ## Work Remaining
 
@@ -124,16 +128,10 @@ None.
 
 ## Note for next session
 
-- `docs/wireframes/work-1440.png` exists and was viewed for layout inspiration
-  (card structure: image + title + description + tags + link button), but its own
-  section set (a single "Featured Case Study" + a 3-card "Additional Ventures" grid +
-  an "Engineering Principles" section + a closing CTA) was intentionally not adopted,
-  since the task's explicit 3-section scope (header → cards → closing line) is a
-  direct user instruction and `content_option.js` only has 2 projects with no
-  "featured" concept.
-- The user has flagged (via `.agent-memory/OPEN_QUESTIONS.md`) that they want to
-  change how projects are displayed in some future task — ask for specifics before
-  scoping that work.
-- Remaining Discovered Task items (ESLint warnings, `web-vitals` cleanup, Socialicons/
-  Footer link duplication, Homepage Current Focus placeholder) are unrelated to this
-  task and still open — see `docs/implementation-checklist.md`.
+- Live-email verification was intentionally skipped in this session. If real
+  end-to-end confirmation of the EmailJS send is ever wanted, it needs to be an
+  explicit, separate ask — not something to do silently during routine QA.
+- The ESLint-warnings Discovered Task item now only covers `src/components/
+  socialicons/` (2 warnings) — Contact's 7 `console.log` warnings are gone, and
+  Work/About already contributed 0. Only `Socialicons` (and, once rebuilt, Resume)
+  remain to fully retire the relaxed-rule ESLint override block for `src/pages/**`.
