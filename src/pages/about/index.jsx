@@ -56,6 +56,7 @@ export const About = () => {
           <meta property="og:title" content={PAGE_TITLE} />
           <meta property="og:description" content={PAGE_DESCRIPTION} />
           <meta property="og:type" content="website" />
+          <meta property="og:url" content="https://shalsey.dev/about" />
           <meta name="robots" content="index, follow" />
         </Helmet>
 

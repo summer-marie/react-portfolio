@@ -46,7 +46,7 @@
 
 **Safe work that can continue:** Everything else in the Final phase.
 
-**Resolution:** Unresolved. Added `<link rel="canonical" href="https://summerhalsey.dev" />` as a placeholder in `index.html`. Replace with the real production domain once it's confirmed (e.g. after choosing/configuring a hosting provider).
+**Resolution:** Resolved 2026-07-23. User confirmed the production domain is `shalsey.dev`. Updated `<link rel="canonical">` in `index.html` to `https://shalsey.dev`, and added `og:url` (matching each route, e.g. `https://shalsey.dev/work`) to every page's `<Helmet>` block except the 404 page (noindex, no single canonical URL to point at).
 
 ## 2026-07-23 — About page profile image is 2.7 MB (largest asset in the build, loaded eager)
 

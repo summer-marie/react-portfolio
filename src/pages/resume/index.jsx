@@ -76,6 +76,7 @@ export const Resume = () => {
           <meta property="og:title" content={`Resume | ${meta.title}`} />
           <meta property="og:description" content={PAGE_DESCRIPTION} />
           <meta property="og:type" content="website" />
+          <meta property="og:url" content="https://shalsey.dev/resume" />
           <meta name="robots" content="index, follow" />
         </Helmet>
 

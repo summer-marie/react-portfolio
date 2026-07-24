@@ -104,6 +104,7 @@ export const ContactUs = () => {
           <meta property="og:title" content={`Contact | ${meta.title}`} />
           <meta property="og:description" content={PAGE_DESCRIPTION} />
           <meta property="og:type" content="website" />
+          <meta property="og:url" content="https://shalsey.dev/contact" />
           <meta name="robots" content="index, follow" />
         </Helmet>
 

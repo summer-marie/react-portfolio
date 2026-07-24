@@ -99,6 +99,7 @@ export const WorkPage = () => {
           <meta property="og:title" content={`Work | ${meta.title}`} />
           <meta property="og:description" content={PAGE_DESCRIPTION} />
           <meta property="og:type" content="website" />
+          <meta property="og:url" content="https://shalsey.dev/work" />
           <meta name="robots" content="index, follow" />
         </Helmet>
 
