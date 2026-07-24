@@ -6,7 +6,15 @@ import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, BadgeCheck, Blocks, BrainCircuit, FileText, Mail, ShieldCheck, Users } from "lucide-react";
 import { Container } from "../../components/container/index.jsx";
 import { Section } from "../../components/section/index.jsx";
-import { contactConfig, introData, meta, projects, strengths } from "../../content_option.js";
+import {
+  contactConfig,
+  dataAbout,
+  introData,
+  meta,
+  projects,
+  skills,
+  strengths,
+} from "../../content_option.js";
 import {
   DURATION_ENTRANCE,
   DURATION_REDUCED,
@@ -86,6 +94,67 @@ export const Home = () => {
           </Container>
         </Section>
 
+        <Section className="home-intro" aria-labelledby="home-intro-heading">
+          <Container narrow>
+            <motion.h2
+              id="home-intro-heading"
+              className="home-section-heading"
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-80px" }}
+              variants={fadeRise}
+            >
+              How I Work
+            </motion.h2>
+
+            <motion.p
+              className="home-intro__summary"
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-80px" }}
+              variants={fadeRise}
+            >
+              {dataAbout.homeSummary}
+            </motion.p>
+          </Container>
+        </Section>
+
+        <Section className="home-how" aria-labelledby="home-how-heading">
+          <Container>
+            <motion.h2
+              id="home-how-heading"
+              className="home-section-heading"
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-80px" }}
+              variants={fadeRise}
+            >
+              Engineering Approach
+            </motion.h2>
+
+            <motion.ul
+              className="home-how__list"
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-80px" }}
+              variants={staggerContainer}
+            >
+              {strengths.map((strength, index) => {
+                const Icon = STRENGTH_ICONS[index % STRENGTH_ICONS.length];
+                const firstSentence = strength.description.split(". ")[0].replace(/\.*$/, ".");
+
+                return (
+                  <motion.li key={strength.title} className="home-how__item" variants={fadeRise}>
+                    <Icon className="home-how__icon" aria-hidden="true" />
+                    <h3 className="home-how__title">{strength.title}</h3>
+                    <p className="home-how__summary">{firstSentence}</p>
+                  </motion.li>
+                );
+              })}
+            </motion.ul>
+          </Container>
+        </Section>
+
         <Section className="home-work" aria-labelledby="home-work-heading">
           <Container>
             <motion.h2
@@ -96,7 +165,7 @@ export const Home = () => {
               viewport={{ once: true, margin: "-80px" }}
               variants={fadeRise}
             >
-              Selected Work
+              Featured Projects
             </motion.h2>
 
             <motion.ul
@@ -150,60 +219,33 @@ export const Home = () => {
           </Container>
         </Section>
 
-        <Section className="home-how" aria-labelledby="home-how-heading">
+        <Section className="home-skills" aria-labelledby="home-skills-heading">
           <Container>
             <motion.h2
-              id="home-how-heading"
-              className="home-section-heading"
+              id="home-skills-heading"
+              className="home-section-heading home-section-heading--compact"
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, margin: "-80px" }}
               variants={fadeRise}
             >
-              How I Work
+              Core Skills
             </motion.h2>
 
-            <motion.ul
-              className="home-how__list"
+            <motion.dl
+              className="home-skills__list"
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, margin: "-80px" }}
               variants={staggerContainer}
             >
-              {strengths.map((strength, index) => {
-                const Icon = STRENGTH_ICONS[index % STRENGTH_ICONS.length];
-                const firstSentence = strength.description.split(". ")[0].replace(/\.*$/, ".");
-
-                return (
-                  <motion.li key={strength.title} className="home-how__item" variants={fadeRise}>
-                    <Icon className="home-how__icon" aria-hidden="true" />
-                    <h3 className="home-how__title">{strength.title}</h3>
-                    <p className="home-how__summary">{firstSentence}</p>
-                  </motion.li>
-                );
-              })}
-            </motion.ul>
-          </Container>
-        </Section>
-
-        <Section className="home-focus" aria-labelledby="home-focus-heading">
-          <Container>
-            <motion.h2
-              id="home-focus-heading"
-              className="home-section-heading"
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, margin: "-80px" }}
-              variants={fadeRise}
-            >
-              Current Focus
-            </motion.h2>
-            {/*
-              Placeholder: content_option.js does not yet export a "current focus"
-              field. Replace this paragraph with real data (e.g. a currentFocus
-              export) once it exists. See docs/implementation-checklist.md.
-            */}
-            <p className="home-focus__placeholder">Current focus areas are coming soon.</p>
+              {skills.map((group) => (
+                <motion.div key={group.category} className="home-skills__group" variants={fadeRise}>
+                  <dt className="home-skills__category">{group.category}</dt>
+                  <dd className="home-skills__items">{group.items.join(" • ")}</dd>
+                </motion.div>
+              ))}
+            </motion.dl>
           </Container>
         </Section>
 

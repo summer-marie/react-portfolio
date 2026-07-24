@@ -93,6 +93,11 @@
   margin: 0 0 var(--space-8) 0;
 }
 
+.home-section-heading--compact {
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--space-6);
+}
+
 .home-section-link {
   display: inline-flex;
   align-items: center;
@@ -114,7 +119,19 @@
   transform: translateX(2px);
 }
 
-/* Selected Work */
+/* How I Work (short intro) */
+
+.home-intro {
+  padding-block: clamp(var(--space-8), 5vw, var(--space-12));
+}
+
+.home-intro__summary {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-lg);
+  margin: 0;
+}
+
+/* Featured Projects */
 
 .home-work__list {
   display: grid;
@@ -201,7 +218,7 @@
   justify-content: flex-end;
 }
 
-/* How I Work */
+/* Engineering Approach */
 
 .home-how__list {
   display: grid;
@@ -242,11 +259,51 @@
   margin: 0;
 }
 
-/* Current Focus */
+/* Core Skills (lightweight reference — no cards) */
 
-.home-focus__placeholder {
+.home-skills {
+  padding-block: clamp(var(--space-8), 5vw, var(--space-12));
+  background-color: var(--color-surface);
+  border-block: 1px solid var(--color-border);
+}
+
+.home-skills__list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3) var(--space-8);
+  margin: 0;
+}
+
+@media (min-width: 640px) {
+  .home-skills__list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-skills__list {
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  }
+}
+
+.home-skills__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.home-skills__category {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--color-text-muted);
-  font-style: italic;
+  margin: 0;
+}
+
+.home-skills__items {
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
   margin: 0;
 }
 
