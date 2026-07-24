@@ -1,120 +1,185 @@
 import React from "react";
 import "./style.css";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import { Container, Row, Col } from "react-bootstrap";
+import { motion, useReducedMotion } from "framer-motion";
+import { Palette, Server, ShieldCheck } from "lucide-react";
+import { Container } from "../../components/container/index.jsx";
+import { Section } from "../../components/section/index.jsx";
+import { dataAbout, education, introData, meta, skills, strengths } from "../../content_option.js";
 import {
-  dataAbout,
-  meta,
-  education,
-  skills,
-  strengths,
-} from "../../content_option.js";
+  DURATION_ENTRANCE,
+  DURATION_REDUCED,
+  EASE_STANDARD,
+  PAGE_TRANSITION_OFFSET,
+} from "../../lib/motion.js";
+
+const STRENGTH_ICONS = [Server, Palette, ShieldCheck];
+
+const summarize = (text, sentenceCount = 2) => {
+  const sentences = text.split(". ").filter(Boolean);
+  return sentences.slice(0, sentenceCount).join(". ").replace(/\.*$/, ".");
+};
 
 export const About = () => {
+  const prefersReducedMotion = useReducedMotion();
+
+  const entranceTransition = prefersReducedMotion
+    ? { duration: DURATION_REDUCED }
+    : { duration: DURATION_ENTRANCE, ease: EASE_STANDARD };
+
+  const fadeRise = {
+    hidden: {
+      opacity: prefersReducedMotion ? 1 : 0,
+      y: prefersReducedMotion ? 0 : PAGE_TRANSITION_OFFSET,
+    },
+    show: { opacity: 1, y: 0, transition: entranceTransition },
+  };
+
+  const staggerContainer = {
+    hidden: {},
+    show: {
+      transition: { staggerChildren: prefersReducedMotion ? 0 : 0.12 },
+    },
+  };
+
   return (
     <HelmetProvider>
-      <Container className="About-header">
+      <div className="about">
         <Helmet>
           <meta charSet="utf-8" />
-          <title> About | {meta.title}</title>
+          <title>About | {meta.title}</title>
           <meta name="description" content={meta.description} />
         </Helmet>
-        <Row className="mb-5 mt-3 pt-md-3">
-          <Col lg="8">
-            <h1 className="display-4 mb-4">About me</h1>
-            <hr className="t_border my-4 ml-0 text-left" />
-          </Col>
-        </Row>
 
-        {/* Purpose Section */}
-        <Row className="sec_sp">
-          <Col lg="5">
-            <h3 className="color_sec py-4">{dataAbout.title}</h3>
-          </Col>
-          <Col lg="7" className="d-flex align-items-center">
-            <div>
-              <p className="py-4">{dataAbout.aboutMe}</p>
-            </div>
-          </Col>
-        </Row>
+        <Section className="about-intro" aria-labelledby="about-intro-heading">
+          <Container>
+            <motion.div
+              className="about-intro__grid"
+              initial="hidden"
+              animate="show"
+              variants={staggerContainer}
+            >
+              <motion.div className="about-intro__content" variants={fadeRise}>
+                <h1 id="about-intro-heading" className="about-intro__heading">
+                  {dataAbout.title}
+                </h1>
+                <p className="about-intro__bio">{dataAbout.aboutMe}</p>
+                <p className="about-intro__bio">{introData.description}</p>
+              </motion.div>
+              <motion.div className="about-intro__media" variants={fadeRise}>
+                <img
+                  className="about-intro__image"
+                  src={introData.your_img_url}
+                  alt="Portrait of Summer Halsey, full stack developer"
+                />
+              </motion.div>
+            </motion.div>
+          </Container>
+        </Section>
 
-        {/* Strengths Row */}
-        <Row className="sec_sp">
-          <Col lang="5">
-            <h3 className="color_sec py-4">Strengths</h3>
-          </Col>
-          <Col lg="7">
-            {strengths.map((data, i) => {
-              return (
-                <div className="service_ py-4" key={i}>
-                  <h5 className="service__title">{data.title}</h5>
-                  <p className="service_desc">{data.description}</p>
-                </div>
-              );
-            })}
-          </Col>
-        </Row>
+        <Section className="about-strengths" aria-labelledby="about-strengths-heading">
+          <Container>
+            <motion.h2
+              id="about-strengths-heading"
+              className="about-section-heading"
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-80px" }}
+              variants={fadeRise}
+            >
+              Strengths
+            </motion.h2>
 
-        {/* Skills Row */}
-        <Row className="sec_sp">
-          <Col lg="5">
-            <h3 className="color_sec py-4">Skills</h3>
-          </Col>{" "}
-          <Col lg="7">
-            {skills.map((data, i) => {
-              const getProgressColor = (value) => {
-                if (value <= 60) return "#4caf50"; // green for 60% and below
-                else if (value <= 70) return "#2196f3"; // lighter blue
-                else if (value <= 80) return "#1976d2"; // medium blue
-                else if (value <= 90) return "#0d47a1"; // darker blue
-                return "#002171"; // darkest blue for above 90%
-              };
+            <motion.ul
+              className="about-strengths__list"
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-80px" }}
+              variants={staggerContainer}
+            >
+              {strengths.map((strength, index) => {
+                const Icon = STRENGTH_ICONS[index % STRENGTH_ICONS.length];
 
-              return (
-                <div key={i}>
-                  <h3 className="progress-title">{data.name}</h3>
-                  <div className="progress">
-                    <div
-                      className="progress-bar"
-                      style={{
-                        width: `${data.value}%`,
-                        backgroundColor: getProgressColor(data.value),
-                      }}
-                    >
-                      <div className="progress-value">{data.value}%</div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </Col>
-        </Row>
+                return (
+                  <motion.li
+                    key={strength.title}
+                    className="about-strengths__card"
+                    variants={fadeRise}
+                  >
+                    <Icon className="about-strengths__icon" aria-hidden="true" />
+                    <h3 className="about-strengths__title">{strength.title}</h3>
+                    <p className="about-strengths__summary">{summarize(strength.description)}</p>
+                  </motion.li>
+                );
+              })}
+            </motion.ul>
+          </Container>
+        </Section>
 
-        {/* Education Row */}
-        <Row className="sec_sp">
-          <Col lg="5">
-            <h3 className="color_sec py-4">Education</h3>
-          </Col>
-          <Col lg="7" className="d-flex align-items-center">
-            <table className="table table-borderless">
-              <tbody>
-                {education.map((data, i) => {
-                  return (
-                    <tr key={i}>
-                      <th scope="row" className="text-nowrap">
-                        {data.certification}
-                      </th>
-                      <td className="text-nowrap">{data.where}</td>
-                      <td className="text-end text-nowrap">{data.date}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </Col>
-        </Row>
+        <Section className="about-education" aria-labelledby="about-education-heading">
+          <Container narrow>
+            <motion.h2
+              id="about-education-heading"
+              className="about-section-heading"
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-80px" }}
+              variants={fadeRise}
+            >
+              Education
+            </motion.h2>
 
-      </Container>
+            <motion.ul
+              className="about-education__list"
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-80px" }}
+              variants={staggerContainer}
+            >
+              {education.map((item) => (
+                <motion.li
+                  key={item.certification}
+                  className="about-education__item"
+                  variants={fadeRise}
+                >
+                  <span className="about-education__cert">{item.certification}</span>
+                  <span className="about-education__where">{item.where}</span>
+                  <span className="about-education__date">{item.date}</span>
+                </motion.li>
+              ))}
+            </motion.ul>
+          </Container>
+        </Section>
+
+        <Section className="about-skills" aria-labelledby="about-skills-heading">
+          <Container>
+            <motion.h2
+              id="about-skills-heading"
+              className="about-section-heading"
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-80px" }}
+              variants={fadeRise}
+            >
+              Skills
+            </motion.h2>
+
+            <motion.ul
+              className="about-skills__list"
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-80px" }}
+              variants={staggerContainer}
+            >
+              {skills.map((skill) => (
+                <motion.li key={skill.name} className="about-skills__badge" variants={fadeRise}>
+                  {skill.name}
+                </motion.li>
+              ))}
+            </motion.ul>
+          </Container>
+        </Section>
+      </div>
     </HelmetProvider>
   );
 };
