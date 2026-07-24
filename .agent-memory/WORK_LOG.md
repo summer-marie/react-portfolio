@@ -360,3 +360,92 @@
 still open (out of scope here; `/about`'s half is now resolved and the checklist
 Discovered Task was updated accordingly). No other pages, Bootstrap, or
 `content_option.js` data values were touched.
+
+## 2026-07-23 — Claude Code — branch `feat/work-page`
+
+**Work performed:**
+- Confirmed `main` contained the merged About rebuild (PR #13, `ddd593f`) before
+  branching.
+- Logged a user note in `.agent-memory/OPEN_QUESTIONS.md` (asked for, before
+  implementation began): the user wants to revisit how projects are displayed in a
+  future task, no specifics given yet.
+- Discovered the task briefing's routing assumption was stale: `/work`, a
+  `/portfolio` → `/work` redirect, and the "Work" nav label already existed from the
+  Foundation phase (commit `49cdb79`). The task's verification script expected zero
+  `"portfolio"` matches in `routes.jsx` (i.e., wanted the redirect removed, `/portfolio`
+  404ing) — asked the user before touching it. **User decision: keep the redirect and
+  existing routing/nav exactly as-is; treat the verification script's expectation as
+  outdated; only rename the internal component if behavior-preserving.** Recorded as a
+  durable decision in `.agent-memory/DECISIONS.md`.
+- Also found `docs/implementation-checklist.md`'s `## Work` section used different,
+  never-completed item names ("Featured Project", "Project Grid", "CTA") than what the
+  task asked to check off. Replaced them with the task's item names since none were
+  previously completed.
+- Renamed the `Portfolio` component export to `WorkPage` in
+  `src/pages/projects/index.jsx`; updated the single import/usage site in
+  `src/app/routes.jsx` (route paths and the redirect untouched).
+- Full rewrite of `src/pages/projects/index.jsx` and `style.css`: removed all
+  `react-bootstrap` and `animate.css` usage, replaced with `Container`/`Section`
+  primitives, design tokens, and Framer Motion fade+rise entrances. Three sections:
+  page header (h1 "Work" + `meta.description` tagline), project-cards grid, and a
+  low-prominence "More to come…" closing line.
+- Rebuilt the carousel keeping the existing `useState`/`useEffect`/`setInterval`
+  approach (no third-party library): preserved auto-cycle-every-3s and pause-on-hover
+  behavior, and added: real `<button>` Prev/Next controls and dot indicators (all with
+  44×44px hit targets and `:focus-visible` rings), `role="region" aria-label="Project
+  screenshots"` on the image area, an `aria-live="polite" aria-atomic="true"` region
+  announcing "Image N of M", and a `useReducedMotion()` guard that fully disables the
+  auto-cycle interval while leaving manual controls working.
+- Used `react-icons/fa`'s `FaGithub` (Lucide has no brand icons) for the "View on
+  GitHub" link (`target="_blank" rel="noopener noreferrer"`); reused the About page's
+  tag/badge pattern for technology badges.
+- Carousel Prev/Next buttons and dots use a fixed dark-scrim/light-icon color
+  (functional `rgb()`, not hex) rather than theme tokens — documented inline as a
+  deliberate exception, since they sit on top of arbitrary project screenshots rather
+  than a themed surface.
+- Verified content fields used: `projects[].images[]`, `.title`, `.description`,
+  `.technologies[]`, `.link` only — no invented fields.
+- Added `src/pages/projects/Work.test.jsx` (Vitest + RTL): one h1, one h2 per project,
+  GitHub link attributes, carousel Next-button advancement (via `user-event`), and the
+  closing line.
+
+**Files changed:** `src/pages/projects/index.jsx` (full rewrite, renamed export),
+`src/pages/projects/style.css` (full rewrite), `src/pages/projects/Work.test.jsx`
+(new), `src/app/routes.jsx` (import/usage rename only), `docs/implementation-checklist.md`,
+`.agent-memory/CURRENT_SESSION.md`, `.agent-memory/DECISIONS.md`,
+`.agent-memory/OPEN_QUESTIONS.md`, `.agent-memory/WORK_LOG.md`.
+
+**Tests run and results:**
+- `npm run build` — PASSED.
+- `npm run lint` — PASSED: 0 errors, 9 warnings (same pre-existing unrelated
+  legacy-file warnings as before; none introduced by this task).
+- `npm run test` — PASSED (7/7 across 4 files).
+- `npm run test:e2e` — PASSED (1/1).
+- Grep for `bootstrap|animate\.css|react-bootstrap` in `src/pages/projects/` — no
+  matches.
+- Grep for `FaGithub` in `src/pages/projects/index.jsx` — confirmed present.
+- Grep for `portfolio` in `src/app/routes.jsx` — one match, the intentionally kept
+  redirect (per the Decision above); not a failure.
+- Manual Playwright verification (script written, run, then deleted — not committed):
+  `/work` renders with h1 "Work"; `/portfolio` resolves to `/work`; nav link reads
+  "Work"; 375px/1440px × light/dark × reduced-motion on/off (8 combinations) — no
+  horizontal scroll, 1 h1, 2 h2, 2 GitHub links, 0 console errors in every combination;
+  carousel auto-cycles (confirmed image advanced after 3.4s), pauses correctly on
+  hover, Tab+Enter on Next/dots works, live region correctly announces "Image 1 of 3";
+  under `prefers-reduced-motion: reduce` the image stayed static after 3.5s and manual
+  Next still advanced it. Screenshots reviewed in both themes at both viewports — cards
+  sit side-by-side on desktop (2 projects, no crowding) and stack on mobile, good
+  contrast both themes.
+
+**Commit hashes:**
+- `8316dfa` — feat: rebuild work page with carousel and rename Portfolio to WorkPage
+- `b17c651` — test: add work page tests
+- `30b9568` — docs: update checklist and agent memory for work page rebuild
+
+**Push status:** pushed to `origin/feat/work-page`.
+
+**Remaining concerns:** None from this task's scope. The user has an open item in
+`.agent-memory/OPEN_QUESTIONS.md` about wanting to change how projects are displayed
+in a future task, with no specifics yet. Unrelated Discovered Tasks (ESLint warnings
+in Contact/Socialicons, `web-vitals` cleanup, Socialicons/Footer duplication, Homepage
+Current Focus placeholder) remain open.

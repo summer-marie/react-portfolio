@@ -1,147 +1,218 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.css";
-import "animate.css";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import { Container, Row, Col } from "react-bootstrap";
-import { projects, meta } from "../../content_option.js";
+import { motion, useReducedMotion } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { FaGithub } from "react-icons/fa";
+import { Container } from "../../components/container/index.jsx";
+import { Section } from "../../components/section/index.jsx";
+import { meta, projects } from "../../content_option.js";
+import {
+  DURATION_ENTRANCE,
+  DURATION_REDUCED,
+  EASE_STANDARD,
+  PAGE_TRANSITION_OFFSET,
+} from "../../lib/motion.js";
 
-export const Portfolio = () => {
+const CAROUSEL_INTERVAL_MS = 3000;
+
+export const WorkPage = () => {
+  const prefersReducedMotion = useReducedMotion();
   const [currentImageIndex, setCurrentImageIndex] = useState({});
   const [isHovered, setIsHovered] = useState({});
 
-  // Auto-cycle through images every 3 seconds
   useEffect(() => {
-    const intervals = {};
-    
-    projects.forEach((project, projectIndex) => {
-      if (project.images && project.images.length > 1 && !isHovered[projectIndex]) {
-        intervals[projectIndex] = setInterval(() => {
-          setCurrentImageIndex(prev => ({
-            ...prev,
-            [projectIndex]: ((prev[projectIndex] || 0) + 1) % project.images.length
-          }));
-        }, 3000); // Change image every 3 seconds
+    if (prefersReducedMotion) return undefined;
+
+    const intervals = projects.map((project, projectIndex) => {
+      if (project.images.length <= 1 || isHovered[projectIndex]) {
+        return null;
       }
+      return setInterval(() => {
+        setCurrentImageIndex((prev) => ({
+          ...prev,
+          [projectIndex]: ((prev[projectIndex] || 0) + 1) % project.images.length,
+        }));
+      }, CAROUSEL_INTERVAL_MS);
     });
 
-    // Cleanup intervals
-    return () => {
-      Object.values(intervals).forEach(interval => clearInterval(interval));
-    };
-  }, [isHovered]); // Re-run when hover state changes
+    return () => intervals.forEach((interval) => interval && clearInterval(interval));
+  }, [isHovered, prefersReducedMotion]);
 
   const nextImage = (projectIndex) => {
-    setCurrentImageIndex(prev => ({
+    setCurrentImageIndex((prev) => ({
       ...prev,
-      [projectIndex]: ((prev[projectIndex] || 0) + 1) % projects[projectIndex].images.length
+      [projectIndex]: ((prev[projectIndex] || 0) + 1) % projects[projectIndex].images.length,
     }));
   };
 
   const prevImage = (projectIndex) => {
-    setCurrentImageIndex(prev => ({
+    setCurrentImageIndex((prev) => ({
       ...prev,
-      [projectIndex]: ((prev[projectIndex] || 0) - 1 + projects[projectIndex].images.length) % projects[projectIndex].images.length
+      [projectIndex]:
+        ((prev[projectIndex] || 0) - 1 + projects[projectIndex].images.length) %
+        projects[projectIndex].images.length,
     }));
   };
 
+  const goToImage = (projectIndex, imageIndex) => {
+    setCurrentImageIndex((prev) => ({ ...prev, [projectIndex]: imageIndex }));
+  };
+
   const handleMouseEnter = (projectIndex) => {
-    setIsHovered(prev => ({ ...prev, [projectIndex]: true }));
+    setIsHovered((prev) => ({ ...prev, [projectIndex]: true }));
   };
 
   const handleMouseLeave = (projectIndex) => {
-    setIsHovered(prev => ({ ...prev, [projectIndex]: false }));
+    setIsHovered((prev) => ({ ...prev, [projectIndex]: false }));
+  };
+
+  const entranceTransition = prefersReducedMotion
+    ? { duration: DURATION_REDUCED }
+    : { duration: DURATION_ENTRANCE, ease: EASE_STANDARD };
+
+  const fadeRise = {
+    hidden: {
+      opacity: prefersReducedMotion ? 1 : 0,
+      y: prefersReducedMotion ? 0 : PAGE_TRANSITION_OFFSET,
+    },
+    show: { opacity: 1, y: 0, transition: entranceTransition },
+  };
+
+  const staggerContainer = {
+    hidden: {},
+    show: {
+      transition: { staggerChildren: prefersReducedMotion ? 0 : 0.12 },
+    },
   };
 
   return (
     <HelmetProvider>
-      <Container className="About-header">
+      <div className="work">
         <Helmet>
           <meta charSet="utf-8" />
-          <title> Projects | {meta.title} </title>{" "}
+          <title>Work | {meta.title}</title>
           <meta name="description" content={meta.description} />
         </Helmet>
-        <Row className="mb-5 mt-3 pt-md-3">
-          <Col lg="12">
-            <h1 className="display-4 mb-4"> Projects </h1>{" "}
-            <hr className="t_border my-4 ml-0 text-left" />
-          </Col>
-        </Row>
-        <Row className="mb-5">
-          <Col lg="12">
-            <div className="po_items_ho">
-              {projects.map((data, i) => {
-                const currentImg = currentImageIndex[i] || 0;
-                const hasMultipleImages = data.images && data.images.length > 1;
-                
+
+        <Section className="work-header" aria-labelledby="work-header-heading">
+          <Container>
+            <motion.div initial="hidden" animate="show" variants={fadeRise}>
+              <h1 id="work-header-heading" className="work-header__heading">
+                Work
+              </h1>
+              <p className="work-header__tagline">{meta.description}</p>
+            </motion.div>
+          </Container>
+        </Section>
+
+        <Section className="work-projects" aria-label="Projects">
+          <Container>
+            <motion.ul
+              className="work-projects__list"
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-80px" }}
+              variants={staggerContainer}
+            >
+              {projects.map((project, projectIndex) => {
+                const currentImg = currentImageIndex[projectIndex] || 0;
+                const imageCount = project.images.length;
+                const hasMultipleImages = imageCount > 1;
+
                 return (
-                  <div 
-                    key={i} 
-                    className="po_item"
-                    onMouseEnter={() => handleMouseEnter(i)}
-                    onMouseLeave={() => handleMouseLeave(i)}
-                  >
-                    <div className="image-container">
-                      <img 
-                        src={data.images ? data.images[currentImg] : data.img} 
-                        alt={`${data.title || `Project ${i + 1}`} - Image ${currentImg + 1}`} 
+                  <motion.li key={project.title} className="work-card" variants={fadeRise}>
+                    <div
+                      className="work-card__carousel"
+                      role="region"
+                      aria-label="Project screenshots"
+                      onMouseEnter={() => handleMouseEnter(projectIndex)}
+                      onMouseLeave={() => handleMouseLeave(projectIndex)}
+                    >
+                      <img
+                        className="work-card__image"
+                        src={project.images[currentImg]}
+                        alt={`${project.title} screenshot ${currentImg + 1} of ${imageCount}`}
                       />
-                      
+
                       {hasMultipleImages && (
                         <>
-                          <button 
-                            className="carousel-btn prev-btn" 
-                            onClick={() => prevImage(i)}
+                          <button
+                            type="button"
+                            className="work-card__nav work-card__nav--prev"
+                            onClick={() => prevImage(projectIndex)}
                             aria-label="Previous image"
                           >
-                            ‹
+                            <ChevronLeft aria-hidden="true" />
                           </button>
-                          <button 
-                            className="carousel-btn next-btn" 
-                            onClick={() => nextImage(i)}
+                          <button
+                            type="button"
+                            className="work-card__nav work-card__nav--next"
+                            onClick={() => nextImage(projectIndex)}
                             aria-label="Next image"
                           >
-                            ›
+                            <ChevronRight aria-hidden="true" />
                           </button>
-                          <div className="carousel-indicators">
-                            {data.images.map((_, imgIndex) => (
-                              <span 
-                                key={imgIndex}
-                                className={`indicator ${imgIndex === currentImg ? 'active' : ''}`}
-                                onClick={() => setCurrentImageIndex(prev => ({ ...prev, [i]: imgIndex }))}
+
+                          <div className="work-card__dots">
+                            {project.images.map((_, imageIndex) => (
+                              <button
+                                key={imageIndex}
+                                type="button"
+                                className={`work-card__dot${
+                                  imageIndex === currentImg ? " work-card__dot--active" : ""
+                                }`}
+                                onClick={() => goToImage(projectIndex, imageIndex)}
+                                aria-label={`Go to image ${imageIndex + 1}`}
+                                aria-current={imageIndex === currentImg ? "true" : undefined}
                               />
                             ))}
                           </div>
+
+                          <span className="work-visually-hidden" aria-live="polite" aria-atomic="true">
+                            {`Image ${currentImg + 1} of ${imageCount}`}
+                          </span>
                         </>
                       )}
                     </div>
-                    
-                    <div className="content">
-                      <h4>{data.title}</h4>
-                      <p>{data.description}</p>
-                      {data.technologies && (
-                        <div className="technologies">
-                          {data.technologies.map((tech, techIndex) => (
-                            <span key={techIndex} className="tech-tag">{tech}</span>
+
+                    <div className="work-card__body">
+                      <h2 className="work-card__title">{project.title}</h2>
+                      <p className="work-card__description">{project.description}</p>
+
+                      {project.technologies && (
+                        <ul className="work-card__tags">
+                          {project.technologies.map((tech) => (
+                            <li key={tech} className="work-card__tag">
+                              {tech}
+                            </li>
                           ))}
-                        </div>
+                        </ul>
                       )}
-                      <a href={data.link}>view project</a>
+
+                      <a
+                        className="work-card__link"
+                        href={project.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <FaGithub aria-hidden="true" />
+                        View on GitHub
+                      </a>
                     </div>
-                  </div>
+                  </motion.li>
                 );
               })}
-            </div>
-          </Col>
-        </Row>
-        
-        <Row>
-          <Col lg="12" className="text-center">
-            <h1 className="animate__animated animate__fadeInUp animate__delay-2s display-4" style={{color: 'var(--text-color-3)'}}>
-              More to come...
-            </h1>
-          </Col>
-        </Row>
-      </Container>
+            </motion.ul>
+          </Container>
+        </Section>
+
+        <Section className="work-closing">
+          <Container>
+            <p className="work-closing__text">More to come…</p>
+          </Container>
+        </Section>
+      </div>
     </HelmetProvider>
   );
 };

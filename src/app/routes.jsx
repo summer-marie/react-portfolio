@@ -2,7 +2,7 @@ import React from "react";
 import { AnimatePresence } from "framer-motion";
 import { Navigate, Route, Routes, useLocation } from "react-router";
 import { Home } from "../pages/home/index.jsx";
-import { Portfolio } from "../pages/projects/index.jsx";
+import { WorkPage } from "../pages/projects/index.jsx";
 import { ContactUs } from "../pages/contact/index.jsx";
 import { About } from "../pages/about/index.jsx";
 import { Resume } from "../pages/resume/index.jsx";
@@ -37,7 +37,7 @@ function AppRoutes() {
             path="/work"
             element={
               <PageTransition>
-                <Portfolio />
+                <WorkPage />
               </PageTransition>
             }
           />
