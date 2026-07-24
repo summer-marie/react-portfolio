@@ -177,19 +177,26 @@ export const About = () => {
               Skills
             </motion.h2>
 
-            <motion.ul
-              className="about-skills__list"
+            <motion.div
+              className="about-skills__grid"
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, margin: "-80px" }}
               variants={staggerContainer}
             >
-              {skills.map((skill) => (
-                <motion.li key={skill.name} className="about-skills__badge" variants={fadeRise}>
-                  {skill.name}
-                </motion.li>
+              {skills.map((group) => (
+                <motion.div key={group.category} className="about-skills__group" variants={fadeRise}>
+                  <h3 className="about-skills__category">{group.category}</h3>
+                  <ul className="about-skills__items">
+                    {group.items.map((item) => (
+                      <li key={item} className="about-skills__item">
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
               ))}
-            </motion.ul>
+            </motion.div>
           </Container>
         </Section>
       </div>
