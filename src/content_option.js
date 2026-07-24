@@ -12,6 +12,10 @@ import skincareHome from "./assets/images/skincare-lab/home.jpg";
 import skincareProducts from "./assets/images/skincare-lab/products.jpg";
 import skincareRoutine from "./assets/images/skincare-lab/routine.jpg";
 
+import lakonicHome from "./assets/images/lakonic/home.jpg";
+import lakonicServices from "./assets/images/lakonic/services.jpg";
+import lakonicProjects from "./assets/images/lakonic/projects.jpg";
+
 // Profile image
 import profileImage from "./assets/images/image5.png";
 
@@ -138,8 +142,8 @@ const strengths = [
   },
 ];
 
-// Home (first 3, "Selected Work" section), Work (full list + image carousel)
-// — used on 2 pages.
+// Work page only (full list + image carousel). See `homeShowcase` below for
+// Home's separate "Featured Projects" set.
 const projects = [
   {
     images: [verityLanding, verityWorkspace],
@@ -175,6 +179,32 @@ const projects = [
   },
 ];
 
+// Home ("Featured Projects" section) only — a separate curated set from
+// `projects` (which is the full Work page list). Lets Home show projects
+// that aren't on Work (e.g. private-repo client work) and richer media
+// (e.g. video) than the Work carousel supports. Each entry's `link` points
+// to the live site (not GitHub), since these cards aren't paired with a
+// "View on GitHub" affordance the way Work cards are.
+const homeShowcase = [
+  {
+    video: "/videos/verity-demo.mp4",
+    poster: verityLanding,
+    title: "Verity",
+    description:
+      "Privacy-first web app that translates probation and parole supervision documents into plain language, using AI grounded only in the documents a user uploads.",
+    technologies: ["Next.js", "TypeScript", "PostgreSQL", "Prisma", "OpenAI", "Tailwind CSS"],
+    link: "https://my-verity.com",
+  },
+  {
+    images: [lakonicHome, lakonicServices, lakonicProjects],
+    title: "Lakonic Assurance",
+    description:
+      "Contract technical partner for a civil engineering firm — led the migration from a legacy site to a modern web application while preserving client branding, designed a scalable large-document upload solution, and set up GitHub workflows with technical knowledge transfer for the client's team.",
+    technologies: ["Website Migration", "Large-File Upload Architecture", "GitHub Workflow Setup", "Client Technical Enablement"],
+    link: "https://www.lakonic-assurance.com",
+  },
+];
+
 // Navbar, Footer (icon links) — used on 2 components (rendered on every page).
 const socialProfiles = {
   github: "https://github.com/summer-marie",
@@ -186,6 +216,7 @@ export {
   meta,
   dataAbout,
   projects,
+  homeShowcase,
   education,
   skills,
   strengths,

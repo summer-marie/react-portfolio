@@ -9,9 +9,9 @@ import { Section } from "../../components/section/index.jsx";
 import {
   contactConfig,
   dataAbout,
+  homeShowcase,
   introData,
   meta,
-  projects,
   skills,
   strengths,
 } from "../../content_option.js";
@@ -52,8 +52,6 @@ export const Home = () => {
       transition: { staggerChildren: prefersReducedMotion ? 0 : 0.12 },
     },
   };
-
-  const featuredProjects = projects.slice(0, 3);
 
   return (
     <HelmetProvider>
@@ -175,39 +173,57 @@ export const Home = () => {
               viewport={{ once: true, margin: "-80px" }}
               variants={staggerContainer}
             >
-              {featuredProjects.map((project) => (
-                <motion.li key={project.title} className="home-work__item" variants={fadeRise}>
-                  <a
-                    className="home-work__card"
-                    href={project.link}
-                    target="_blank"
-                    rel="noreferrer"
+              {homeShowcase.map((project) =>
+                project.video ? (
+                  <motion.li
+                    key={project.title}
+                    className="home-work__item home-work__item--video"
+                    variants={fadeRise}
                   >
-                    <img
-                      className="home-work__image"
-                      src={project.images[0]}
-                      alt={`${project.title} preview screenshot`}
-                      width="1920"
-                      height="1020"
-                      loading="lazy"
-                      decoding="async"
+                    <video
+                      className="home-work__video"
+                      src={project.video}
+                      poster={project.poster}
+                      aria-label={`${project.title} demo video`}
+                      controls
+                      playsInline
+                      preload="metadata"
                     />
-                    <div className="home-work__body">
-                      <h3 className="home-work__title">{project.title}</h3>
-                      <p className="home-work__description">{project.description}</p>
-                      {project.technologies && (
-                        <ul className="home-work__tags">
-                          {project.technologies.map((tech) => (
-                            <li key={tech} className="home-work__tag">
-                              {tech}
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                  </a>
-                </motion.li>
-              ))}
+                  </motion.li>
+                ) : (
+                  <motion.li key={project.title} className="home-work__item" variants={fadeRise}>
+                    <a
+                      className="home-work__card"
+                      href={project.link}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <img
+                        className="home-work__image"
+                        src={project.images[0]}
+                        alt={`${project.title} preview screenshot`}
+                        width="1920"
+                        height="1020"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                      <div className="home-work__body">
+                        <h3 className="home-work__title">{project.title}</h3>
+                        <p className="home-work__description">{project.description}</p>
+                        {project.technologies && (
+                          <ul className="home-work__tags">
+                            {project.technologies.map((tech) => (
+                              <li key={tech} className="home-work__tag">
+                                {tech}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    </a>
+                  </motion.li>
+                )
+              )}
             </motion.ul>
 
             <div className="home-work__footer">
