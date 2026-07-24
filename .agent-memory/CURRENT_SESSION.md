@@ -2,96 +2,89 @@
 
 ## Task Objective
 
-Rebuild `src/pages/resume/` from scratch using the documented design system, layout
-primitives, and design tokens. Replace the placeholder stub (no real content, disabled
-download button) with a real, content-driven Resume page: education timeline, skills
-summary, and a working PDF download button using the already-supplied resume asset.
+Resolve the long-standing open question: the `Socialicons` vertical rail duplicates
+the Footer's GitHub/LinkedIn links. Remove `Socialicons` entirely, clean up all its
+consumers, remove the orphaned `web-vitals` dependency, and tighten the ESLint
+config override that was keeping this component's warnings suppressed.
 
 ## Approved Scope
 
-- Full rewrite of `src/pages/resume/index.jsx` and `src/pages/resume/style.css`.
-- New `src/pages/resume/Resume.test.jsx`.
-- Move `docs/assets/resume/summer-halsey-resume.pdf` to `public/assets/resume/` (Vite
-  static-serve requirement — confirmed `docs/` is not served, only `public/` is).
-- `docs/implementation-checklist.md` — mark Resume items complete, update the
-  ESLint-warnings Discovered Task now that Resume is rebuilt.
-- `.agent-memory/` files.
-- No other pages, shared components, or `content_option.js` touched.
+- Delete `src/components/socialicons/` (entire directory).
+- Remove its import/usage from wherever it's actually rendered.
+- Remove `web-vitals` from `package.json`.
+- Clean up the ESLint relaxed-rule override block tied to `src/components/socialicons/**`.
+- `docs/implementation-checklist.md` — close the three related Discovered Tasks.
+- `.agent-memory/` files — close the open question, update work log.
+- No page components, Footer, `content_option.js`, or new dependencies touched.
 
 ## Current Branch
 
-`feat/resume-page`, created from `main` (confirmed via `git log` that `main` already
-includes the merged Contact rebuild, PR #15, `fd99c1f`, and the resume PDF
-add/rename commits, `20e6223`/`7ba5ee4`, before branching).
+`fix/socialicons-cleanup`, created from `main` (confirmed via `git log` that all
+five page rebuilds — Home, Work, About, Contact, Resume — are merged; Resume most
+recently as PR #16, `c93708f`).
 
 ## Files Changed
 
-- `src/pages/resume/index.jsx` (full rewrite)
-- `src/pages/resume/style.css` (full rewrite)
-- `src/pages/resume/Resume.test.jsx` (new)
-- `public/assets/resume/summer-halsey-resume.pdf` (moved via `git mv` from
-  `docs/assets/resume/summer-halsey-resume.pdf`)
+- Deleted: `src/components/socialicons/index.jsx`, `style.css`, `Socialicons.test.jsx`
+- `src/app/routes.jsx` (removed the `Socialicons` import and `<Socialicons />` render)
+- `package.json` (removed `web-vitals`), `package-lock.json` (synced via `npm install`)
+- `eslint.config.mjs` (removed the entire now-dead relaxed-rule override block)
 - `docs/implementation-checklist.md`
-- `.agent-memory/DECISIONS.md`, `.agent-memory/CURRENT_SESSION.md`,
-  `.agent-memory/WORK_LOG.md`
+- `.agent-memory/OPEN_QUESTIONS.md`, `CURRENT_SESSION.md`, `WORK_LOG.md`
 
 ## Tests Required / Run
 
-- `npm run build` — PASSED; confirmed `dist/assets/resume/summer-halsey-resume.pdf`
-  exists after build.
-- `npm run lint` — PASSED (0 errors, 2 warnings — both pre-existing, in
-  `src/components/socialicons/`, unrelated to this task; 0 new warnings from Resume).
-- `npm run test` — PASSED (15/15 across 6 files, 4 new Resume tests).
+- `npm run build` — PASSED.
+- `npm run lint` — PASSED: **0 errors, 0 warnings** (down from 2 pre-existing
+  Socialicons warnings).
+- `npm run test` — PASSED (14/14 across 5 files — one fewer file than before, the
+  deleted `Socialicons.test.jsx`).
 - `npm run test:e2e` — PASSED (1/1).
-- Grep `bootstrap|react-bootstrap|animate\.css` in `src/pages/resume/` — no matches.
-- Grep `\.value|skills.*%` in `src/pages/resume/index.jsx` — no matches.
-- Grep for hex colors in `src/pages/resume/` — no matches.
-- Manual Playwright verification (script written, run, then deleted — not committed):
-  375px/1440px × light/dark (4 combinations) — no horizontal scroll in any
-  combination, exactly 1 h1, both download links present with correct
-  `href`/`download`/`target`/`rel` attributes, zero console errors; keyboard-focus
-  check confirmed the download link is reachable and focusable via `.focus()`; a
-  real click on the link triggered an actual Playwright `download` event resolving
-  to `summer-halsey-resume.pdf` — confirms the PDF is genuinely reachable and
-  downloadable, not just present in the DOM.
+- `Test-Path`/`test -d` equivalent on `src/components/socialicons` — confirmed gone.
+- Grep for `socialicons` across `src/`, `package.json`, `eslint.config.mjs`,
+  `docs/implementation-checklist.md` — no matches except the (now-updated)
+  historical checklist entries describing the resolved task.
+- Grep for `web-vitals` in `package.json` — no matches.
+- Manual Playwright verification (script written, run, then deleted — not
+  committed) across all five routes (`/`, `/about`, `/work`, `/resume`, `/contact`)
+  at 1440px: `.stick_follow_icon` and "Follow Me" text both absent (0 matches) on
+  every route, exactly one Footer GitHub link and one Footer LinkedIn link present
+  on every route, no horizontal overflow (`scrollWidth` == `clientWidth`), zero
+  console errors on every route.
 
 ## Work Completed
 
-- Confirmed `main` contains both required prerequisite commits before branching.
-- Verified the PDF asset's Vite-serve path via the two `node -e "fs.existsSync(...)"`
-  checks specified in the task: `docs/assets/resume/summer-halsey-resume.pdf` existed,
-  `public/assets/resume/summer-halsey-resume.pdf` did not. Moved it via `git mv`
-  (tracked as a rename) and used the root-relative path
-  `/assets/resume/summer-halsey-resume.pdf` (not an import, not an absolute URL) as
-  the download href. Recorded as a durable decision in `.agent-memory/DECISIONS.md`.
-- Verified `lucide-react`'s `Download` icon exists (`typeof Download === "object"`)
-  before using it.
-- Three sections, following the same `Container`/`Section`/Framer Motion fade+rise
-  pattern established by Home/About/Work/Contact:
-  1. Header — h1 "Résumé", first-sentence-only excerpt of `dataAbout.aboutMe`
-     (reusing the About page's sentence-splitting approach, single-sentence variant),
-     and the primary download link.
-  2. Education — `education[]` rendered as an `<ol class="resume-timeline">` with a
-     connecting line + dot markers (CSS `::before`/marker span), built to
-     accommodate more than one entry without layout changes; each entry uses an
-     `<h3>` for the certification, plain text for the institution, and a `<time
-     dateTime="YYYY-MM">` for the date (source data is `"M/YYYY"`, converted with a
-     small `toIsoMonth` helper — verified against the one real entry,
-     `"6/2025"` → `dateTime="2025-06"`).
-  3. Skills — h2 "Technical Skills", `skills[].name` only (no `.value`, no percentage
-     UI), same badge/tag visual pattern as the About page's skills list.
-  - Repeated the download link a second time in a closing CTA section, identical in
-    appearance/behavior to the header one (both share a single
-    `DownloadResumeButton` component so they can never drift out of sync).
-- Download link implementation: `<a>` (not `<button>`), `href` to the public path,
-  `download="summer-halsey-resume.pdf"`, `target="_blank" rel="noopener noreferrer"`,
-  `aria-label="Download Summer Halsey resume PDF"`, `--color-accent-strong` filled
-  background, `min-height: 2.75rem` (44px) touch target, full-width under 640px and
-  `width: auto` at 640px+, visible `:focus-visible` ring.
-- Added `src/pages/resume/Resume.test.jsx` (Vitest + RTL): one h1 + both section
-  headings, the education entry rendering as a `<time>` element with the correct
-  `dateTime`, a regression check for no `%` text anywhere, and both download links
-  resolving with the exact expected `href`/`download`/`target`/`rel` attributes.
+- Confirmed `main` contains all five merged page rebuilds before branching.
+- **Found the task briefing's location assumption was stale**: `Socialicons` was
+  never imported by `src/app/App.jsx` (App.jsx only renders `Navbar`/`AppRoutes`/
+  `Footer`) — the actual import and `<Socialicons />` render site was
+  `src/app/routes.jsx` (inside `AppRoutes`, rendered alongside `<Routes>` on every
+  page). Removed it there instead; `src/components/navigation/` (also mentioned in
+  the briefing) doesn't exist — it was already deleted in the Core Layout phase.
+- Deleted `src/components/socialicons/` in full (`index.jsx`, `style.css`,
+  `Socialicons.test.jsx`) via `git rm -r`.
+- Removed the `Socialicons` import and `<Socialicons />` JSX from
+  `src/app/routes.jsx`. Left the wrapping `<div className="s_c">` untouched (no
+  matching CSS rule exists for `.s_c` in `src/app/App.css` or elsewhere — confirmed
+  via grep — so it's inert either way, and touching it would exceed this task's
+  "don't refactor beyond removing the import/render" boundary).
+- Removed `web-vitals` from `package.json` `dependencies` (confirmed orphaned —
+  its only consumer, `src/reportWebVitals.js`, was deleted in the Foundation phase;
+  grep found zero remaining references anywhere in `src/`). Ran `npm install` to
+  sync `package-lock.json`.
+- Removed the ESLint relaxed-rule override block in `eslint.config.mjs` entirely,
+  not just its `src/components/socialicons/**` entry. The block covered three
+  globs: `src/pages/**` (per the Resume task's Discovered Task note, every page is
+  now rebuilt to the strict baseline — 0 warnings), `src/header/**` (directory no
+  longer exists, deleted in Core Layout), and `src/components/socialicons/**` (now
+  deleted). With all three now moot, kept the smaller, honest diff — no override
+  block at all — rather than leaving an empty/near-empty relaxation in place. `npm
+  run lint` confirmed 0 errors, 0 warnings after removal.
+- Updated `docs/implementation-checklist.md`: all three related Discovered Tasks
+  (`web-vitals`, ESLint socialicons warnings, Socialicons/Footer duplication) marked
+  `[x]` with resolution notes.
+- Closed the open question in `.agent-memory/OPEN_QUESTIONS.md` with the resolution
+  and the corrected render-site detail.
 
 ## Work Remaining
 
@@ -103,13 +96,11 @@ None.
 
 ## Last Verified Command and Result
 
-`npm run test:e2e` — 1 passed (2.3s), run immediately before this handoff.
+`npm run test:e2e` — 1 passed (4.2s), run immediately before this handoff.
 
 ## Note for next session
 
-- The `eslint.config.mjs` relaxed-rule override block still lists `src/pages/**`,
-  but every page under it (Home, Work, About, Contact, Resume) is now rebuilt to the
-  strict baseline with 0 new warnings — only `src/components/socialicons/` still
-  needs the relaxation. Narrowing/removing the `src/pages/**` entry from that
-  override was left untouched here since editing `eslint.config.mjs` wasn't part of
-  this task's approved scope; flagged as a Discovered Task instead.
+None outstanding from this task. Remaining unrelated Discovered Tasks: Work page's
+missing `liveUrl`/CTA field, About's "Beyond Engineering" section, Homepage's
+"Current Focus" placeholder, and the open question about revisiting how projects
+are displayed (no specifics yet).
