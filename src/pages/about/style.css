@@ -5,6 +5,14 @@
 
 /* Introduction */
 
+.about-intro {
+  background-image: radial-gradient(
+    ellipse at top left,
+    color-mix(in srgb, var(--color-accent) 30%, transparent),
+    transparent 65%
+  );
+}
+
 .about-intro__grid {
   display: grid;
   grid-template-columns: 1fr;

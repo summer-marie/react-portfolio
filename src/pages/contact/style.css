@@ -18,6 +18,14 @@
 
 /* Page header */
 
+.contact-header {
+  background-image: radial-gradient(
+    ellipse at top left,
+    color-mix(in srgb, var(--color-accent) 30%, transparent),
+    transparent 65%
+  );
+}
+
 .contact-header__heading {
   font-size: var(--font-size-3xl);
   margin: 0;

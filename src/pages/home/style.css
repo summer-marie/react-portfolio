@@ -13,8 +13,8 @@
   background-image:
     radial-gradient(
       ellipse at top left,
-      color-mix(in srgb, var(--color-accent) 14%, transparent),
-      transparent 55%
+      color-mix(in srgb, var(--color-accent) 30%, transparent),
+      transparent 65%
     ),
     linear-gradient(
       to top,

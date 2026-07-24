@@ -5,6 +5,14 @@
 
 /* Page header */
 
+.work-header {
+  background-image: radial-gradient(
+    ellipse at top left,
+    color-mix(in srgb, var(--color-accent) 30%, transparent),
+    transparent 65%
+  );
+}
+
 .work-header__heading {
   font-size: var(--font-size-3xl);
   margin: 0 0 var(--space-4) 0;

@@ -5,6 +5,14 @@
 
 /* Header */
 
+.resume-header {
+  background-image: radial-gradient(
+    ellipse at top left,
+    color-mix(in srgb, var(--color-accent) 30%, transparent),
+    transparent 65%
+  );
+}
+
 .resume-header__content {
   max-width: 42rem;
 }
