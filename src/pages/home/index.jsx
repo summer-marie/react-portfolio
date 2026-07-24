@@ -16,6 +16,9 @@ import {
 
 const STRENGTH_ICONS = [Layers, ShieldCheck, Sparkles];
 
+const PAGE_DESCRIPTION =
+  "Summer Halsey is a full stack developer building production-ready React apps with a data-driven, product-minded approach. Explore her work and get in touch.";
+
 export const Home = () => {
   const prefersReducedMotion = useReducedMotion();
 
@@ -46,7 +49,11 @@ export const Home = () => {
         <Helmet>
           <meta charSet="utf-8" />
           <title>{meta.title}</title>
-          <meta name="description" content={meta.description} />
+          <meta name="description" content={PAGE_DESCRIPTION} />
+          <meta property="og:title" content={meta.title} />
+          <meta property="og:description" content={PAGE_DESCRIPTION} />
+          <meta property="og:type" content="website" />
+          <meta name="robots" content="index, follow" />
         </Helmet>
 
         <Section className="home-hero" aria-labelledby="home-hero-heading">
@@ -106,6 +113,10 @@ export const Home = () => {
                       className="home-work__image"
                       src={project.images[0]}
                       alt={`${project.title} preview screenshot`}
+                      width="1920"
+                      height="1020"
+                      loading="lazy"
+                      decoding="async"
                     />
                     <div className="home-work__body">
                       <h3 className="home-work__title">{project.title}</h3>

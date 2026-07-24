@@ -14,6 +14,9 @@ import {
   PAGE_TRANSITION_OFFSET,
 } from "../../lib/motion.js";
 
+const PAGE_DESCRIPTION =
+  "Get in touch with Summer Halsey, a full stack developer open to new projects and collaboration. Email her or connect on LinkedIn and GitHub to start talking.";
+
 export const ContactUs = () => {
   const [formData, setFormData] = useState({
     user_name: "",
@@ -97,7 +100,11 @@ export const ContactUs = () => {
         <Helmet>
           <meta charSet="utf-8" />
           <title>Contact | {meta.title}</title>
-          <meta name="description" content={meta.description} />
+          <meta name="description" content={PAGE_DESCRIPTION} />
+          <meta property="og:title" content={`Contact | ${meta.title}`} />
+          <meta property="og:description" content={PAGE_DESCRIPTION} />
+          <meta property="og:type" content="website" />
+          <meta name="robots" content="index, follow" />
         </Helmet>
 
         <Section className="contact-header" aria-labelledby="contact-header-heading">

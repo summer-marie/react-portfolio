@@ -4,14 +4,20 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 import { Link } from "react-router";
 import { meta } from "../../content_option.js";
 
+const PAGE_DESCRIPTION = "The page you are looking for does not exist or may have moved. Return to the Summer Halsey portfolio homepage to keep browsing.";
+
 export const NotFound = () => {
   return (
     <HelmetProvider>
       <div className="notfound-page">
         <Helmet>
           <meta charSet="utf-8" />
-          <title> Page Not Found | {meta.title}</title>
-          <meta name="description" content={meta.description} />
+          <title>Page Not Found | {meta.title}</title>
+          <meta name="description" content={PAGE_DESCRIPTION} />
+          <meta property="og:title" content={`Page Not Found | ${meta.title}`} />
+          <meta property="og:description" content={PAGE_DESCRIPTION} />
+          <meta property="og:type" content="website" />
+          <meta name="robots" content="noindex, nofollow" />
         </Helmet>
         <h1 className="notfound-page__heading">Page not found</h1>
         <p className="notfound-page__note">
