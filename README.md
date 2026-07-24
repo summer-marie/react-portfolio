@@ -1,48 +1,65 @@
-### Description
+### Summer Halsey — Portfolio
 
-A simple portfolio template for developer/designers built with React. 
+Personal portfolio site for Summer Halsey, a full-stack engineer. Built with React and Vite, showcasing featured projects, engineering approach, and background.
 
-**Note:** This version has been migrated from Create React App to Vite for improved performance and development experience.
-
-### [live preview](https://ubaimutl.github.io/react-portfolio/)
-
-[![react portfolio](src/assets/images/react%20portfolio%20gif.gif)](https://ubaimutl.github.io/react-portfolio/)
+**Live site:** [shalsey.dev](https://shalsey.dev)
 
 ### Features
 
-- Fully Responsive
-- Multi-Page Layout
-- Contact Form With @emailjs/browser
-- React-Bootstrap
-- Edit Content From One Place
+- Multi-page layout (Home, Work, About, Résumé, Contact) with animated page transitions
+- Light/dark theme toggle
+- Fully responsive design
+- Working contact form (EmailJS)
+- Accessible, semantic markup with per-page SEO metadata
+- Unit and end-to-end test coverage (Vitest, Playwright)
 
-### Setup
+### Tech Stack
 
-Get the code **Original creator**
+- **React 18** + **Vite**
+- **React Router** for client-side routing
+- **Framer Motion** for animation
+- **Tailwind CSS** for styling
+- **EmailJS** for the contact form
+- **Vitest** + **React Testing Library** for unit tests, **Playwright** for end-to-end tests
+- Deployed on **Vercel**
 
-<pre>git clone https://github.com/ubaimutl/react-portfolio.git</pre>
- 
-Install required dependencies
+### Getting Started
 
-<pre>npm install --legacy-peer-deps</pre>
+```bash
+git clone https://github.com/summer-marie/react-portfolio.git
+cd react-portfolio
+npm install
+```
 
+Start the development server:
 
-Start the development server (Vite)
+```bash
+npm run dev
+```
 
-<pre>npm run dev</pre>
+Build for production:
 
-Build for production
+```bash
+npm run build
+```
 
-<pre>npm run build</pre>
+Preview the production build:
 
-Preview production build
+```bash
+npm run preview
+```
 
-<pre>npm run preview</pre>
+Run tests:
 
-### More
+```bash
+npm run test          # unit tests
+npm run test:e2e      # end-to-end tests
+```
 
-Modify pages content in  `src/content_option.js`.
+### Project Structure
 
-### Thanks
+Page content (project list, bio, skills, contact info, etc.) is centralized in `src/content_option.js` — most content updates only require editing that one file. Pages live under `src/pages`, shared UI in `src/components`.
 
-If you like this portfolio template don't forget give it a ⭐ 
+### Credits
+
+Originally scaffolded from [ubaimutl/react-portfolio](https://github.com/ubaimutl/react-portfolio), since substantially rewritten and redesigned.
