@@ -603,9 +603,13 @@ be fully retired. Other unrelated Discovered Tasks remain open.
   that clicking it fires a real Playwright `download` event resolving to
   `summer-halsey-resume.pdf` (not just present in markup — genuinely downloadable).
 
-**Commit hashes:** (recorded on push below)
+**Commit hashes:**
+- `2fa9d56` — chore: move resume PDF to public/assets for Vite static serving
+- `2a6e62e` — feat: rebuild resume page with timeline, skills, and PDF download
+- `9a740e1` — test: add resume page tests
+- `418fe57` — docs: update checklist and agent memory for resume page rebuild
 
-**Push status:** to be pushed to `origin/feat/resume-page`.
+**Push status:** pushed to `origin/feat/resume-page`.
 
 **Remaining concerns:** None from this task's scope. The `eslint.config.mjs`
 relaxed-rule override for `src/pages/**` is now dead weight (every page under it is
