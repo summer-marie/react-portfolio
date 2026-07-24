@@ -58,3 +58,26 @@
 **Source/Approver:** Implementing agent; full reasoning and affected files recorded in `docs/decisions.md` per decision #8.
 
 **Files/Systems Affected:** `package.json`, `src/index.css`, `eslint.config.mjs`.
+
+## 2026-07-23 — Keep the /portfolio → /work redirect; do not chase a stale task-brief expectation
+
+**Decision:** During the Work-page rebuild task, keep the `/portfolio` → `/work`
+`<Navigate replace />` redirect route, the `/work` route path, and the "Work" nav
+label in `src/components/navbar/index.jsx` exactly as they were left by the
+Foundation phase (commit `49cdb79`, "feat: finalize routing"). Do not make
+`/portfolio` 404 just to satisfy that task's verification script, which incorrectly
+assumed `/portfolio` was still the canonical route and expected zero `"portfolio"`
+matches in `routes.jsx`. Only rename the internal `Portfolio` component export to
+`WorkPage` (a behavior-preserving naming change) and its one import/usage site in
+`routes.jsx`.
+
+**Reason:** The redirect was a deliberate choice in the Foundation phase so old
+bookmarks/links keep working; removing it would be a silent removal of existing
+functionality based on a stale assumption in a later task's briefing, not a real
+requirement. User explicitly confirmed this when asked.
+
+**Source/Approver:** User, in response to a clarifying question during the Work-page
+rebuild task.
+
+**Files/Systems Affected:** `src/app/routes.jsx` (import/usage rename only — route
+paths untouched), `src/components/navbar/index.jsx` (untouched).

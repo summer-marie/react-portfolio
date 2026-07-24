@@ -23,3 +23,15 @@
 **Safe work that can continue:** All other Core Layout and future page-rebuild work.
 
 **Resolution:** Unresolved. Recommend the user decide whether to remove `Socialicons`, keep both, or fold its behavior (e.g., scroll-linked visibility) into the Footer/Navbar during a later page-content or polish phase.
+
+## 2026-07-23 — User wants to revisit how projects are displayed (specifics TBD)
+
+**Question:** During the Work-page rebuild task, the user said they want to update how projects are shown, without giving further detail on what should change (layout, card content, additional fields, categorization, etc.).
+
+**Why it matters:** The Work-page rebuild happening now (token-driven cards + carousel, per `projects[]` in `content_option.js`) should not be assumed to be the final treatment — expect a follow-up task that changes project presentation.
+
+**Work blocked by it:** None. The current Work-page rebuild proceeds as specified in that task.
+
+**Safe work that can continue:** All of the current Work-page rebuild task.
+
+**Resolution:** Unresolved — ask the user for specifics (e.g., different card layout, new project fields, reordering/featured status, alternate carousel treatment) when they're ready to scope that follow-up.
