@@ -48,12 +48,17 @@ const introData = {
   your_img_url: profileImage,
 };
 
-// title + aboutMe: About heading/bio. aboutMe is also reused (first sentence
-// only) as the Resume page tagline. Used on 2 pages.
+// title: About heading, also the Home "How I Work" section heading.
+// aboutMe: About bio paragraph, also reused (first sentence only) as the
+// Resume page tagline. homeSummary: dedicated 2-3 sentence version for the
+// Home "How I Work" section - purpose-built for Home, not a truncation of
+// aboutMe (Home and About serve different purposes). Used on 3 pages.
 const dataAbout = {
   title: "How I Work",
   aboutMe:
     "Every project starts with understanding the problem—not the technology. I enjoy learning how people work, identifying operational challenges, and designing systems that are reliable, maintainable, and built for long-term success. My experience spans client collaboration, AI-assisted applications, systems architecture, testing, deployment, and technical documentation. I'm most energized by projects where the requirements are still evolving and thoughtful engineering, communication, and adaptability are just as important as writing code.",
+  homeSummary:
+    "I build software by understanding the problem first, then designing solutions that are secure, maintainable, and genuinely useful. I care as much about how a system is documented and tested as how it's built, because software people can trust matters more than software that just works.",
 };
 
 // About (education list), Resume (education timeline) — used on 2 pages.
