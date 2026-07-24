@@ -1,14 +1,16 @@
 // Import project images
-import capstoneAbout from "./assets/images/capstone/about.jpg";
-import capstoneDashboard from "./assets/images/capstone/dashboard.jpg";
-import capstoneIngredients from "./assets/images/capstone/ingredients.jpg";
-import capstoneMenu from "./assets/images/capstone/menu.jpg";
-import capstoneMessages from "./assets/images/capstone/messages.jpg";
+import verityLanding from "./assets/images/verity/landing.jpg";
+import verityWorkspace from "./assets/images/verity/workspace.jpg";
 
-// Import interval timer images
-import intervalScreenOne from "./assets/images/interval-timer/screen-one.jpg";
-import intervalTimerScreen from "./assets/images/interval-timer/timer-screen.jpg";
-import intervalSetBreak from "./assets/images/interval-timer/set-break.jpg";
+import familySyncLanding from "./assets/images/family-sync/landing.jpg";
+import familySyncFaq from "./assets/images/family-sync/faq.jpg";
+
+import linkGuardLanding from "./assets/images/link-guard/landing.jpg";
+import linkGuardFeatures from "./assets/images/link-guard/features.jpg";
+
+import skincareHome from "./assets/images/skincare-lab/home.jpg";
+import skincareProducts from "./assets/images/skincare-lab/products.jpg";
+import skincareRoutine from "./assets/images/skincare-lab/routine.jpg";
 
 // Profile image
 import profileImage from "./assets/images/image5.png";
@@ -138,29 +140,38 @@ const strengths = [
 
 // Home (first 3, "Selected Work" section), Work (full list + image carousel)
 // — used on 2 pages.
-// TODO: turn photos into carousel. make card container larger to fit more content
 const projects = [
   {
-    images: [intervalScreenOne, intervalTimerScreen, intervalSetBreak],
-    title: "Intervals Timer (Workout)",
+    images: [verityLanding, verityWorkspace],
+    title: "Verity",
     description:
-      "A workout intervals timer built with React and Tailwind CSS. Fixes the problem of having to look at watch while you workout.",
-    technologies: ["React", "Tailwind CSS", "Mobile Compatible"],
-    link: "https://github.com/summer-marie/intervals-timer",
+      "Privacy-first web app that translates probation and parole supervision documents into plain language, using AI grounded only in the documents a user uploads.",
+    technologies: ["Next.js", "TypeScript", "PostgreSQL", "Prisma", "OpenAI", "Tailwind CSS"],
+    link: "https://github.com/summer-marie/conditions-translator",
   },
   {
-    images: [
-      capstoneAbout,
-      capstoneDashboard,
-      capstoneIngredients,
-      capstoneMenu,
-      capstoneMessages,
-    ],
-    title: "Capstone - Pizza Ordering System",
+    images: [familySyncLanding, familySyncFaq],
+    title: "Family Sync",
     description:
-      "Full-stack pizza ordering app with admin management system built with React, Node.js, and MongoDB.",
-    technologies: ["React", "Node.js", "MongoDB", "Express", "Redux Toolkit"],
-    link: "https://github.com/summer-marie/capstone-pizza", // Link to GitHub repo
+      "A privacy-first family calendar hub that combines everyone's Google Calendar into one shared view and answers natural-language scheduling questions without oversharing event details.",
+    technologies: ["Next.js", "Prisma", "Neon Postgres", "Auth.js", "Google Calendar API", "Vercel AI SDK"],
+    link: "https://github.com/summer-marie/family-sync",
+  },
+  {
+    images: [linkGuardLanding, linkGuardFeatures],
+    title: "LinkGuard",
+    description:
+      "Affiliate link monitoring for creators — watches links around the clock and sends instant Discord or SMS alerts the moment a product 404s or goes out of stock, with self-healing fallback redirects.",
+    technologies: ["Next.js", "TypeScript", "Prisma", "Neon Postgres", "Auth.js"],
+    link: "https://github.com/summer-marie/link-guard",
+  },
+  {
+    images: [skincareHome, skincareProducts, skincareRoutine],
+    title: "SkinScript",
+    description:
+      "A gender-neutral skincare guide for teens that scans product barcodes, flags conflicting active ingredients, and builds personalized AM/PM routines.",
+    technologies: ["React", "Vite", "Tailwind CSS"],
+    link: "https://github.com/summer-marie/skincare-lab",
   },
 ];
 

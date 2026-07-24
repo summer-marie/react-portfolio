@@ -8,12 +8,23 @@
 .home-hero {
   display: flex;
   align-items: center;
-  min-height: calc(100vh - var(--nav-height));
-  background-image: radial-gradient(
-    ellipse at top left,
-    color-mix(in srgb, var(--color-accent) 14%, transparent),
-    transparent 55%
-  );
+  min-height: 32rem;
+  max-height: 40rem;
+  background-image:
+    radial-gradient(
+      ellipse at top left,
+      color-mix(in srgb, var(--color-accent) 14%, transparent),
+      transparent 55%
+    ),
+    linear-gradient(
+      to top,
+      color-mix(in srgb, var(--color-bg) 65%, transparent),
+      color-mix(in srgb, var(--color-bg) 15%, transparent)
+    ),
+    url("/hero/hero1.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .home-hero__content {
