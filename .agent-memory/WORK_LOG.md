@@ -540,9 +540,9 @@ Current Focus placeholder) remain open.
 **Commit hashes:**
 - `fafbb04` — feat: rebuild contact page, replace Bootstrap Alert, remove debug logs
 - `2f55d0c` — test: add contact page tests
-- (docs/memory commit to follow)
+- `8a389db` — docs: update checklist and agent memory for contact page rebuild
 
-**Push status:** pending — will push after the docs/memory commit.
+**Push status:** pushed to `origin/feat/contact-page`.
 
 **Remaining concerns:** None from this task's scope. Live-email verification was
 intentionally skipped (see above) — flag to the user if they want an explicit,
