@@ -673,9 +673,11 @@ Homepage Current Focus placeholder) remain open.
   Footer LinkedIn link present on every route; no horizontal overflow; zero
   console errors on every route.
 
-**Commit hashes:** (recorded on push below)
+**Commit hashes:**
+- `7347257` — fix: remove socialicons rail, clean up eslint override, remove orphaned web-vitals
+- `935b177` — docs: update checklist and agent memory for socialicons cleanup
 
-**Push status:** to be pushed to `origin/fix/socialicons-cleanup`.
+**Push status:** pushed to `origin/fix/socialicons-cleanup`.
 
 **Remaining concerns:** None from this task's scope. Remaining unrelated
 Discovered Tasks: Work page's missing `liveUrl`/CTA field, About's "Beyond
