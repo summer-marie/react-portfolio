@@ -11,3 +11,11 @@ if (typeof globalThis.IntersectionObserver === 'undefined') {
     disconnect() {}
   }
 }
+
+// jsdom does not implement Element.scrollIntoView, used by the Contact page's
+// error-alert-focus behavior. Minimal no-op polyfill so components using it
+// can mount and run in tests without crashing; real scroll behavior is
+// covered by manual/e2e browser testing, not unit tests.
+if (typeof Element !== 'undefined' && !Element.prototype.scrollIntoView) {
+  Element.prototype.scrollIntoView = function scrollIntoView() {}
+}

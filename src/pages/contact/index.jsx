@@ -1,15 +1,23 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 import "./style.css";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import { meta } from "../../content_option.js";
-import { Container, Row, Col, Alert } from "react-bootstrap";
-import { contactConfig } from "../../content_option.js";
+import { motion, useReducedMotion } from "framer-motion";
+import { Mail, X } from "lucide-react";
+import { Container } from "../../components/container/index.jsx";
+import { Section } from "../../components/section/index.jsx";
+import { contactConfig, meta } from "../../content_option.js";
+import {
+  DURATION_ENTRANCE,
+  DURATION_REDUCED,
+  EASE_STANDARD,
+  PAGE_TRANSITION_OFFSET,
+} from "../../lib/motion.js";
 
 export const ContactUs = () => {
-  const [formData, setFormdata] = useState({
-    user_email: "",
+  const [formData, setFormData] = useState({
     user_name: "",
+    user_email: "",
     subject: "",
     message: "",
     loading: false,
@@ -17,10 +25,17 @@ export const ContactUs = () => {
     alertMessage: "",
     variant: "",
   });
+  const alertRef = useRef(null);
+  const prefersReducedMotion = useReducedMotion();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setFormdata({ ...formData, loading: true });
+    setFormData((prev) => ({ ...prev, loading: true }));
 
     const templateParams = {
       user_name: formData.user_name,
@@ -28,11 +43,6 @@ export const ContactUs = () => {
       subject: formData.subject,
       message: formData.message,
     };
-
-    // Debug: Log the template params to console
-    // console.log("Template Params being sent:", templateParams);
-    // console.log("Message content specifically:", formData.message);
-    // console.log("Message length:", formData.message.length);
 
     emailjs
       .send(
@@ -42,9 +52,8 @@ export const ContactUs = () => {
         contactConfig.YOUR_USER_ID
       )
       .then(
-        (result) => {
-          console.log(result.text);
-          setFormdata({
+        () => {
+          setFormData({
             user_email: "",
             user_name: "",
             subject: "",
@@ -56,157 +65,175 @@ export const ContactUs = () => {
           });
         },
         (error) => {
-          console.log(error.text);
-          setFormdata({
-            ...formData,
+          setFormData((prev) => ({
+            ...prev,
             loading: false,
             alertMessage: `Failed to send! ${error.text}`,
-            variant: "danger",
+            variant: "error",
             show: true,
-          });
-          document.getElementsByClassName("co_alert")[0].scrollIntoView();
+          }));
+          alertRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
         }
       );
   };
 
-  const handleMessageChange = (e) => {
-    console.log("Message field specifically changed:", e.target.value);
-    setFormdata({
-      ...formData,
-      message: e.target.value,
-    });
-  };
+  const dismissAlert = () => setFormData((prev) => ({ ...prev, show: false }));
 
-  const handleChange = (e) => {
-    console.log(`Field changed: ${e.target.name} = "${e.target.value}"`);
-    console.log(
-      `Target type: ${e.target.type}, Target tag: ${e.target.tagName}`
-    );
-    console.log(`Current formData before update:`, formData);
+  const entranceTransition = prefersReducedMotion
+    ? { duration: DURATION_REDUCED }
+    : { duration: DURATION_ENTRANCE, ease: EASE_STANDARD };
 
-    const newFormData = {
-      ...formData,
-      [e.target.name]: e.target.value,
-    };
-
-    console.log(`New formData after update:`, newFormData);
-    setFormdata(newFormData);
+  const fadeRise = {
+    hidden: {
+      opacity: prefersReducedMotion ? 1 : 0,
+      y: prefersReducedMotion ? 0 : PAGE_TRANSITION_OFFSET,
+    },
+    show: { opacity: 1, y: 0, transition: entranceTransition },
   };
 
   return (
     <HelmetProvider>
-      <Container>
+      <div className="contact">
         <Helmet>
           <meta charSet="utf-8" />
-          <title>{meta.title} | Contact</title>
+          <title>Contact | {meta.title}</title>
           <meta name="description" content={meta.description} />
         </Helmet>
-        <Row className="mb-5 mt-3 pt-md-3">
-          <Col lg="8">
-            <h1 className="display-4 mb-4">Contact Me</h1>
-            <hr className="t_border my-4 ml-0 text-left" />
-          </Col>
-        </Row>
-        <Row className="sec_sp">
-          <Col lg="12">
-            <Alert
-              //show={formData.show}
-              variant={formData.variant}
-              className={`rounded-0 co_alert ${
-                formData.show ? "d-block" : "d-none"
-              }`}
-              onClose={() => setFormdata({ ...formData, show: false })}
-              dismissible
+
+        <Section className="contact-header" aria-labelledby="contact-header-heading">
+          <Container>
+            <motion.h1
+              id="contact-header-heading"
+              className="contact-header__heading"
+              initial="hidden"
+              animate="show"
+              variants={fadeRise}
             >
-              <p className="my-0">{formData.alertMessage}</p>
-            </Alert>
-          </Col>
-          <Col lg="5" className="mb-5">
-            <h3 className="color_sec py-4">Get in touch</h3>
-            <address>
-              <strong>Email:</strong>{" "}
-              <a href={`mailto:${contactConfig.YOUR_EMAIL}`}>
-                {contactConfig.YOUR_EMAIL}
-              </a>
-            </address>
-            <p>{contactConfig.description}</p>
-          </Col>
-          <Col lg="7" className="d-flex align-items-center">
-            <form onSubmit={handleSubmit} className="contact__form w-100">
-              <Row className="mb-3">
-                <Col lg="12" className="form-group mb-3">
-                  <input
-                    className="form-control"
-                    id="name"
-                    name="user_name"
-                    placeholder="Name"
-                    value={formData.user_name || ""}
-                    type="text"
-                    required
-                    onChange={handleChange}
-                  />
-                </Col>
-              </Row>
-              <Row className="mb-3">
-                <Col lg="12" className="form-group mb-3">
-                  <input
-                    className="form-control rounded-0"
-                    id="email"
-                    name="user_email"
-                    placeholder="Email"
-                    type="email"
-                    value={formData.user_email || ""}
-                    required
-                    onChange={handleChange}
-                  />
-                </Col>
-              </Row>
-              <Row className="mb-3">
-                <Col lg="12" className="form-group mb-3">
-                  <input
-                    className="form-control rounded-0"
-                    id="subject"
-                    name="subject"
-                    placeholder="Subject"
-                    type="text"
-                    value={formData.subject || ""}
-                    required
-                    onChange={handleChange}
-                  />
-                </Col>
-              </Row>
-              <Row className="mb-3">
-                <Col lg="12" className="form-group">
-                  <textarea
-                    className="form-control rounded-0"
-                    id="message"
-                    name="message"
-                    placeholder="Message"
-                    rows="5"
-                    value={formData.message || ""}
-                    onInput={(e) => {
-                      setFormdata({
-                        ...formData,
-                        message: e.target.value,
-                      });
-                    }}
-                    onChange={handleMessageChange}
-                    required
-                  ></textarea>
-                </Col>
-              </Row>
-              <Row>
-                <Col lg="12" className="form-group">
-                  <button className="btn ac_btn" type="submit">
-                    {formData.loading ? "Sending..." : "Send"}
+              Get in Touch
+            </motion.h1>
+          </Container>
+        </Section>
+
+        <Section className="contact-body">
+          <Container>
+            <div
+              ref={alertRef}
+              role={formData.show ? "alert" : undefined}
+              className={`contact-alert contact-alert--${formData.variant || "success"}${
+                formData.show ? " contact-alert--visible" : ""
+              }`}
+            >
+              <p className="contact-alert__text">{formData.alertMessage}</p>
+              <button
+                type="button"
+                className="contact-alert__dismiss"
+                aria-label="Dismiss notification"
+                onClick={dismissAlert}
+              >
+                <X aria-hidden="true" />
+              </button>
+            </div>
+
+            <motion.div
+              className="contact-grid"
+              initial="hidden"
+              animate="show"
+              variants={fadeRise}
+            >
+              <div className="contact-info">
+                <h2 className="contact-info__heading">Contact Info</h2>
+                <a className="contact-info__email" href={`mailto:${contactConfig.YOUR_EMAIL}`}>
+                  <Mail aria-hidden="true" />
+                  {contactConfig.YOUR_EMAIL}
+                </a>
+                <p className="contact-info__description">{contactConfig.description}</p>
+              </div>
+
+              <div className="contact-form-wrapper">
+                <form className="contact-form" onSubmit={handleSubmit}>
+                  {formData.loading && (
+                    <div className="contact-form__progress" role="status">
+                      <span className="sr-only">Sending message…</span>
+                    </div>
+                  )}
+
+                  <div className="contact-form__field">
+                    <label htmlFor="contact-name" className="sr-only">
+                      Name
+                    </label>
+                    <input
+                      id="contact-name"
+                      className="contact-form__input"
+                      name="user_name"
+                      type="text"
+                      placeholder="Name"
+                      value={formData.user_name}
+                      onChange={handleChange}
+                      required
+                      aria-required="true"
+                    />
+                  </div>
+
+                  <div className="contact-form__field">
+                    <label htmlFor="contact-email" className="sr-only">
+                      Email
+                    </label>
+                    <input
+                      id="contact-email"
+                      className="contact-form__input"
+                      name="user_email"
+                      type="email"
+                      placeholder="Email"
+                      value={formData.user_email}
+                      onChange={handleChange}
+                      required
+                      aria-required="true"
+                    />
+                  </div>
+
+                  <div className="contact-form__field">
+                    <label htmlFor="contact-subject" className="sr-only">
+                      Subject
+                    </label>
+                    <input
+                      id="contact-subject"
+                      className="contact-form__input"
+                      name="subject"
+                      type="text"
+                      placeholder="Subject"
+                      value={formData.subject}
+                      onChange={handleChange}
+                      required
+                      aria-required="true"
+                    />
+                  </div>
+
+                  <div className="contact-form__field">
+                    <label htmlFor="contact-message" className="sr-only">
+                      Message
+                    </label>
+                    <textarea
+                      id="contact-message"
+                      className="contact-form__input contact-form__input--textarea"
+                      name="message"
+                      placeholder="Message"
+                      rows="5"
+                      value={formData.message}
+                      onChange={handleChange}
+                      required
+                      aria-required="true"
+                    />
+                  </div>
+
+                  <button className="contact-form__submit" type="submit" disabled={formData.loading}>
+                    {formData.loading ? "Sending…" : "Send"}
                   </button>
-                </Col>
-              </Row>
-            </form>
-          </Col>
-        </Row>
-      </Container>
-      <div className={formData.loading ? "loading-bar" : "d-none"}></div>
+                </form>
+              </div>
+            </motion.div>
+          </Container>
+        </Section>
+      </div>
     </HelmetProvider>
   );
 };
