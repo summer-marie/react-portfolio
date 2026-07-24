@@ -59,6 +59,25 @@
 
 **Files/Systems Affected:** `package.json`, `src/index.css`, `eslint.config.mjs`.
 
+## 2026-07-23 — Resume PDF served from public/, not docs/
+
+**Decision:** Moved `docs/assets/resume/summer-halsey-resume.pdf` to
+`public/assets/resume/summer-halsey-resume.pdf` via `git mv`, and reference it in
+the Resume page as the root-relative path `/assets/resume/summer-halsey-resume.pdf`
+(not an import, not an absolute URL).
+
+**Reason:** `docs/` is not part of Vite's static serve path — only `public/` is
+copied verbatim to `dist/` and served at `/`. Confirmed via `node -e "fs.existsSync(...)"`
+checks before/after the move, and confirmed the PDF appears at
+`dist/assets/resume/summer-halsey-resume.pdf` after `npm run build`.
+
+**Source/Approver:** Task briefing's explicit instruction (verify Vite's static
+serve path before wiring the download link; move to `public/` if needed).
+
+**Files/Systems Affected:** `public/assets/resume/summer-halsey-resume.pdf` (new
+location), `docs/assets/resume/summer-halsey-resume.pdf` (removed via `git mv`),
+`src/pages/resume/index.jsx` (download href).
+
 ## 2026-07-23 — Keep the /portfolio → /work redirect; do not chase a stale task-brief expectation
 
 **Decision:** During the Work-page rebuild task, keep the `/portfolio` → `/work`
