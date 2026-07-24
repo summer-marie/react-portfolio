@@ -44,7 +44,7 @@ const contactConfig = {
 const introData = {
   title: "I’m Summer Halsey",
   description:
-    "From MongoDB schemas to React components, I now build with a production mindset—prioritizing security, fast-loading UIs, and a smooth user experience. I love using tools like Jest and React Testing Library to keep my code solid, and I rely on things like Argon2 hashing and express-validator to keep things secure. Whether I'm working with Vite, Tailwind, or setting up structured logging with Pino, I'm all about creating apps that are reliable, maintainable, and a joy to use from database to interface.",
+    "I'm a full-stack engineer who enjoys solving complex problems with thoughtful software. I work directly with clients to understand their challenges, design practical solutions, and build production-ready applications that are secure, maintainable, and designed around the people who use them.",
   your_img_url: profileImage,
 };
 
@@ -53,7 +53,7 @@ const introData = {
 const dataAbout = {
   title: "How I Work",
   aboutMe:
-    "I’m a full-stack engineer who turns complex, real-world problems into practical software. I enjoy understanding how people work, identifying operational challenges, and designing solutions that are secure, maintainable, and built for long-term success. My experience spans client projects, AI-assisted applications, system architecture, testing, deployment, and technical documentation. I'm most energized by projects where the problem isn't fully defined yet—where curiosity, communication, and thoughtful engineering matter just as much as writing code. My goal isn't simply to ship features, but to build software that people can trust, understand, and rely on.",
+    "Every project starts with understanding the problem—not the technology. I enjoy learning how people work, identifying operational challenges, and designing systems that are reliable, maintainable, and built for long-term success. My experience spans client collaboration, AI-assisted applications, systems architecture, testing, deployment, and technical documentation. I'm most energized by projects where the requirements are still evolving and thoughtful engineering, communication, and adaptability are just as important as writing code.",
 };
 
 // About (education list), Resume (education timeline) — used on 2 pages.
@@ -100,19 +100,34 @@ const skills = [
 // Home ("How I Work" section), About ("Strengths" section) — used on 2 pages.
 const strengths = [
   {
-    title: "Production-Ready Backend Engineering",
+    title: "Customer-Focused Engineering",
     description:
-      "I have strong expertise in building robust, scalable backends using modern frameworks like Express and MongoDB. My approach includes event-driven structured logging with Pino, automated background tasks with cron jobs, and comprehensive rate limiting and endpoint-level validation to ensure security and reliability. I design backend systems that are maintainable, efficient, and ready for production—supporting seamless integration and smooth operation at scale.",
+      "I enjoy working directly with people to understand how they work before proposing technical solutions. Whether modernizing an existing workflow or building a new product from scratch, I focus on translating operational challenges into software that is practical, maintainable, and genuinely useful.",
   },
   {
-    title: "Style & UI/UX Design",
+    title: "AI & Retrieval Systems",
     description:
-      "I have strong expertise in designing responsive, user-focused interfaces using modern tools like Tailwind CSS and systematic design patterns. I prioritize clear visual hierarchy, consistent layouts, and accessible components to create intuitive experiences across all devices. My approach combines thoughtful color schemes, scalable typography, and strategic use of space to guide users naturally—even through complex data. I’m constantly improving my ability to have the website match my internal vision, always striving to learn new practices and techniques.",
+      "I build AI-assisted applications that prioritize accuracy, transparency, and maintainability. My experience includes retrieval-augmented generation (RAG), document processing pipelines, prompt engineering, and designing systems that provide grounded responses instead of unreliable AI-generated content.",
   },
   {
-    title: "Security-Driven Full-Stack Development",
+    title: "Systems Architecture",
     description:
-      "I have strong expertise in building security-first full-stack applications, implementing layered authentication with JWT and session strategies to support diverse user needs. I consistently use Argon2 for password hashing, enforce rate limiting, and apply XSS protection and input validation across the stack. My approach includes role-based access controls, secure session management, and data redaction in logs to safeguard sensitive information. I prioritize proactive threat mitigation and strive for seamless, secure user experiences in every project I build",
+      "I enjoy designing software before writing code. From data models and API boundaries to deployment strategies and security considerations, I create architectures that are easy to extend, test, and maintain as projects grow.",
+  },
+  {
+    title: "Documentation-First Development",
+    description:
+      "I believe good documentation is an engineering feature, not an afterthought. I create architecture documents, implementation plans, setup guides, and technical handoffs that help both clients and developers understand, maintain, and evolve a system with confidence.",
+  },
+  {
+    title: "Quality & Testing",
+    description:
+      "Reliable software comes from deliberate engineering practices. I incorporate automated testing, validation, structured logging, and thoughtful debugging into my workflow to build applications that are dependable in production—not just functional during development.",
+  },
+  {
+    title: "Security & Production Mindset",
+    description:
+      "I design applications with security and long-term reliability in mind. From authentication and authorization to input validation, rate limiting, privacy, and deployment, I approach software as something people will trust with real work and real data.",
   },
 ];
 

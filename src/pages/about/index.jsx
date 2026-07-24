@@ -2,7 +2,7 @@ import React from "react";
 import "./style.css";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { motion, useReducedMotion } from "framer-motion";
-import { Palette, Server, ShieldCheck } from "lucide-react";
+import { BadgeCheck, Blocks, BrainCircuit, FileText, ShieldCheck, Users } from "lucide-react";
 import { Container } from "../../components/container/index.jsx";
 import { Section } from "../../components/section/index.jsx";
 import { dataAbout, education, introData, skills, strengths } from "../../content_option.js";
@@ -13,7 +13,11 @@ import {
   PAGE_TRANSITION_OFFSET,
 } from "../../lib/motion.js";
 
-const STRENGTH_ICONS = [Server, Palette, ShieldCheck];
+// Index-matched to content_option.js's `strengths` array (Customer-Focused
+// Engineering, AI & Retrieval Systems, Systems Architecture,
+// Documentation-First Development, Quality & Testing, Security & Production
+// Mindset).
+const STRENGTH_ICONS = [Users, BrainCircuit, Blocks, FileText, BadgeCheck, ShieldCheck];
 
 const PAGE_TITLE = "About | Summer Halsey";
 const PAGE_DESCRIPTION =
