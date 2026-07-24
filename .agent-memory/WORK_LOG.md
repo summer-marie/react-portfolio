@@ -352,10 +352,9 @@
 **Commit hashes:**
 - `127c599` — feat: rebuild about page (introduction, strengths, education, skills)
 - `e98306d` — test: add about page tests
-- (docs/memory commit to follow)
+- `e0c97fe` — docs: update checklist and agent memory for about page rebuild
 
-**Push status:** pending — will push after the docs/memory commit, per this task's
-single-prompt (not multi-part-phase) instructions.
+**Push status:** pushed to `origin/feat/about-page`.
 
 **Remaining concerns:** `/work`'s matching pre-existing 375px horizontal-scroll bug is
 still open (out of scope here; `/about`'s half is now resolved and the checklist
