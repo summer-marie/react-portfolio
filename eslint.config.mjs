@@ -44,24 +44,6 @@ export default [
     },
   },
   {
-    // Not-yet-migrated legacy surface (docs/decisions.md decision #9 — Foundation
-    // phase explicitly excludes page content, header, and socialicons from scope).
-    // Downgraded to warnings rather than disabled outright, so real issues stay
-    // visible; each page is expected to reach the strict baseline as it's rebuilt
-    // in its own phase (docs/04-build-plan.md Phases 3-7).
-    files: [
-      'src/pages/**/*.{js,jsx}',
-      'src/header/**/*.{js,jsx}',
-      'src/components/socialicons/**/*.{js,jsx}',
-    ],
-    rules: {
-      'no-console': 'warn',
-      'no-unused-vars': 'warn',
-      'react/no-unescaped-entities': 'warn',
-      'react/react-in-jsx-scope': 'warn',
-    },
-  },
-  {
     files: ['**/*.test.{js,jsx}', 'src/test/**/*.js'],
     languageOptions: {
       globals: {
