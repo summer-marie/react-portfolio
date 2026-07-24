@@ -1,230 +1,252 @@
-.po_items_ho {
-    display: flex;
-    flex-direction: row;
-    gap: 2.7rem; /* Increased by 50% from 1.8rem */
-    flex-wrap: wrap;
-    justify-content: flex-start;
+.work {
+  display: flex;
+  flex-direction: column;
 }
 
-/* Legacy column layout - kept for fallback */
-.po_items_ho.column-layout {
-    column-width: 26.4em;      /* Increased by 20% from 22em */
-    -moz-column-width: 26.4em;
-    -webkit-column-width: 26.4em;
-    column-gap: 1.8rem;        /* Increased by 20% from 1.5rem */
-    -moz-column-gap: 1.8rem;
-    -webkit-column-gap: 1.8rem;
-    column-fill: balance;      /* Better distribution of content */
-    -moz-column-fill: balance;
-    -webkit-column-fill: balance;
-    display: block;
-    flex-direction: unset;
+/* Page header */
+
+.work-header__heading {
+  font-size: var(--font-size-3xl);
+  margin: 0 0 var(--space-4) 0;
 }
 
-.po_item {
-    display: block;
-    width: 450px; /* Increased by 50% from 300px */
-    text-align: center;
-    margin: 0.5rem 0;
-    position: relative;
-    background: var(--secondary-color);
-    padding: 9px; /* Increased by 50% from 6px */
-    border: 1px solid var(--secondary-color);
-    transition: 0.3s ease;
-    font-size: 0;
-    overflow: hidden;
-    flex-shrink: 0; /* Prevent shrinking in flex layout */
-    /* Removed fixed min-height to allow dynamic sizing */
+.work-header__tagline {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-muted);
+  max-width: 36rem;
+  margin: 0;
 }
 
+/* Project cards */
 
-
-/* Image container for carousel - Increased by 50% */
-.image-container {
-    position: relative;
-    width: 100%;
-    min-height: 360px; /* Increased by 50% from 240px */
-    overflow: hidden;
-    background: #f0f0f0; /* Light background in case of gaps */
-    aspect-ratio: 16/9; /* Changed to more compact ratio */
+.work-projects__list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.image-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Fills container while maintaining aspect ratio */
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    border-radius: 4px; /* Slight rounding for better appearance */
+@media (min-width: 768px) {
+  .work-projects__list {
+    grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+  }
 }
 
-/* Carousel navigation buttons */
-.carousel-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    border: none;
-    font-size: 24px;
-    padding: 10px 15px;
-    cursor: pointer;
+.work-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+/* Carousel */
+
+.work-card__carousel {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background-color: var(--color-surface-raised);
+}
+
+.work-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/*
+ * Carousel controls sit on top of arbitrary project screenshots rather than
+ * a themed surface, so they use a fixed dark scrim + light icon/dot color
+ * (functional rgb(), not hex) instead of design tokens, to stay legible
+ * regardless of the photo underneath or the active theme.
+ */
+.work-card__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2.75rem;
+  height: 2.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: var(--radius-full);
+  background-color: rgb(0 0 0 / 55%);
+  color: rgb(255 255 255 / 96%);
+  cursor: pointer;
+  transition:
+    background-color var(--duration-hover) var(--ease-standard),
+    opacity var(--duration-hover) var(--ease-standard);
+}
+
+.work-card__nav svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.work-card__nav--prev {
+  left: var(--space-3);
+}
+
+.work-card__nav--next {
+  right: var(--space-3);
+}
+
+.work-card__nav:hover {
+  background-color: rgb(0 0 0 / 75%);
+}
+
+.work-card__nav:focus-visible {
+  opacity: 1;
+  outline: 2px solid var(--color-accent-strong);
+  outline-offset: 2px;
+}
+
+@media (hover: hover) {
+  .work-card__nav {
     opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: 2;
-    border-radius: 4px;
-}
+  }
 
-.prev-btn {
-    left: 10px;
-}
-
-.next-btn {
-    right: 10px;
-}
-
-.po_item:hover .carousel-btn {
+  .work-card__carousel:hover .work-card__nav,
+  .work-card__carousel:focus-within .work-card__nav {
     opacity: 1;
+  }
 }
 
-.carousel-btn:hover {
-    background: rgba(0, 0, 0, 0.9);
+.work-card__dots {
+  position: absolute;
+  bottom: var(--space-2);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: var(--space-1);
 }
 
-/* Carousel indicators */
-.carousel-indicators {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 8px;
-    z-index: 2;
+.work-card__dot {
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
-.indicator {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.5);
-    cursor: pointer;
-    transition: background 0.3s ease;
+.work-card__dot::before {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: var(--radius-full);
+  background-color: rgb(255 255 255 / 55%);
+  transition: background-color var(--duration-hover) var(--ease-standard);
 }
 
-.indicator.active {
-    background: white;
+.work-card__dot:hover::before {
+  background-color: rgb(255 255 255 / 80%);
 }
 
-.indicator:hover {
-    background: rgba(255, 255, 255, 0.8);
+.work-card__dot--active::before {
+  background-color: rgb(255 255 255 / 96%);
 }
 
-/* Enhanced content area */
-.po_item .content h4 {
-    font-size: 1.2rem;
-    margin: 10px 0 5px 0;
-    color: var(--text-color);
+.work-card__dot:focus-visible {
+  outline: 2px solid var(--color-accent-strong);
+  outline-offset: 2px;
+  border-radius: var(--radius-full);
 }
 
-.technologies {
-    margin: 10px 0;
+.work-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
-.tech-tag {
-    display: inline-block;
-    background: var(--bg-color);
-    color: var(--text-color);
-    padding: 2px 8px;
-    margin: 2px;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    border: 1px solid var(--text-color);
+/* Card body */
+
+.work-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  flex: 1;
 }
 
-.po_item .content {
-    position: absolute;
-    height: 0;
-    width: 0;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: var(--overlay-color);
-    z-index: 1;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-    transition: 0.3s ease-in-out;
-    opacity: 0;
-    border: 1px solid black;
+.work-card__title {
+  font-size: var(--font-size-md);
+  margin: 0;
 }
 
-.po_item .content {
-    opacity: 0;
-    transition-delay: 1s;
-    transition: 0.3s ease;
-    font-size: 20px;
+.work-card__description {
+  color: var(--color-text-muted);
+  margin: 0;
 }
 
-.po_item:hover {
-    box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.25);
+.work-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.po_item:hover .content {
-    height: calc(100% - 30px);
-    width: calc(100% - 30px);
-    opacity: 1;
+.work-card__tag {
+  font-size: var(--font-size-xs);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  background-color: var(--color-surface-raised);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
 }
 
-.po_item:hover .content {
-    opacity: 1;
-    color: var(--secondary-color);
+.work-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  align-self: flex-start;
+  min-height: 2.75rem;
+  margin-top: var(--space-2);
+  padding: var(--space-2) var(--space-5);
+  border-radius: var(--radius-md);
+  background-color: var(--color-accent-strong);
+  color: var(--color-bg);
+  text-decoration: none;
+  font-weight: 600;
+  transition:
+    box-shadow var(--duration-hover) var(--ease-standard),
+    transform var(--duration-hover) var(--ease-standard);
 }
 
-.po_item .content a {
-    background: var(--bg-color);
-    border: solid 1px var(--text-color);
-    padding: 4px 8px;
-    text-align: center;
-    font-size: 1rem;
+.work-card__link svg {
+  width: 1.1rem;
+  height: 1.1rem;
 }
 
-.po_item .content a:hover {
-    text-decoration: none;
+.work-card__link:hover,
+.work-card__link:focus-visible {
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
 }
 
-/* Responsive adjustments for dynamic height */
-@media (max-width: 768px) {
-    .po_items_ho {
-        column-width: 100%;
-        column-count: 1;
-    }
-    
-    .image-container {
-        aspect-ratio: 16/9; /* Slightly wider aspect ratio for mobile */
-        min-height: 200px;
-    }
-}
+/* Closing line */
 
-@media (min-width: 769px) and (max-width: 1200px) {
-    .po_items_ho {
-        column-width: 22em;
-        column-count: 2;
-    }
-    
-    .image-container {
-        aspect-ratio: 16/10;
-        min-height: 220px;
-    }
-}
-
-@media (min-width: 1201px) {
-    .image-container {
-        aspect-ratio: 16/10;
-        min-height: 250px;
-    }
+.work-closing__text {
+  text-align: center;
+  color: var(--color-text-muted);
+  margin: 0;
 }
