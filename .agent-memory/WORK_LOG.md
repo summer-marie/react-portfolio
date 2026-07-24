@@ -683,3 +683,36 @@ Homepage Current Focus placeholder) remain open.
 Discovered Tasks: Work page's missing `liveUrl`/CTA field, About's "Beyond
 Engineering" section, Homepage's "Current Focus" placeholder, and the open
 question about revisiting how projects are displayed (no specifics yet).
+
+## 2026-07-23 — Claude Code — branch `feat/polish`
+
+**Work performed:**
+- Verified `fix/socialicons-cleanup` (PR #17) and `feat/resume-page` (PR #16) merged into `main`; branched `feat/polish` from `main`.
+- Fixed a build-breaking issue: the user replaced `src/assets/images/image5.png` and deleted three unused candidate profile images mid-task; `content_option.js` still imported the deleted files. Simplified it to import `image5.png` directly.
+- Removed Bootstrap/react-bootstrap/animate.css/typewriter-effect (confirmed 0 code-level usages in `src/`; the one content-data match, a "Bootstrap" skill-name string, is documented in `DECISIONS.md`). Deleted `src/app/App.css` (dead Bootstrap grid overrides).
+- Verified skip link + landmark regions (header/nav/main/footer) were already correctly implemented from a prior phase — no changes needed.
+- Accessibility: calculated WCAG contrast for design tokens; found light-theme `--color-accent` on `--color-bg` at ~4.19:1 (below AA 4.5:1). Fixed by switching the three default-state text links using it to `--color-accent-strong` (passes both themes).
+- Performance: added explicit `width`/`height`/`loading`/`decoding` to all `<img>` elements across Home, About, and Work.
+- SEO: added a unique 150-160 character meta description, `og:title`, `og:description`, `og:type`, and `robots` to every page's `<Helmet>` block; added a placeholder canonical link to `index.html`.
+- Responsive: wrote, ran, and deleted a Playwright audit script across all 5 routes at 375px/1440px — 0 overflow issues, 0 console errors.
+- Manual verification: wrote, ran, and deleted a second Playwright script confirming skip-link focus behavior, theme toggle, zero console errors per route, and PDF download resolution.
+- Updated `docs/implementation-checklist.md` (Final phase items checked off, Discovered Tasks updated) and all `.agent-memory/` files.
+
+**Files changed:** see `CURRENT_SESSION.md`.
+
+**Tests run and results:**
+- `npm run build` — PASSED (PDF confirmed in `dist/`).
+- `npm run lint` — PASSED, 0 errors/0 warnings.
+- `npm run test` — PASSED, 14/14.
+- `npm run test:e2e` — PASSED, 1/1.
+
+**Commit hashes:**
+- `dea8532` — chore: update About profile image, remove unused candidate images
+- `a1c7d18` — chore: remove Bootstrap and other unused legacy dependencies
+- `72045c4` — fix: raise light-theme link text to accent-strong for WCAG AA contrast
+- `5dd7885` — feat: add per-page SEO meta tags and image performance attributes
+- (checklist/memory commit hash recorded after this entry is committed)
+
+**Push status:** NOT pushed yet — user asked mid-task to pause before pushing so they can add favicon files. Holding on `git push -u origin feat/polish` until they confirm.
+
+**Remaining concerns:** Two Discovered Tasks recorded as open questions (not blocking): About page's 2.7 MB profile image affects `/about` LCP (no image-compression tooling in repo, out of this task's scope); canonical link in `index.html` uses a placeholder domain pending the real production domain.

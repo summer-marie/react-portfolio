@@ -2,105 +2,113 @@
 
 ## Task Objective
 
-Resolve the long-standing open question: the `Socialicons` vertical rail duplicates
-the Footer's GitHub/LinkedIn links. Remove `Socialicons` entirely, clean up all its
-consumers, remove the orphaned `web-vitals` dependency, and tighten the ESLint
-config override that was keeping this component's warnings suppressed.
+Complete the Final phase of the Portfolio V1 build: accessibility audit,
+performance audit, responsive audit, SEO and meta tags, Bootstrap/legacy
+dependency removal, and production build verification. Every page was already
+rebuilt to the token-based design system going into this task; this phase
+hardens quality across the whole site.
 
 ## Approved Scope
 
-- Delete `src/components/socialicons/` (entire directory).
-- Remove its import/usage from wherever it's actually rendered.
-- Remove `web-vitals` from `package.json`.
-- Clean up the ESLint relaxed-rule override block tied to `src/components/socialicons/**`.
-- `docs/implementation-checklist.md` — close the three related Discovered Tasks.
-- `.agent-memory/` files — close the open question, update work log.
-- No page components, Footer, `content_option.js`, or new dependencies touched.
+- Bootstrap/legacy dependency removal (bootstrap, react-bootstrap, animate.css,
+  typewriter-effect).
+- Accessibility audit and fixes across all five pages.
+- Performance audit and fixes.
+- Responsive verification and fixes.
+- SEO and meta tags.
+- Skip link implementation (found already done from a prior phase — verified,
+  not re-implemented).
+- Final production build verification.
+- Checklist and memory updates.
+- Out of scope: Current Focus (Homepage), Beyond Engineering (About), new
+  pages/routes, new dependencies, page-layout restructuring.
 
 ## Current Branch
 
-`fix/socialicons-cleanup`, created from `main` (confirmed via `git log` that all
-five page rebuilds — Home, Work, About, Contact, Resume — are merged; Resume most
-recently as PR #16, `c93708f`).
+`feat/polish`, created from `main` (confirmed via `git log --oneline main` that
+`fix/socialicons-cleanup` (PR #17) and `feat/resume-page` (PR #16) are both
+merged).
 
 ## Files Changed
 
-- Deleted: `src/components/socialicons/index.jsx`, `style.css`, `Socialicons.test.jsx`
-- `src/app/routes.jsx` (removed the `Socialicons` import and `<Socialicons />` render)
-- `package.json` (removed `web-vitals`), `package-lock.json` (synced via `npm install`)
-- `eslint.config.mjs` (removed the entire now-dead relaxed-rule override block)
-- `docs/implementation-checklist.md`
-- `.agent-memory/OPEN_QUESTIONS.md`, `CURRENT_SESSION.md`, `WORK_LOG.md`
+- `src/content_option.js` — fixed broken imports (see below), removed 3 unused
+  profile-image candidates.
+- `src/assets/images/` — `image5.png` updated (user replaced the file mid-task),
+  `Image3.jpg`/`Image4.jpg`/`helloWorld.png`/`react-porfolio.png` deleted.
+- `src/app/App.jsx` — removed `bootstrap/dist/css/bootstrap.min.css` import and
+  the now-unnecessary `./App.css` import.
+- `src/app/App.css` — deleted (only rules were dead Bootstrap grid overrides).
+- `package.json`, `package-lock.json` — uninstalled bootstrap, react-bootstrap,
+  animate.css, typewriter-effect.
+- `src/pages/home/style.css`, `src/pages/contact/style.css`,
+  `src/pages/notfound/style.css` — light-theme contrast fix (`--color-accent` →
+  `--color-accent-strong` on 3 default-state text links).
+- `src/pages/home/index.jsx`, `src/pages/about/index.jsx`,
+  `src/pages/projects/index.jsx` — image `width`/`height`/`loading`/`decoding`
+  attributes, plus per-page SEO description/OG/robots meta tags.
+- `src/pages/contact/index.jsx`, `src/pages/resume/index.jsx`,
+  `src/pages/notfound/index.jsx` — per-page SEO description/OG/robots meta tags
+  (no image changes on these pages).
+- `index.html` — added `<link rel="canonical">` (placeholder domain).
+- `docs/implementation-checklist.md`, `.agent-memory/DECISIONS.md`,
+  `.agent-memory/OPEN_QUESTIONS.md`, `.agent-memory/CURRENT_SESSION.md`,
+  `.agent-memory/WORK_LOG.md`.
+
+## Mid-task interruption: user's own file changes
+
+Partway through this task the user directly edited the working tree (replaced
+`src/assets/images/image5.png` with an updated portrait and deleted three unused
+candidate profile images) and asked that these be included in the commits.
+`src/content_option.js` still imported the deleted files, which would have
+broken the build — fixed by importing `image5.png` directly instead of the
+`profileImages` array + `selectedProfileImageIndex` lookup. Committed as its own
+first commit on the branch before continuing the Final-phase work.
+
+The user also asked, mid-task, to pause before the final `git push` so they
+could add their own favicon files. Per that request, all other Final-phase work
+was completed and committed, but **the branch was intentionally not pushed** —
+holding for the user to add favicon files first.
 
 ## Tests Required / Run
 
-- `npm run build` — PASSED.
-- `npm run lint` — PASSED: **0 errors, 0 warnings** (down from 2 pre-existing
-  Socialicons warnings).
-- `npm run test` — PASSED (14/14 across 5 files — one fewer file than before, the
-  deleted `Socialicons.test.jsx`).
-- `npm run test:e2e` — PASSED (1/1).
-- `Test-Path`/`test -d` equivalent on `src/components/socialicons` — confirmed gone.
-- Grep for `socialicons` across `src/`, `package.json`, `eslint.config.mjs`,
-  `docs/implementation-checklist.md` — no matches except the (now-updated)
-  historical checklist entries describing the resolved task.
-- Grep for `web-vitals` in `package.json` — no matches.
-- Manual Playwright verification (script written, run, then deleted — not
-  committed) across all five routes (`/`, `/about`, `/work`, `/resume`, `/contact`)
-  at 1440px: `.stick_follow_icon` and "Follow Me" text both absent (0 matches) on
-  every route, exactly one Footer GitHub link and one Footer LinkedIn link present
-  on every route, no horizontal overflow (`scrollWidth` == `clientWidth`), zero
-  console errors on every route.
+- `npm run build` — PASSED (PDF confirmed present at
+  `dist/assets/resume/summer-halsey-resume.pdf`).
+- `npm run lint` — PASSED, 0 errors/0 warnings.
+- `npm run test` — PASSED, 14/14 across 5 files.
+- `npm run test:e2e` — PASSED, 1/1.
+- Grep for `bootstrap|react-bootstrap|animate\.css|typewriter` in `src/` — 0
+  matches (the one non-package match, "Bootstrap" as a skill-name string in
+  `content_option.js`, is documented in `DECISIONS.md`).
+- Grep for `bootstrap|animate|typewriter` in `package.json` — 0 matches.
+- Playwright responsive audit (written, run, deleted per task instructions):
+  375px and 1440px across all 5 routes — 0 horizontal-overflow failures, 0
+  console errors. Flagged "small" touch targets are all inline text links
+  already meeting the WCAG AA 24×24px minimum (nav links are 44px tall by CSS,
+  width follows text content; inline email links are 24px tall) — no CSS
+  changes made for these.
+- Playwright manual-verification script (written, run, deleted): skip link is
+  the first focusable element and moves into view on focus; theme toggle
+  flips `data-theme`; zero console errors on all 5 routes; resume PDF link
+  resolves with HTTP 200.
 
 ## Work Completed
 
-- Confirmed `main` contains all five merged page rebuilds before branching.
-- **Found the task briefing's location assumption was stale**: `Socialicons` was
-  never imported by `src/app/App.jsx` (App.jsx only renders `Navbar`/`AppRoutes`/
-  `Footer`) — the actual import and `<Socialicons />` render site was
-  `src/app/routes.jsx` (inside `AppRoutes`, rendered alongside `<Routes>` on every
-  page). Removed it there instead; `src/components/navigation/` (also mentioned in
-  the briefing) doesn't exist — it was already deleted in the Core Layout phase.
-- Deleted `src/components/socialicons/` in full (`index.jsx`, `style.css`,
-  `Socialicons.test.jsx`) via `git rm -r`.
-- Removed the `Socialicons` import and `<Socialicons />` JSX from
-  `src/app/routes.jsx`. Left the wrapping `<div className="s_c">` untouched (no
-  matching CSS rule exists for `.s_c` in `src/app/App.css` or elsewhere — confirmed
-  via grep — so it's inert either way, and touching it would exceed this task's
-  "don't refactor beyond removing the import/render" boundary).
-- Removed `web-vitals` from `package.json` `dependencies` (confirmed orphaned —
-  its only consumer, `src/reportWebVitals.js`, was deleted in the Foundation phase;
-  grep found zero remaining references anywhere in `src/`). Ran `npm install` to
-  sync `package-lock.json`.
-- Removed the ESLint relaxed-rule override block in `eslint.config.mjs` entirely,
-  not just its `src/components/socialicons/**` entry. The block covered three
-  globs: `src/pages/**` (per the Resume task's Discovered Task note, every page is
-  now rebuilt to the strict baseline — 0 warnings), `src/header/**` (directory no
-  longer exists, deleted in Core Layout), and `src/components/socialicons/**` (now
-  deleted). With all three now moot, kept the smaller, honest diff — no override
-  block at all — rather than leaving an empty/near-empty relaxation in place. `npm
-  run lint` confirmed 0 errors, 0 warnings after removal.
-- Updated `docs/implementation-checklist.md`: all three related Discovered Tasks
-  (`web-vitals`, ESLint socialicons warnings, Socialicons/Footer duplication) marked
-  `[x]` with resolution notes.
-- Closed the open question in `.agent-memory/OPEN_QUESTIONS.md` with the resolution
-  and the corrected render-site detail.
+All Final-phase tasks completed — see `docs/implementation-checklist.md` for
+the itemized checklist (Accessibility/Performance/Responsive/SEO all checked
+off) and `.agent-memory/DECISIONS.md` for the two judgment calls made during
+this task (Bootstrap skill-name string, accent contrast fix).
 
 ## Work Remaining
 
-None for this task's approved scope.
+None for this task's approved scope. Two Discovered Tasks recorded as open
+questions for future follow-up (not blocking): the About page's 2.7 MB profile
+image (performance), and the placeholder canonical domain (SEO).
 
 ## Current Blockers
 
-None.
+Holding the push per the user's explicit request — waiting for them to add
+favicon files before `git push -u origin feat/polish`.
 
 ## Last Verified Command and Result
 
-`npm run test:e2e` — 1 passed (4.2s), run immediately before this handoff.
-
-## Note for next session
-
-None outstanding from this task. Remaining unrelated Discovered Tasks: Work page's
-missing `liveUrl`/CTA field, About's "Beyond Engineering" section, Homepage's
-"Current Focus" placeholder, and the open question about revisiting how projects
-are displayed (no specifics yet).
+`npm run test:e2e` — 1 passed, run immediately before this handoff pause.

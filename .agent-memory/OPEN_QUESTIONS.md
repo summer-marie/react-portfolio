@@ -35,3 +35,27 @@
 **Safe work that can continue:** All of the current Work-page rebuild task.
 
 **Resolution:** Unresolved — ask the user for specifics (e.g., different card layout, new project fields, reordering/featured status, alternate carousel treatment) when they're ready to scope that follow-up.
+
+## 2026-07-23 — Production domain unconfirmed (canonical link placeholder)
+
+**Question:** The Final-phase SEO task asked for a `<link rel="canonical">` in `index.html`, but no production domain was specified or confirmed anywhere in the repo docs.
+
+**Why it matters:** A wrong canonical URL actively hurts SEO (tells search engines the real content lives elsewhere), so this needs a real answer before the domain is finalized.
+
+**Work blocked by it:** None — the placeholder doesn't block any other work.
+
+**Safe work that can continue:** Everything else in the Final phase.
+
+**Resolution:** Unresolved. Added `<link rel="canonical" href="https://summerhalsey.dev" />` as a placeholder in `index.html`. Replace with the real production domain once it's confirmed (e.g. after choosing/configuring a hosting provider).
+
+## 2026-07-23 — About page profile image is 2.7 MB (largest asset in the build, loaded eager)
+
+**Question:** `src/assets/images/image5.png` (the About page portrait, `introData.your_img_url`) is 2.7 MB — by far the largest asset in `npm run build` output, and it's `loading="eager"` because it's above the fold, so it directly affects `/about`'s LCP. Should it be compressed/resized, and if so with what tooling?
+
+**Why it matters:** A 2.7 MB above-the-fold image undermines the Final phase's performance goals. No image-compression dependency (e.g. `sharp`, `imagemin`) exists in this repo, and adding one wasn't authorized for this task ("Do not add new dependencies unless critically justified").
+
+**Work blocked by it:** None — the image renders correctly, this is a performance quality concern, not a functional bug.
+
+**Safe work that can continue:** Everything else; this doesn't block any other Final-phase work.
+
+**Resolution:** Unresolved. Left as-is (source file, not modified) with explicit `width`/`height` attributes to at least prevent layout shift. Recommend either manually re-exporting the source photo at a smaller file size/resolution, or approving an image-optimization dependency in a follow-up task.
